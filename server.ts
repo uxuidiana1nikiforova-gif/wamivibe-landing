@@ -115,8 +115,8 @@ async function startServer() {
       // Update URLs
       html = html.replace(/property="og:url" content=".*?"/g, `property="og:url" content="${appUrl}${url}"`);
       html = html.replace(/property="twitter:url" content=".*?"/g, `property="twitter:url" content="${appUrl}${url}"`);
-      html = html.replace(/property="og:image" content=".*?"/g, `property="og:image" content="${appUrl}/og-image.svg"`);
-      html = html.replace(/property="twitter:image" content=".*?"/g, `property="twitter:image" content="${appUrl}/og-image.svg"`);
+      html = html.replace(/property="og:image" content=".*?"/g, `property="og:image" content="${appUrl}/images/og-image.png"`);
+      html = html.replace(/property="twitter:image" content=".*?"/g, `property="twitter:image" content="${appUrl}/images/og-image.png"`);
 
       res.set('Content-Type', 'text/html').send(html);
     } catch (err) {
