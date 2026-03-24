@@ -931,6 +931,8 @@ export default function App() {
   const [isEmailSelectorOpen, setIsEmailSelectorOpen] = useState(false);
   const [expertiseIndex, setExpertiseIndex] = useState(0);
   const [processIndex, setProcessIndex] = useState(0);
+  const [isExpertisePaused, setIsExpertisePaused] = useState(false);
+  const [isProcessPaused, setIsProcessPaused] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { scrollY } = useScroll();
@@ -959,20 +961,20 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isMobile || isExpertisePaused) return;
     const interval = setInterval(() => {
       setExpertiseIndex((prev) => (prev + 1) % t.expertise.items.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [isMobile, t.expertise.items.length]);
+  }, [isMobile, t.expertise.items.length, isExpertisePaused]);
 
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isMobile || isProcessPaused) return;
     const interval = setInterval(() => {
       setProcessIndex((prev) => (prev + 1) % t.process.items.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isMobile, t.process.items.length]);
+  }, [isMobile, t.process.items.length, isProcessPaused]);
 
   const navLinks = [
     { label: t.nav.benefits, href: '#benefits' },
@@ -1269,6 +1271,7 @@ export default function App() {
                     drag="x"
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.2}
+                    onDragStart={() => setIsExpertisePaused(true)}
                     onDragEnd={(_, info) => {
                       const threshold = 50;
                       if (info.offset.x < -threshold) {
@@ -1276,7 +1279,11 @@ export default function App() {
                       } else if (info.offset.x > threshold) {
                         setExpertiseIndex((prev) => (prev - 1 + t.expertise.items.length) % t.expertise.items.length);
                       }
+                      setIsExpertisePaused(false);
                     }}
+                    onPointerDown={() => setIsExpertisePaused(true)}
+                    onPointerUp={() => setIsExpertisePaused(false)}
+                    onPointerLeave={() => setIsExpertisePaused(false)}
                     className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 flex flex-col justify-center rounded-2xl cursor-grab active:cursor-grabbing"
                     style={{ perspective: "1000px", touchAction: "none" }}
                   >
@@ -1582,6 +1589,7 @@ export default function App() {
                     drag="x"
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.2}
+                    onDragStart={() => setIsProcessPaused(true)}
                     onDragEnd={(_, info) => {
                       const threshold = 50;
                       if (info.offset.x < -threshold) {
@@ -1589,7 +1597,11 @@ export default function App() {
                       } else if (info.offset.x > threshold) {
                         setProcessIndex((prev) => (prev - 1 + t.process.items.length) % t.process.items.length);
                       }
+                      setIsProcessPaused(false);
                     }}
+                    onPointerDown={() => setIsProcessPaused(true)}
+                    onPointerUp={() => setIsProcessPaused(false)}
+                    onPointerLeave={() => setIsProcessPaused(false)}
                     className="absolute inset-0 bg-black p-3 rounded-3xl border border-white/10 flex flex-col justify-center cursor-grab active:cursor-grabbing"
                     style={{ touchAction: "none" }}
                   >
