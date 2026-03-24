@@ -68,64 +68,80 @@ async function startServer() {
     }
   });
 
+  // Dynamic Meta Tags for SEO/Social Media
+  const serveIndex = async (req: express.Request, res: express.Response) => {
+    const url = req.url;
+    const lang = url.startsWith("/uk") ? "uk" : url.startsWith("/de") ? "de" : "en";
+    
+    const translations = {
+      en: {
+        title: "WAMI | Vibe Coding with Senior Oversight",
+        description: "High-speed development with expert quality control. We build your ideas into production-ready apps at the speed of thought.",
+      },
+      uk: {
+        title: "WAMI | Vibe Coding з сеньорною підтримкою",
+        description: "Швидка розробка з експертним контролем якості. Перетворюємо ваші ідеї на готові продукти зі швидкістю думки.",
+      },
+      de: {
+        title: "WAMI | Vibe Coding mit Senior-Betreuung",
+        description: "Hochgeschwindigkeitsentwicklung mit Experten-Qualitätskontrolle. Wir verwandeln Ihre Ideen in produktionsreife Apps in Lichtgeschwindigkeit.",
+      }
+    };
+
+    const t = translations[lang] || translations.en;
+    const appUrl = process.env.APP_URL || `https://${req.get('host')}`;
+
+    try {
+      const fs = await import("fs/promises");
+      const indexPath = process.env.NODE_ENV === "production" 
+        ? path.join(process.cwd(), "dist", "index.html")
+        : path.join(process.cwd(), "index.html");
+      
+      let html = await fs.readFile(indexPath, "utf-8");
+      
+      // If in dev mode, let Vite transform the HTML (inject scripts, etc.)
+      if (process.env.NODE_ENV !== "production" && (global as any).viteServer) {
+        html = await (global as any).viteServer.transformIndexHtml(url, html);
+      }
+      
+      // Replace meta tags
+      html = html.replace(/<title>.*?<\/title>/, `<title>${t.title}</title>`);
+      html = html.replace(/<meta property="og:title" content=".*?" \/>/g, `<meta property="og:title" content="${t.title}" />`);
+      html = html.replace(/<meta property="og:description" content=".*?" \/>/g, `<meta property="og:description" content="${t.description}" />`);
+      html = html.replace(/<meta property="twitter:title" content=".*?" \/>/g, `<meta property="twitter:title" content="${t.title}" />`);
+      html = html.replace(/<meta property="twitter:description" content=".*?" \/>/g, `<meta property="twitter:description" content="${t.description}" />`);
+      html = html.replace(/<meta name="description" content=".*?" \/>/g, `<meta name="description" content="${t.description}" />`);
+      
+      // Update URLs
+      html = html.replace(/property="og:url" content=".*?"/g, `property="og:url" content="${appUrl}${url}"`);
+      html = html.replace(/property="twitter:url" content=".*?"/g, `property="twitter:url" content="${appUrl}${url}"`);
+      html = html.replace(/property="og:image" content=".*?"/g, `property="og:image" content="${appUrl}/og-image.svg"`);
+      html = html.replace(/property="twitter:image" content=".*?"/g, `property="twitter:image" content="${appUrl}/og-image.svg"`);
+
+      res.set('Content-Type', 'text/html').send(html);
+    } catch (err) {
+      console.error("Error serving index.html:", err);
+      res.status(500).send("Internal Server Error");
+    }
+  };
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
-      appType: "spa",
+      appType: "custom", // Changed to custom to handle index.html manually
     });
+    (global as any).viteServer = vite;
     app.use(vite.middlewares);
+    
+    app.get("*", async (req, res, next) => {
+      if (req.url.includes('.') || req.url.startsWith('/api')) return next();
+      await serveIndex(req, res);
+    });
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    
-    // Dynamic Meta Tags for SEO/Social Media
-    app.get("*", async (req, res) => {
-      const url = req.url;
-      const lang = url.startsWith("/uk") ? "uk" : url.startsWith("/de") ? "de" : "en";
-      
-      const translations = {
-        en: {
-          title: "WAMI | Vibe Coding with Senior Oversight",
-          description: "High-speed development with expert quality control. We build your ideas into production-ready apps at the speed of thought.",
-        },
-        uk: {
-          title: "WAMI | Vibe Coding з сеньорною підтримкою",
-          description: "Швидка розробка з експертним контролем якості. Перетворюємо ваші ідеї на готові продукти зі швидкістю думки.",
-        },
-        de: {
-          title: "WAMI | Vibe Coding mit Senior-Betreuung",
-          description: "Hochgeschwindigkeitsentwicklung mit Experten-Qualitätskontrolle. Wir verwandeln Ihre Ideen in produktionsreife Apps in Lichtgeschwindigkeit.",
-        }
-      };
-
-      const t = translations[lang] || translations.en;
-      const appUrl = process.env.APP_URL || `https://${req.get('host')}`;
-
-      try {
-        const fs = await import("fs/promises");
-        let html = await fs.readFile(path.join(distPath, "index.html"), "utf-8");
-        
-        // Replace meta tags
-        html = html.replace(/<title>.*?<\/title>/, `<title>${t.title}</title>`);
-        html = html.replace(/<meta property="og:title" content=".*?" \/>/, `<meta property="og:title" content="${t.title}" />`);
-        html = html.replace(/<meta property="og:description" content=".*?" \/>/, `<meta property="og:description" content="${t.description}" />`);
-        html = html.replace(/<meta property="twitter:title" content=".*?" \/>/, `<meta property="twitter:title" content="${t.title}" />`);
-        html = html.replace(/<meta property="twitter:description" content=".*?" \/>/, `<meta property="twitter:description" content="${t.description}" />`);
-        html = html.replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${t.description}" />`);
-        
-        // Update URLs
-        html = html.replace(/property="og:url" content=".*?"/, `property="og:url" content="${appUrl}${url}"`);
-        html = html.replace(/property="twitter:url" content=".*?"/, `property="twitter:url" content="${appUrl}${url}"`);
-        html = html.replace(/property="og:image" content=".*?"/, `property="og:image" content="${appUrl}/og-image.svg"`);
-        html = html.replace(/property="twitter:image" content=".*?"/, `property="twitter:image" content="${appUrl}/og-image.svg"`);
-
-        res.send(html);
-      } catch (err) {
-        console.error("Error serving index.html:", err);
-        res.sendFile(path.join(distPath, "index.html"));
-      }
-    });
+    app.use(express.static(distPath, { index: false })); // Disable default index serving
+    app.get("*", serveIndex);
   }
 
   app.listen(PORT, "0.0.0.0", () => {
