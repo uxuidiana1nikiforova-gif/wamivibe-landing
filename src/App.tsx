@@ -922,6 +922,9 @@ const BorderBeam = ({ delay = 0, duration = 8 }: { delay?: number; duration?: nu
 
 export default function App() {
   const [language, setLanguage] = useState<Language>(() => {
+    const path = window.location.pathname;
+    if (path.startsWith('/ua')) return 'ua';
+    if (path.startsWith('/de')) return 'de';
     const saved = localStorage.getItem('language');
     return (saved === 'en' || saved === 'ua' || saved === 'de') ? saved as Language : 'en';
   });

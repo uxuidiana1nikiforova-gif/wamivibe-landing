@@ -78,8 +78,53 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+    
+    // Dynamic Meta Tags for SEO/Social Media
+    app.get("*", async (req, res) => {
+      const url = req.url;
+      const lang = url.startsWith("/uk") ? "uk" : url.startsWith("/de") ? "de" : "en";
+      
+      const translations = {
+        en: {
+          title: "WAMI | Vibe Coding with Senior Oversight",
+          description: "High-speed development with expert quality control. We build your ideas into production-ready apps at the speed of thought.",
+        },
+        uk: {
+          title: "WAMI | Vibe Coding з сеньорною підтримкою",
+          description: "Швидка розробка з експертним контролем якості. Перетворюємо ваші ідеї на готові продукти зі швидкістю думки.",
+        },
+        de: {
+          title: "WAMI | Vibe Coding mit Senior-Betreuung",
+          description: "Hochgeschwindigkeitsentwicklung mit Experten-Qualitätskontrolle. Wir verwandeln Ihre Ideen in produktionsreife Apps in Lichtgeschwindigkeit.",
+        }
+      };
+
+      const t = translations[lang] || translations.en;
+      const appUrl = process.env.APP_URL || `https://${req.get('host')}`;
+
+      try {
+        const fs = await import("fs/promises");
+        let html = await fs.readFile(path.join(distPath, "index.html"), "utf-8");
+        
+        // Replace meta tags
+        html = html.replace(/<title>.*?<\/title>/, `<title>${t.title}</title>`);
+        html = html.replace(/<meta property="og:title" content=".*?" \/>/, `<meta property="og:title" content="${t.title}" />`);
+        html = html.replace(/<meta property="og:description" content=".*?" \/>/, `<meta property="og:description" content="${t.description}" />`);
+        html = html.replace(/<meta property="twitter:title" content=".*?" \/>/, `<meta property="twitter:title" content="${t.title}" />`);
+        html = html.replace(/<meta property="twitter:description" content=".*?" \/>/, `<meta property="twitter:description" content="${t.description}" />`);
+        html = html.replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${t.description}" />`);
+        
+        // Update URLs
+        html = html.replace(/property="og:url" content=".*?"/, `property="og:url" content="${appUrl}${url}"`);
+        html = html.replace(/property="twitter:url" content=".*?"/, `property="twitter:url" content="${appUrl}${url}"`);
+        html = html.replace(/property="og:image" content=".*?"/, `property="og:image" content="${appUrl}/og-image.svg"`);
+        html = html.replace(/property="twitter:image" content=".*?"/, `property="twitter:image" content="${appUrl}/og-image.svg"`);
+
+        res.send(html);
+      } catch (err) {
+        console.error("Error serving index.html:", err);
+        res.sendFile(path.join(distPath, "index.html"));
+      }
     });
   }
 
