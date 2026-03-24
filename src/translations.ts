@@ -1,0 +1,476 @@
+
+export type Language = 'en' | 'ua' | 'de';
+
+export const translations = {
+  en: {
+    nav: {
+      benefits: 'Benefits',
+      expertise: 'Expertise',
+      target: 'Target',
+      partnership: 'Partnership',
+      process: 'Process',
+      portfolio: 'Portfolio',
+      faq: 'FAQ',
+      contacts: 'Contacts',
+      vibeCheck: 'Vibe Check',
+      getVibeCheck: 'Get a vibe check'
+    },
+    hero: {
+      badge: "Great ideas don't wait. Neither do we.",
+      title1: 'Vibe Coding +',
+      title2: 'Senior Oversight',
+      description: 'We’ve replaced slow, traditional development with an AI-driven approach. Get complex solutions without compromising on security. Your budget works for results, not for long hours of waiting.',
+      cta: 'Get a project vibe check',
+      supportNodes: {
+        analysts: 'Analysts',
+        designers: 'Designers',
+        qa: 'QA Experts',
+        devs: 'Senior Devs',
+        devops: 'Senior DevOps'
+      }
+    },
+    benefits: {
+      label: 'Benefits',
+      title: 'Why settle for last decade’s speed in the era of AI?',
+      items: [
+        { title: 'Rapid hypothesis testing', desc: '(MVP in 1-2 weeks)' },
+        { title: 'Smart cost optimization', desc: '(Save up to 70%)' },
+        { title: 'Senior oversight', desc: 'for architectural integrity' }
+      ]
+    },
+    expertise: {
+      label: 'Expertise',
+      title: 'Would you trust your business to AI without an architect’s oversight?',
+      items: [
+        { title: 'Architectural Oversight', desc: 'Senior expertise transforms AI speed into a cohesive system. Your project gains a scalable foundation built to the highest engineering standards.' },
+        { title: 'Security First', desc: 'Our experts integrate multi-layered data protection into every line of code. We ensure security and full compliance with industry standards through professional oversight.' },
+        { title: 'Review', desc: 'Every code block undergoes a rigorous review for cleanliness and maintainability. This ensures the seamless evolution and long-term stability of your product.' },
+        { title: 'Support', desc: 'We leverage years of experience to solve complex technical challenges. Our team ensures project stability in situations that demand deep engineering expertise.' },
+        { title: 'Business Alignment', desc: 'Senior experts translate your business priorities into precise technical solutions. Every development stage aligns the product with your strategic goals.' }
+      ]
+    },
+    target: {
+      label: 'Target',
+      title: 'Does this sound like you?',
+      items: [
+        { title: 'AI-native startups (Pre-seed & Seed)', desc: 'The fastest way to capture the market and stay ahead of the curve.' },
+        { title: 'Non-technical founders', desc: 'Your dedicated Senior partner to handle technical complexity and architecture from day one.' },
+        { title: 'Teams prepping for investment', desc: 'Transform your vision into a functional, high-quality product ready for investor demos.' },
+        { title: 'Businesses with overloaded backlogs', desc: 'Quickly ship long-standing tasks that your internal team hasn\'t reached yet.' }
+      ]
+    },
+    partnership: {
+      label: 'Partnership',
+      title1: 'You can go it ',
+      titleAlone: 'alone',
+      title2: ', but ',
+      titleTogether: 'moving together',
+      title3: ' is always more secure.',
+      description: 'Vibe Coding provides the speed; the Wami team provides the foundation. By choosing us, you partner with a company that has **12 years of market expertise**. Our analysts, designers, and QA experts are always by your side, ready to refine your vision and ensure your product’s success.',
+      stats: [
+        { label: 'Market Presence', value: '12', unit: 'Y', desc: 'Years of Engineering Excellence' },
+        { label: 'Team Seniority', value: '99', unit: '%', desc: 'Senior-level Talent Density' }
+      ]
+    },
+    process: {
+      label: 'Process',
+      title: 'The logic behind our speed',
+      items: [
+        { title: 'Discovery', desc: 'You define the vision and context in natural language. We dive deep into your business goals to capture the essence of the product.' },
+        { title: 'Vibe Check & Estimation', desc: 'We validate the project’s feasibility for the Vibe Coding approach, provide a timeline, and fix the budget.' },
+        { title: 'Strategy', desc: 'Senior engineers design the architecture and select the best-in-class AI tools to ensure speed without compromising integrity.' },
+        { title: 'Fast Iterations', desc: 'A high-speed "prompt — build — review" loop. You see progress in real-time and refine requirements on the fly.' },
+        { title: 'QA & Security Check', desc: 'Rigorous testing and code auditing by human experts. We ensure every feature is robust, secure, and ready for scale.' },
+        { title: 'Deployment', desc: 'Rapid production launch. Your product is live and ready to meet your first users.' }
+      ]
+    },
+    portfolio: {
+      label: 'Portfolio',
+      title: 'They’ve already shipped. Your turn',
+      comingSoon: 'Portfolio content coming soon...',
+      viewCase: 'View Case Study',
+      vacations: {
+        title: 'Wami Vacations – HR Experience Layer ✨',
+        desc: 'Beyond simple tracking, we’ve built an engagement layer that turns vacation management into a team-building tool. It’s a space designed to boost motivation, foster belonging, and make corporate culture tangible in every click.'
+      },
+      lumina: { title: 'Lumina Health AI', category: 'Medical Diagnostics Platform' },
+      wamioff: { title: 'WAMIOFF Platform', category: 'Internal Corporate Ecosystem' }
+    },
+    mockups: {
+      lumina: {
+        name: 'LuminaAI',
+        dashboard: 'Dashboard',
+        insights: 'Insights',
+        reports: 'Reports',
+        signUp: 'Sign Up',
+        title: 'Diagnostics Revolutionized with Lumina',
+        desc: 'Analyze complex medical data in seconds with our state-of-the-art neural engine.',
+        getStarted: 'Get Started',
+        learnMore: 'Learn More',
+        accuracy: 'Accuracy',
+        topRated: 'Top Rated AI',
+        dataPoints: 'Data Points',
+        hospitals: 'Hospitals',
+        diagnostics: 'Diagnostics'
+      },
+      wamioff: {
+        name: 'WAMIOFF',
+        title: 'Internal Ecosystem Efficiency Builder',
+        desc: 'The all-in-one platform for modern HR and office management.'
+      }
+    },
+    faq: {
+      label: 'FAQ',
+      title: 'Questions & Answers',
+      items: [
+        { q: "Does such high development speed compromise code quality?", a: "Quite the opposite. AI handles the boilerplate and routine coding, allowing our Senior Engineer to focus entirely on architecture, logic, and security. You get a product built to high standards, just 5x faster." },
+        { q: "Will I be able to scale the project as my business grows?", a: "Yes. That’s the main reason we don’t work without Senior oversight. We produce clean, standardized code and a scalable architecture. Your MVP won't become \"tech debt\"—it will be a solid foundation for future growth." },
+        { q: "How secure is AI-driven development for my product?", a: "We follow a \"Security First\" principle. Every line of code generated by AI undergoes a rigorous review by a Senior expert. We vet the system for vulnerabilities and ensure your data is fully protected." },
+        { q: "What types of projects benefit the most from Vibe Coding?", a: "It’s the perfect choice for MVPs, SaaS platforms, internal business tools, and rapid hypothesis testing. If you need to hit the market \"yesterday\" or present a live product to investors, this is for you." },
+        { q: "Who owns the intellectual property and the final code?", a: "You do. We operate on a transparent model: you get full access to the repository and all intellectual property rights to the product. We are your partner in building it, but you always own the result." }
+      ]
+    },
+    contact: {
+      label: 'Contacts',
+      title: 'Ready to grow? We’ll handle the tech',
+      cta: 'Get a project vibe check'
+    },
+    modal: {
+      title: 'Get a project vibe check',
+      name: 'Name',
+      namePlaceholder: 'Your name',
+      email: 'Email',
+      emailPlaceholder: 'your@email.com',
+      message: 'Message',
+      messagePlaceholder: 'Tell us about your project',
+      send: 'Send Request',
+      successTitle: 'Thank you!',
+      successDesc: 'Your request has been sent to our team. We\'ll get back to you shortly.',
+      back: 'Back to site'
+    },
+    emailModal: {
+      title: 'Send us an email',
+      desc: 'Choose your preferred way to contact us',
+      openIn: 'Open in',
+      copy: 'Copy Email Address',
+      copied: 'Copied!'
+    },
+    footer: {
+      copyright: '©2026 Wamisoftware. All rights reserved. Wamisoftware is the LTD company registered in the UK.'
+    }
+  },
+  ua: {
+    nav: {
+      benefits: 'Переваги',
+      expertise: 'Експертиза',
+      target: 'Цільова аудиторія',
+      partnership: 'Партнерство',
+      process: 'Процес',
+      portfolio: 'Портфоліо',
+      faq: 'FAQ',
+      contacts: 'Контакти',
+      vibeCheck: 'Vibe Check',
+      getVibeCheck: 'Отримати vibe check'
+    },
+    hero: {
+      badge: "Чудові ідеї не чекають. Ми також.",
+      title1: 'Vibe Coding +',
+      title2: 'Сеньйор-нагляд',
+      description: 'Ми замінили повільну традиційну розробку підходом на основі ШІ. Отримуйте складні рішення без компромісів у безпеці. Ваш бюджет працює на результат, а не на довгі години очікування.',
+      cta: 'Отримати vibe check проекту',
+      supportNodes: {
+        analysts: 'Аналітики',
+        designers: 'Дизайнери',
+        qa: 'Експерти з якості',
+        devs: 'Сеньйор-розробники',
+        devops: 'Сеньйор DevOps'
+      }
+    },
+    benefits: {
+      label: 'Переваги',
+      title: 'Навіщо погоджуватися на швидкість минулого десятиліття в епоху ШІ?',
+      items: [
+        { title: 'Швидке тестування гіпотез', desc: '(MVP за 1-2 тижні)' },
+        { title: 'Розумна оптимізація витрат', desc: '(Економія до 70%)' },
+        { title: 'Сеньйор-нагляд', desc: 'для архітектурної цілісності' }
+      ]
+    },
+    expertise: {
+      label: 'Експертиза',
+      title: 'Чи довірили б ви свій бізнес ШІ без нагляду архітектора?',
+      items: [
+        { title: 'Архітектурний нагляд', desc: 'Експертиза сеньйор-рівня перетворює швидкість ШІ на цілісну систему. Ваш проект отримує масштабовану основу, побудовану за найвищими інженерними стандартами.' },
+        { title: 'Безпека понад усе', desc: 'Наші експерти інтегрують багаторівневий захист даних у кожен рядок коду. Ми забезпечуємо безпеку та повну відповідність галузевим стандартам через професійний нагляд.' },
+        { title: 'Рев\'ю коду', desc: 'Кожен блок коду проходить ретельну перевірку на чистоту та підтримуваність. Це гарантує плавний розвиток та довгострокову стабільність вашого продукту.' },
+        { title: 'Підтримка', desc: 'Ми використовуємо багаторічний досвід для вирішення складних технічних викликів. Наша команда забезпечує стабільність проектів у ситуаціях, що вимагають глибокої інженерної експертизи.' },
+        { title: 'Відповідність бізнесу', desc: 'Сеньйор-експерти перетворюють ваші бізнес-пріоритети на точні технічні рішення. Кожен етап розробки узгоджує продукт з вашими стратегічними цілями.' }
+      ]
+    },
+    target: {
+      label: 'Цільова аудиторія',
+      title: 'Це звучить як ви?',
+      items: [
+        { title: 'AI-native стартапи (Pre-seed & Seed)', desc: 'Найшвидший спосіб захопити ринок і залишатися попереду.' },
+        { title: 'Нетехнічні засновники', desc: 'Ваш відданий сеньйор-партнер для вирішення технічної складності та архітектури з першого дня.' },
+        { title: 'Команди, що готуються до інвестицій', desc: 'Перетворіть своє бачення на функціональний, високоякісний продукт, готовий до демо для інвесторів.' },
+        { title: 'Бізнеси з перевантаженими беклогами', desc: 'Швидко реалізуйте давні завдання, до яких ваша внутрішня команда ще не дійшла.' }
+      ]
+    },
+    partnership: {
+      label: 'Партнерство',
+      title1: 'Ви можете йти ',
+      titleAlone: 'самі',
+      title2: ', але ',
+      titleTogether: 'рухатися разом',
+      title3: ' завжди безпечніше.',
+      description: 'Vibe Coding забезпечує швидкість; команда Wami забезпечує фундамент. Обираючи нас, ви стаєте партнером компанії з **12-річним досвідом на ринку**. Наші аналітики, дизайнери та QA-експерти завжди поруч, готові вдосконалити ваше бачення та забезпечити успіх вашого продукту.',
+      stats: [
+        { label: 'Присутність на ринку', value: '12', unit: 'Р', desc: 'Років інженерної досконалості' },
+        { label: 'Сеньйорність команди', value: '99', unit: '%', desc: 'Щільність талантів сеньйор-рівня' }
+      ]
+    },
+    process: {
+      label: 'Процес',
+      title: 'Логіка нашої швидкості',
+      items: [
+        { title: 'Discovery', desc: 'Ви визначаєте бачення та контекст природною мовою. Ми глибоко занурюємося у ваші бізнес-цілі, щоб вловити суть продукту.' },
+        { title: 'Vibe Check та оцінка', desc: 'Ми перевіряємо технічну можливість проекту для підходу Vibe Coding, надаємо графік та фіксуємо бюджет.' },
+        { title: 'Стратегія', desc: 'Сеньйор-інженери розробляють архітектуру та обирають найкращі інструменти ШІ, щоб забезпечити швидкість без компромісів у цілісності.' },
+        { title: 'Швидкі ітерації', desc: 'Високошвидкісний цикл «prompt — build — review». Ви бачите прогрес у реальному часі та уточнюєте вимоги на льоту.' },
+        { title: 'Контроль якості та безпека', desc: 'Ретельне тестування та аудит коду людськими експертами. Ми гарантуємо, що кожна функція надійна, безпечна та готова до масштабування.' },
+        { title: 'Деплоймент', desc: 'Швидкий запуск у продаж. Ваш продукт готовий до зустрічі з першими користувачами.' }
+      ]
+    },
+    portfolio: {
+      label: 'Портфоліо',
+      title: 'Вони вже запустилися. Ваша черга',
+      comingSoon: 'Контент портфоліо незабаром...',
+      viewCase: 'Дивитися кейс',
+      vacations: {
+        title: 'Wami Відпустки – HR Experience Layer ✨',
+        desc: 'Крім простого відстеження, ми створили рівень залучення, який перетворює управління відпустками на інструмент тімбілдінгу. Це простір, розроблений для підвищення мотивації, формування почуття причетності та втілення корпоративної культури в кожному кліку.'
+      },
+      lumina: { title: 'Lumina Health AI', category: 'Медична діагностична платформа' },
+      wamioff: { title: 'WAMIOFF Platform', category: 'Внутрішня корпоративна екосистема' }
+    },
+    mockups: {
+      lumina: {
+        name: 'LuminaAI',
+        dashboard: 'Дашборд',
+        insights: 'Інсайти',
+        reports: 'Звіти',
+        signUp: 'Реєстрація',
+        title: 'Діагностика, революціонізована з Lumina',
+        desc: 'Аналізуйте складні медичні дані за лічені секунди за допомогою нашого сучасного нейронного двигуна.',
+        getStarted: 'Почати',
+        learnMore: 'Дізнатися більше',
+        accuracy: 'Точність',
+        topRated: 'Найкращий ШІ',
+        dataPoints: 'Точки даних',
+        hospitals: 'Лікарні',
+        diagnostics: 'Діагностика'
+      },
+      wamioff: {
+        name: 'WAMIOFF',
+        title: 'Побудова ефективності внутрішньої екосистеми',
+        desc: 'Універсальна платформа для сучасного HR та управління офісом.'
+      }
+    },
+    faq: {
+      label: 'FAQ',
+      title: 'Питання та відповіді',
+      items: [
+        { q: "Чи не шкодить така висока швидкість розробки якості коду?", a: "Навпаки. ШІ бере на себе шаблонний код і рутину, дозволяючи нашому сеньйор-інженеру повністю зосередитися на архітектурі, логіці та безпеці. Ви отримуєте продукт, побудований за високими стандартами, просто в 5 разів швидше." },
+        { q: "Чи зможу я масштабувати проект у міру зростання бізнесу?", a: "Так. Це головна причина, чому ми не працюємо без нагляду сеньйора. Ми створюємо чистий, стандартизований код і масштабовану архітектуру. Ваш MVP не стане «технічним боргом» — він буде міцним фундаментом для майбутнього зростання." },
+        { q: "Наскільки безпечна розробка за допомогою ШІ для мого продукту?", a: "Ми дотримуємося принципу «Безпека понад усе». Кожен рядок коду, згенерований ШІ, проходить сувору перевірку сеньйор-експертом. Ми перевіряємо систему на вразливості та гарантуємо повний захист ваших даних." },
+        { q: "Яким типам проектів найбільше підходить Vibe Coding?", a: "Це ідеальний вибір для MVP, SaaS-платформ, внутрішніх бізнес-інструментів та швидкого тестування гіпотез. Якщо вам потрібно вийти на ринок «на вчора» або представити живий продукт інвесторам — це для вас." },
+        { q: "Кому належить інтелектуальна власність та фінальний код?", a: "Вам. Ми працюємо за прозорою моделлю: ви отримуєте повний доступ до репозиторію та всі права інтелектуальної власності на продукт. Ми — ваш партнер у його створенні, але ви завжди володієте результатом." }
+      ]
+    },
+    contact: {
+      label: 'Контакти',
+      title: 'Готові до зростання? Ми подбаємо про технології',
+      cta: 'Отримати vibe check проекту'
+    },
+    modal: {
+      title: 'Отримати vibe check проекту',
+      name: 'Ім\'я',
+      namePlaceholder: 'Ваше ім\'я',
+      email: 'Email',
+      emailPlaceholder: 'your@email.com',
+      message: 'Повідомлення',
+      messagePlaceholder: 'Розкажіть нам про ваш проект',
+      send: 'Надіслати запит',
+      successTitle: 'Дякуємо!',
+      successDesc: 'Ваш запит надіслано нашій команді. Ми зв\'яжемося з вами найближчим часом.',
+      back: 'Назад на сайт'
+    },
+    emailModal: {
+      title: 'Надішліть нам листа',
+      desc: 'Оберіть зручний спосіб зв\'язку',
+      openIn: 'Відкрити в',
+      copy: 'Копіювати адресу',
+      copied: 'Скопійовано!'
+    },
+    footer: {
+      copyright: '©2026 Wamisoftware. Всі права захищені. Wamisoftware — компанія LTD, зареєстрована у Великобританії.'
+    }
+  },
+  de: {
+    nav: {
+      benefits: 'Vorteile',
+      expertise: 'Expertise',
+      target: 'Zielgruppe',
+      partnership: 'Partnerschaft',
+      process: 'Prozess',
+      portfolio: 'Portfolio',
+      faq: 'FAQ',
+      contacts: 'Kontakte',
+      vibeCheck: 'Vibe Check',
+      getVibeCheck: 'Vibe Check anfordern'
+    },
+    hero: {
+      badge: "Großartige Ideen warten nicht. Wir auch nicht.",
+      title1: 'Vibe Coding +',
+      title2: 'Senior-Aufsicht',
+      description: 'Wir haben die langsame, traditionelle Entwicklung durch einen KI-gesteuerten Ansatz ersetzt. Erhalten Sie komplexe Lösungen ohne Kompromisse bei der Sicherheit. Ihr Budget arbeitet für Ergebnisse, nicht für lange Wartezeiten.',
+      cta: 'Projekt Vibe Check anfordern',
+      supportNodes: {
+        analysts: 'Analysten',
+        designers: 'Designer',
+        qa: 'Experten für Qualitätssicherung',
+        devs: 'Senior-Entwickler',
+        devops: 'Senior DevOps'
+      }
+    },
+    benefits: {
+      label: 'Vorteile',
+      title: 'Warum sich mit der Geschwindigkeit des letzten Jahrzehnts zufrieden geben?',
+      items: [
+        { title: 'Schnelles Testen von Hypothesen', desc: '(MVP in 1-2 Wochen)' },
+        { title: 'Intelligente Kostenoptimierung', desc: '(Bis zu 70% sparen)' },
+        { title: 'Senior-Aufsicht', desc: 'für architektonische Integrität' }
+      ]
+    },
+    expertise: {
+      label: 'Expertise',
+      title: 'Würden Sie Ihr Unternehmen einer KI ohne die Aufsicht eines Architekten anvertrauen?',
+      items: [
+        { title: 'Architektonische Aufsicht', desc: 'Senior-Expertise verwandelt KI-Geschwindigkeit in ein kohärentes System. Ihr Projekt erhält ein skalierbares Fundament nach höchsten Engineering-Standards.' },
+        { title: 'Sicherheit zuerst', desc: 'Unsere Experten integrieren mehrschichtigen Datenschutz in jede Codezeile. Wir gewährleisten Sicherheit und volle Compliance mit Industriestandards durch professionelle Aufsicht.' },
+        { title: 'Review', desc: 'Jeder Codeblock wird einer strengen Prüfung auf Sauberkeit und Wartbarkeit unterzogen. Dies sichert die nahtlose Weiterentwicklung und langfristige Stabilität Ihres Produkts.' },
+        { title: 'Support', desc: 'Wir nutzen jahrelange Erfahrung, um komplexe technische Herausforderungen zu lösen. Unser Team sichert die Projektstabilität in Situationen, die tiefes Engineering-Know-how erfordern.' },
+        { title: 'Business Alignment', desc: 'Senior-Experten übersetzen Ihre Geschäftsprioritäten in präzise technische Lösungen. Jede Entwicklungsphase richtet das Produkt an Ihren strategischen Zielen aus.' }
+      ]
+    },
+    target: {
+      label: 'Zielgruppe',
+      title: 'Klingt das nach Ihnen?',
+      items: [
+        { title: 'KI-native Startups (Pre-Seed & Seed)', desc: 'Der schnellste Weg, den Markt zu erobern und der Konkurrenz voraus zu sein.' },
+        { title: 'Nicht-technische Gründer', desc: 'Ihr engagierter Senior-Partner für technische Komplexität und Architektur vom ersten Tag an.' },
+        { title: 'Teams vor der Investition', desc: 'Verwandeln Sie Ihre Vision in ein funktionales, hochwertiges Produkt, bereit für Investoren-Demos.' },
+        { title: 'Unternehmen mit überlasteten Backlogs', desc: 'Erledigen Sie schnell langjährige Aufgaben, zu denen Ihr internes Team noch nicht gekommen ist.' }
+      ]
+    },
+    partnership: {
+      label: 'Partnerschaft',
+      title1: 'Sie können es ',
+      titleAlone: 'alleine',
+      title2: ' versuchen, aber ',
+      titleTogether: 'gemeinsam voranzukommen',
+      title3: ' ist immer sicherer.',
+      description: 'Vibe Coding liefert die Geschwindigkeit; das Wami-Team liefert das Fundament. Mit uns entscheiden Sie sich für einen Partner mit **12 Jahren Markterfahrung**. Unsere Analysten, Designer und QA-Experten stehen Ihnen jederzeit zur Seite, um Ihre Vision zu verfeinern und den Erfolg Ihres Produkts sicherzustellen.',
+      stats: [
+        { label: 'Marktpräsenz', value: '12', unit: 'J', desc: 'Jahre technischer Exzellenz' },
+        { label: 'Seniorität des Teams', value: '99', unit: '%', desc: 'Dichte an Senior-Talenten' }
+      ]
+    },
+    process: {
+      label: 'Prozess',
+      title: 'Die Logik hinter unserer Geschwindigkeit',
+      items: [
+        { title: 'Discovery', desc: 'Sie definieren Vision und Kontext in natürlicher Sprache. Wir tauchen tief in Ihre Geschäftsziele ein, um die Essenz des Produkts zu erfassen.' },
+        { title: 'Vibe Check & Schätzung', desc: 'Wir validieren die Machbarkeit des Projekts für den Vibe-Coding-Ansatz, erstellen einen Zeitplan und fixieren das Budget.' },
+        { title: 'Strategie', desc: 'Senior-Ingenieure entwerfen die Architektur und wählen die besten KI-Tools aus, um Geschwindigkeit ohne Kompromisse bei der Integrität zu gewährleisten.' },
+        { title: 'Schnelle Iterationen', desc: 'Ein Hochgeschwindigkeits-Loop aus „Prompt — Build — Review“. Sie sehen den Fortschritt in Echtzeit und verfeinern die Anforderungen im laufenden Betrieb.' },
+        { title: 'QS & Sicherheitscheck', desc: 'Strenge Tests und Code-Audits durch menschliche Experten. Wir stellen sicher, dass jede Funktion robust, sicher und bereit für die Skalierung ist.' },
+        { title: 'Deployment', desc: 'Schneller Produktionsstart. Ihr Produkt ist live und bereit für Ihre ersten Nutzer.' }
+      ]
+    },
+    portfolio: {
+      label: 'Portfolio',
+      title: 'Sie haben bereits gelauncht. Sie sind dran',
+      comingSoon: 'Portfolio-Inhalte folgen in Kürze...',
+      viewCase: 'Fallstudie ansehen',
+      vacations: {
+        title: 'Wami Urlaub – HR Experience Layer ✨',
+        desc: 'Über das einfache Tracking hinaus haben wir eine Engagement-Ebene geschaffen, die das Urlaubsmanagement in ein Teambuilding-Tool verwandelt. Es ist ein Raum, der darauf ausgelegt ist, die Motivation zu steigern, die Zugehörigkeit zu fördern und die Unternehmenskultur bei jedem Klick erlebbar zu machen.'
+      },
+      lumina: { title: 'Lumina Health AI', category: 'Medizinische Diagnoseplattform' },
+      wamioff: { title: 'WAMIOFF Platform', category: 'Internes Unternehmens-Ökosystem' }
+    },
+    mockups: {
+      lumina: {
+        name: 'LuminaAI',
+        dashboard: 'Dashboard',
+        insights: 'Insights',
+        reports: 'Berichte',
+        signUp: 'Registrieren',
+        title: 'Diagnose revolutioniert mit Lumina',
+        desc: 'Analysieren Sie komplexe medizinische Daten in Sekunden mit unserer hochmodernen Neural Engine.',
+        getStarted: 'Jetzt starten',
+        learnMore: 'Mehr erfahren',
+        accuracy: 'Genauigkeit',
+        topRated: 'Top-KI',
+        dataPoints: 'Datenpunkte',
+        hospitals: 'Krankenhäuser',
+        diagnostics: 'Diagnose'
+      },
+      wamioff: {
+        name: 'WAMIOFF',
+        title: 'Effizienz-Builder für interne Ökosysteme',
+        desc: 'Die All-in-One-Plattform für modernes HR- und Office-Management.'
+      }
+    },
+    faq: {
+      label: 'FAQ',
+      title: 'Fragen & Antworten',
+      items: [
+        { q: "Beeinträchtigt die hohe Entwicklungsgeschwindigkeit die Codequalität?", a: "Ganz im Gegenteil. Die KI übernimmt Boilerplate und Routineaufgaben, sodass sich unser Senior-Ingenieur voll auf Architektur, Logik und Sicherheit konzentrieren kann. Sie erhalten ein Produkt nach hohen Standards, nur 5x schneller." },
+        { q: "Kann ich das Projekt skalieren, wenn mein Unternehmen wächst?", a: "Ja. Das ist der Hauptgrund, warum wir nicht ohne Senior-Aufsicht arbeiten. Wir erstellen sauberen, standardisierten Code und eine skalierbare Architektur. Ihr MVP wird nicht zu „technischen Schulden“ – es wird ein solides Fundament für zukünftiges Wachstum." },
+        { q: "Wie sicher ist KI-gesteuerte Entwicklung für mein Produkt?", a: "Wir folgen dem Prinzip „Security First“. Jede von der KI generierte Codezeile wird von einem Senior-Experten streng geprüft. Wir untersuchen das System auf Schwachstellen und stellen sicher, dass Ihre Daten vollständig geschützt sind." },
+        { q: "Welche Arten von Projekten profitieren am meisten von Vibe Coding?", a: "Es ist die perfekte Wahl für MVPs, SaaS-Plattformen, interne Business-Tools und schnelles Testen von Hypothesen. Wenn Sie „gestern“ auf den Markt kommen müssen oder Investoren ein Live-Produkt präsentieren wollen, ist dies das Richtige für Sie." },
+        { q: "Wem gehört das geistige Eigentum und der fertige Code?", a: "Ihnen. Wir arbeiten nach einem transparenten Modell: Sie erhalten vollen Zugriff auf das Repository und alle geistigen Eigentumsrechte am Produkt. Wir sind Ihr Partner beim Aufbau, aber das Ergebnis gehört immer Ihnen." }
+      ]
+    },
+    contact: {
+      label: 'Kontakte',
+      title: 'Bereit zu wachsen? Wir übernehmen die Technik',
+      cta: 'Projekt Vibe Check anfordern'
+    },
+    modal: {
+      title: 'Projekt Vibe Check anfordern',
+      name: 'Name',
+      namePlaceholder: 'Ihr Name',
+      email: 'E-Mail',
+      emailPlaceholder: 'ihre@email.com',
+      message: 'Nachricht',
+      messagePlaceholder: 'Erzählen Sie uns von Ihrem Projekt',
+      send: 'Anfrage senden',
+      successTitle: 'Vielen Dank!',
+      successDesc: 'Ihre Anfrage wurde an unser Team gesendet. Wir melden uns in Kürze bei Ihnen.',
+      back: 'Zurück zur Seite'
+    },
+    emailModal: {
+      title: 'Senden Sie uns eine E-Mail',
+      desc: 'Wählen Sie Ihren bevorzugten Kontaktweg',
+      openIn: 'Öffnen in',
+      copy: 'E-Mail-Adresse kopieren',
+      copied: 'Kopiert!'
+    },
+    footer: {
+      copyright: '©2026 Wamisoftware. Alle Rechte vorbehalten. Wamisoftware ist eine im Vereinigten Königreich registrierte LTD-Gesellschaft.'
+    }
+  }
+};
