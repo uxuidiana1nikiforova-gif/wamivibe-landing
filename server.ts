@@ -89,7 +89,8 @@ async function startServer() {
     };
 
     const t = translations[lang] || translations.en;
-    const appUrl = process.env.APP_URL || `https://${req.get('host')}`;
+    let appUrl = process.env.APP_URL || `https://${req.get('host')}`;
+    appUrl = appUrl.replace(/\/$/, ""); // Remove trailing slash if present
 
     try {
       const fs = await import("fs/promises");
