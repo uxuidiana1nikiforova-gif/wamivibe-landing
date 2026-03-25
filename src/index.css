@@ -48,7 +48,7 @@
 
   /* Section Headline */
   h2 {
-    @apply text-4xl md:text-5xl font-satoshi font-bold leading-[1.1] text-[var(--primary)] tracking-tight;
+    @apply text-[40px] md:text-5xl font-satoshi font-bold leading-[1.1] text-[var(--primary)] tracking-tight;
   }
 
   h3 {

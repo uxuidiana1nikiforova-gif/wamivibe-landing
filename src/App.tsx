@@ -936,6 +936,8 @@ export default function App() {
   const [processIndex, setProcessIndex] = useState(0);
   const [isExpertisePaused, setIsExpertisePaused] = useState(false);
   const [isProcessPaused, setIsProcessPaused] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [viewedFaqs, setViewedFaqs] = useState<number[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { scrollY } = useScroll();
@@ -1119,7 +1121,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6"
           >
-            <span className="text-xs font-medium tracking-wider uppercase text-white">{t.hero.badge}</span>
+            <span className="text-sm md:text-xs font-medium tracking-wider uppercase text-white">{t.hero.badge}</span>
           </motion.div>
           <motion.h1 
             className="max-w-5xl mb-6 mx-auto flex flex-col md:flex-row items-center justify-center gap-x-4 flex-wrap"
@@ -1206,15 +1208,15 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-8 md:mb-12"
           >
-            <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
               {t.benefits.label}
             </span>
-            <h2 className="text-3xl md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
+            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
               {t.benefits.title}
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {t.benefits.items.map((item, i) => (
               <motion.div 
                 key={i}
@@ -1222,7 +1224,7 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: isMobile ? 0 : i * 0.1 }}
-                className={`group relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 px-3 py-4 md:p-6 rounded-2xl transition-all duration-500 flex flex-col h-full ${i === 2 ? 'md:col-span-2 lg:col-span-1' : ''}`}
+                className="group relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 px-3 py-4 md:p-6 rounded-2xl transition-all duration-500 flex flex-col h-full w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
               >
                 <div className="mb-8">
                   {i === 0 && <HypothesisVisual />}
@@ -1250,10 +1252,10 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-8 md:mb-12"
           >
-            <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
               {t.expertise.label}
             </span>
-            <h2 className="text-3xl md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
+            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
               {t.expertise.title}
             </h2>
           </motion.div>
@@ -1325,7 +1327,7 @@ export default function App() {
                     delay: isMobile ? 0 : i * 0.1,
                     ease: "easeOut"
                   }}
-                  className={`relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 min-h-[300px] flex flex-col justify-center rounded-2xl transition-all duration-500 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] ${i === 4 ? 'md:w-full lg:w-[calc(33.33%-16px)]' : ''}`}
+                  className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 min-h-[300px] flex flex-col justify-center rounded-2xl transition-all duration-500 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
                 >
                   <BorderBeam delay={i * 1.5} duration={10 + i} />
                   <h3 className="text-xl font-satoshi font-medium mb-4 text-[var(--primary)] relative z-10">
@@ -1350,10 +1352,10 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-8 md:mb-12"
           >
-            <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
               {t.target.label}
             </span>
-            <h2 className="text-3xl md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
+            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
               {t.target.title}
             </h2>
           </motion.div>
@@ -1482,10 +1484,10 @@ export default function App() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+                <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
                   {t.partnership.label}
                 </span>
-                <h2 className="text-2xl md:text-[40px] font-satoshi font-medium leading-[1.2] text-white mb-8 tracking-tight">
+                <h2 className="text-[28px] md:text-[40px] font-satoshi font-medium leading-[1.2] text-white mb-8 tracking-tight">
                   {t.partnership.title1}
                   <span className="relative inline-block px-1">
                     <span className="relative z-10 text-white italic font-serif">{t.partnership.titleAlone}</span>
@@ -1571,10 +1573,10 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-8 md:mb-12"
           >
-            <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
               {t.process.label}
             </span>
-            <h2 className="text-3xl md:text-[40px] font-satoshi font-medium tracking-tight text-white">
+            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
               {t.process.title}
             </h2>
           </motion.div>
@@ -1675,10 +1677,10 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-16 md:mb-24"
           >
-            <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
               {t.portfolio.label}
             </span>
-            <h2 className="text-3xl md:text-[40px] font-satoshi font-medium tracking-tight text-white">
+            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
               {t.portfolio.title}
             </h2>
           </motion.div>
@@ -1692,18 +1694,37 @@ export default function App() {
         <section id="faq" className="py-20 md:py-32 max-w-7xl mx-auto">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
-              <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+              <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
                 {t.faq.label}
               </span>
-              <h2 className="text-3xl md:text-[40px] font-satoshi font-medium tracking-tight text-white">
+              <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
                 {t.faq.title}
               </h2>
             </div>
             <div className="space-y-4">
               {t.faq.items.map((faq, i) => (
-                <details key={i} className="group bg-zinc-900/40 border border-white/5 rounded-2xl p-3 md:p-6 cursor-pointer hover:border-[var(--primary)]/20 transition-colors">
-                  <summary className="flex items-center justify-between font-medium list-none text-white transition-colors group-hover:text-[var(--primary)] group-open:text-[var(--primary)]">
-                    {faq.q}
+                <details 
+                  key={i} 
+                  open={openFaqIndex === i}
+                  onToggle={(e) => {
+                    if ((e.target as HTMLDetailsElement).open) {
+                      setOpenFaqIndex(i);
+                      if (!viewedFaqs.includes(i)) {
+                        setViewedFaqs(prev => [...prev, i]);
+                      }
+                    } else if (openFaqIndex === i) {
+                      setOpenFaqIndex(null);
+                    }
+                  }}
+                  className={`group bg-zinc-900/40 border border-white/5 rounded-2xl p-3 md:p-6 cursor-pointer hover:border-[var(--primary)]/20 transition-colors ${viewedFaqs.includes(i) ? 'opacity-90' : ''}`}
+                >
+                  <summary className={`flex items-center justify-between font-medium list-none transition-colors group-hover:text-[var(--primary)] group-open:text-[var(--primary)] ${viewedFaqs.includes(i) ? 'text-white/60' : 'text-white'}`}>
+                    <div className="flex items-center gap-3">
+                      {viewedFaqs.includes(i) && (
+                        <div className="w-1 h-1 rounded-full bg-[var(--primary)]/40" />
+                      )}
+                      {faq.q}
+                    </div>
                     <ChevronDown className="group-open:rotate-180 transition-transform text-[var(--primary)]" />
                   </summary>
                   <p className="mt-4 leading-relaxed">
@@ -1725,14 +1746,14 @@ export default function App() {
             viewport={{ once: true }}
             className="mb-6"
           >
-            <span className="inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
               {t.contact.label}
             </span>
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-12"
+            className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-12"
           >
             {t.contact.title}
           </motion.h2>

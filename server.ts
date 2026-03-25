@@ -89,9 +89,9 @@ async function startServer() {
     };
 
     const t = translations[lang] || translations.en;
-    let appUrl = process.env.APP_URL || `https://${req.get('host')}`;
-    appUrl = appUrl.replace(/\/$/, ""); // Remove trailing slash if present
-
+    // Use the current request host for meta tags to ensure they match the URL being tested
+    const appUrl = `https://${req.get('host')}`;
+    
     try {
       const fs = await import("fs/promises");
       const indexPath = process.env.NODE_ENV === "production" 
@@ -116,8 +116,11 @@ async function startServer() {
       // Update URLs
       html = html.replace(/property="og:url" content=".*?"/g, `property="og:url" content="${appUrl}${url}"`);
       html = html.replace(/property="twitter:url" content=".*?"/g, `property="twitter:url" content="${appUrl}${url}"`);
-      html = html.replace(/property="og:image" content=".*?"/g, `property="og:image" content="${appUrl}/images/og-image.png"`);
-      html = html.replace(/property="twitter:image" content=".*?"/g, `property="twitter:image" content="${appUrl}/images/og-image.png"`);
+      
+      // Use a timestamp for cache busting
+      const cacheBust = Date.now();
+      html = html.replace(/property="og:image" content=".*?"/g, `property="og:image" content="${appUrl}/images/og-image.png?v=${cacheBust}"`);
+      html = html.replace(/property="twitter:image" content=".*?"/g, `property="twitter:image" content="${appUrl}/images/og-image.png?v=${cacheBust}"`);
 
       res.set('Content-Type', 'text/html').send(html);
     } catch (err) {
