@@ -1716,9 +1716,9 @@ export default function App() {
                       setOpenFaqIndex(null);
                     }
                   }}
-                  className={`group bg-zinc-900/40 border border-white/5 rounded-2xl p-3 md:p-6 cursor-pointer hover:border-[var(--primary)]/20 transition-colors ${viewedFaqs.includes(i) ? 'opacity-90' : ''}`}
+                  className={`group bg-zinc-900/40 border border-white/5 rounded-2xl cursor-pointer hover:border-[var(--primary)]/20 transition-colors ${viewedFaqs.includes(i) ? 'opacity-90' : ''}`}
                 >
-                  <summary className={`flex items-center justify-between font-medium list-none transition-colors group-hover:text-[var(--primary)] group-open:text-[var(--primary)] ${viewedFaqs.includes(i) ? 'text-white/60' : 'text-white'}`}>
+                  <summary className={`flex items-center justify-between font-medium list-none transition-colors p-3 md:p-6 group-hover:text-[var(--primary)] group-open:text-[var(--primary)] ${viewedFaqs.includes(i) ? 'text-white/60' : 'text-white'}`}>
                     <div className="flex items-center gap-3">
                       {viewedFaqs.includes(i) && (
                         <div className="w-1 h-1 rounded-full bg-[var(--primary)]/40" />
@@ -1727,7 +1727,10 @@ export default function App() {
                     </div>
                     <ChevronDown className="group-open:rotate-180 transition-transform text-[var(--primary)]" />
                   </summary>
-                  <p className="mt-4 leading-relaxed">
+                  <p 
+                    onClick={() => setOpenFaqIndex(null)}
+                    className="px-3 pb-3 md:px-6 md:pb-6 leading-relaxed text-white"
+                  >
                     {faq.a}
                   </p>
                 </details>
