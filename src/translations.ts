@@ -93,6 +93,11 @@ export const translations = {
         title: 'Wami Vacations – HR Experience Layer ✨',
         desc: 'Beyond simple tracking, we’ve built an engagement layer that turns vacation management into a team-building tool. It’s a space designed to boost motivation, foster belonging, and make corporate culture tangible in every click.'
       },
+      balancePulse: {
+        title: 'The Balance Pulse',
+        desc: 'A personal financial coaching experience that goes beyond traditional budgeting tools, focusing on the psychology of spending. The system helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.',
+        category: 'FinTech'
+      },
       lumina: { title: 'Lumina Health AI', category: 'Medical Diagnostics Platform' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Internal Corporate Ecosystem' }
     },
@@ -250,6 +255,11 @@ export const translations = {
         title: 'Wami Відпустки – HR Experience Layer ✨',
         desc: 'Крім простого відстеження, ми створили рівень залучення, який перетворює управління відпустками на інструмент тімбілдінгу. Це простір, розроблений для підвищення мотивації, формування почуття причетності та втілення корпоративної культури в кожному кліку.'
       },
+      balancePulse: {
+        title: 'The Balance Pulse',
+        desc: 'Персональний досвід фінансового коучингу, який виходить за рамки традиційних інструментів бюджетування, зосереджуючись на психології витрат. Система допомагає користувачам відрізняти основні потреби від імпульсивних бажань, що дозволяє приймати більш свідомі та сталі фінансові рішення.',
+        category: 'FinTech'
+      },
       lumina: { title: 'Lumina Health AI', category: 'Медична діагностична платформа' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Внутрішня корпоративна екосистема' }
     },
@@ -406,6 +416,11 @@ export const translations = {
       vacations: {
         title: 'Wami Urlaub – HR Experience Layer ✨',
         desc: 'Über das einfache Tracking hinaus haben wir eine Engagement-Ebene geschaffen, die das Urlaubsmanagement in ein Teambuilding-Tool verwandelt. Es ist ein Raum, der darauf ausgelegt ist, die Motivation zu steigern, die Zugehörigkeit zu fördern und die Unternehmenskultur bei jedem Klick erlebbar zu machen.'
+      },
+      balancePulse: {
+        title: 'The Balance Pulse',
+        desc: 'Ein persönliches Finanz-Coaching-Erlebnis, das über traditionelle Budgetierungstools hinausgeht und sich auf die Psychologie des Ausgebens konzentriert. Das System hilft den Nutzern, wesentliche Bedürfnisse von impulsiven Wünschen zu unterscheiden, was bewusstere und nachhaltigere Finanzentscheidungen ermöglicht.',
+        category: 'FinTech'
       },
       lumina: { title: 'Lumina Health AI', category: 'Medizinische Diagnoseplattform' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Internes Unternehmens-Ökosystem' }
