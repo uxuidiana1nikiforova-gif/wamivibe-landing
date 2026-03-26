@@ -34,6 +34,7 @@ import {
   ExternalLink,
   Languages
 } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { translations, Language } from './translations';
 
 // --- Types ---
@@ -767,12 +768,11 @@ const TeamFoundationVisual = ({ lang }: { lang: Language }) => {
   );
 };
 
-const VacationsDescription = ({ lang }: { lang: Language }) => {
-  const t = translations[lang].portfolio.vacations;
+const ProjectDescription = ({ title, desc, icon }: { title: string; desc: string; icon?: React.ReactNode }) => {
   return (
-    <div className="w-full h-auto lg:h-full bg-black rounded-[2rem] px-3 py-4 md:p-10 flex flex-col justify-start relative overflow-hidden border border-white/10 group/vacations">
+    <div className="w-full h-auto lg:h-full bg-black rounded-[2rem] px-3 py-4 md:p-10 flex flex-col justify-start relative overflow-hidden border border-white/10 group/project">
       {/* Background Glow */}
-      <div className="absolute -top-24 -right-24 w-64 h-64 bg-[var(--primary)]/10 blur-[100px] rounded-full transition-all duration-700 group-hover/vacations:bg-[var(--primary)]/20" />
+      <div className="absolute -top-24 -right-24 w-64 h-64 bg-[var(--primary)]/10 blur-[100px] rounded-full transition-all duration-700 group-hover/project:bg-[var(--primary)]/20" />
       <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-white/5 blur-[100px] rounded-full" />
       
       <div className="relative z-10">
@@ -782,11 +782,12 @@ const VacationsDescription = ({ lang }: { lang: Language }) => {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="text-xl md:text-2xl font-satoshi font-medium mb-4 text-white leading-tight">
-            {t.title}
+          <h3 className="text-xl md:text-2xl font-satoshi font-medium mb-4 text-white leading-tight flex items-center gap-2">
+            {title}
+            {icon && <span className="text-[var(--primary)]">{icon}</span>}
           </h3>
           <p className="text-base md:text-lg lg:text-xl text-white font-light leading-relaxed opacity-80">
-            {t.desc}
+            {desc}
           </p>
         </motion.div>
       </div>
@@ -797,14 +798,26 @@ const VacationsDescription = ({ lang }: { lang: Language }) => {
 const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
   const t = translations[lang].portfolio;
   const [activeIndex, setActiveIndex] = useState(0);
+  
   const projects = [
+    {
+      id: "balance-pulse",
+      title: t.balancePulse.title,
+      desc: t.balancePulse.desc,
+      image: "/images/case-cover-1.png",
+      imageAlt: t.balancePulse.title,
+      overlayTitle: t.balancePulse.title,
+      overlayCategory: t.balancePulse.category,
+      icon: <Sparkles size={20} />
+    },
     { 
-      title: "Wami Vacations – HR Experience Layer ✨", 
-      category: "HR Tech", 
-      description: "", 
       id: "wami-vacations",
-      color: "from-yellow-600/20 to-amber-600/20",
-      accent: "#FBF850"
+      title: t.vacations.title,
+      desc: t.vacations.desc,
+      image: "/images/image_case1.svg",
+      imageAlt: t.vacations.title,
+      overlayTitle: t.vacations.title,
+      overlayCategory: "HR Tech" // Adding a default category since it's missing in translations
     }
   ];
 
@@ -818,53 +831,107 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
     );
   }
 
+  const currentProject = projects[activeIndex];
+
   return (
     <div className="relative">
       <div className="w-full">
         {/* Grid of two cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <AnimatePresence mode="wait">
-            {/* Left Card: Wami Vacations Description */}
+            {/* Left Card: Project Description */}
             <motion.div
-              key={`${activeIndex}-0`}
+              key={`${activeIndex}-left`}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6 }}
               className="relative h-auto lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors"
             >
               <div className="w-full h-full">
-                <VacationsDescription lang={lang} />
+                <ProjectDescription 
+                  title={currentProject.title} 
+                  desc={currentProject.desc} 
+                  icon={(currentProject as any).icon}
+                />
               </div>
             </motion.div>
 
-            {/* Right Card: WAMIOFF Platform */}
+            {/* Right Card: Image/Placeholder */}
             <motion.div
-              key={`${activeIndex}-1`}
+              key={`${activeIndex}-right`}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, delay: isMobile ? 0 : 0.1 }}
-              className="relative h-auto lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[#FFD700]/30 transition-colors"
+              className="relative h-auto lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors"
             >
               <div className="w-full h-full">
-                <img 
-                  src="/images/image_case1.svg" 
-                  alt={t.wamioff.title} 
-                  className="w-full h-auto lg:h-full lg:object-cover block"
-                  referrerPolicy="no-referrer"
-                />
+                {currentProject.image ? (
+                  <img 
+                    src={currentProject.image} 
+                    alt={currentProject.imageAlt} 
+                    className="w-full h-auto lg:h-full lg:object-cover block"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-black/40 border border-dashed border-white/10 rounded-[2rem]">
+                    <span className="text-zinc-500 font-mono text-xs uppercase tracking-widest">Visual Coming Soon</span>
+                  </div>
+                )}
               </div>
 
               {/* Info Overlay on Hover */}
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center px-3 py-4 md:p-6 text-center backdrop-blur-sm">
-                <h4 className="text-xl font-bold text-white mb-2">{t.wamioff.title}</h4>
-                <p className="text-zinc-300 text-sm mb-4">{t.wamioff.category}</p>
-                <button className="px-6 py-2 bg-[#FFD700] text-black rounded-full text-sm font-bold whitespace-nowrap">{t.viewCase}</button>
+                <h4 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                  {currentProject.overlayTitle}
+                  {(currentProject as any).icon && <span className="text-[var(--primary)]">{(currentProject as any).icon}</span>}
+                </h4>
+                <p className="text-zinc-300 text-sm mb-4">{currentProject.overlayCategory}</p>
+                {currentProject.id === "balance-pulse" ? (
+                  <Link 
+                    to="/case-study/balance-pulse"
+                    className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
+                  >
+                    {t.viewCase}
+                  </Link>
+                ) : (
+                  <button className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap">{t.viewCase}</button>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
+      </div>
+
+      {/* Navigation Controls */}
+      <div className="flex justify-center items-center gap-6 mt-12">
+        <button 
+          onClick={() => setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length)}
+          className="p-4 rounded-full border border-white/10 hover:bg-white/5 transition-all hover:border-[var(--primary)]/50 text-white group"
+          aria-label="Previous project"
+        >
+          <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={24} />
+        </button>
+        
+        <div className="flex items-center gap-3">
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${i === activeIndex ? 'bg-[var(--primary)] w-10' : 'bg-white/10 w-4 hover:bg-white/30'}`}
+              aria-label={`Go to project ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button 
+          onClick={() => setActiveIndex((prev) => (prev + 1) % projects.length)}
+          className="p-4 rounded-full border border-white/10 hover:bg-white/5 transition-all hover:border-[var(--primary)]/50 text-white group"
+          aria-label="Next project"
+        >
+          <ArrowRight className="group-hover:translate-x-1 transition-transform" size={24} />
+        </button>
       </div>
     </div>
   );
@@ -920,7 +987,179 @@ const BorderBeam = ({ delay = 0, duration = 8 }: { delay?: number; duration?: nu
   );
 };
 
+const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
+  const t = translations[lang];
+  return (
+    <div className="px-4 md:px-6">
+      <div className="pt-32 md:pt-48 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
+        {/* Background Glows */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full relative group flex flex-col lg:block"
+        >
+          {/* Text Content - Above image on mobile/tablet, Overlay on desktop */}
+          <div className="relative lg:absolute lg:inset-0 z-20 p-0 lg:p-16 mb-8 lg:mb-0 flex flex-col justify-start lg:pt-48 items-start">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="max-w-3xl"
+            >
+              <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
+                Fintech
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-white mb-3 md:mb-6 uppercase leading-tight">
+                The Balance Pulse
+              </h1>
+              <p className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi max-w-2xl leading-tight opacity-95">
+                AI coach for conscious financial decisions based on spending psychology
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Image Container */}
+          <div className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl border border-white/5 shadow-2xl h-[400px] md:h-[500px] lg:h-auto">
+            {/* Black Gradient Overlay for Readability - Desktop Only */}
+            <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black/80 via-black/25 to-transparent z-10 pointer-events-none" />
+            
+            <img 
+              src="/images/cover-balance-pulse.png" 
+              alt="Balance Pulse Cover" 
+              className="w-full h-full object-cover lg:object-contain object-[85%_center] lg:object-center block"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+const Footer = ({ t, setIsModalOpen, setIsEmailSelectorOpen }: { t: any, setIsModalOpen: (val: boolean) => void, setIsEmailSelectorOpen: (val: boolean) => void }) => {
+  return (
+    <section id="contact" className="relative pt-24 pb-0 px-0 max-w-none overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-12 text-center mb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-6"
+        >
+          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            {t.contact.label}
+          </span>
+        </motion.div>
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-12"
+        >
+          {t.contact.title}
+        </motion.h2>
+        
+        <motion.button 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          onClick={() => setIsModalOpen(true)}
+          className="btn-primary w-full sm:w-auto flex items-center justify-center gap-3 mx-auto group"
+        >
+          {t.contact.cta} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+        </motion.button>
+      </div>
+
+      {/* Social Links Grid */}
+      <div className="max-w-5xl mx-auto px-4 md:px-6 mb-20">
+        <div className="flex flex-col gap-3 items-center">
+          {/* First Row: 3 items */}
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              { label: 'info@wamisoftware.com', href: 'mailto:info@wamisoftware.com', isEmail: true },
+              { label: 'YouTube', href: 'https://www.youtube.com/@WamiSoftWare_IT' },
+              { label: 'LinkedIn', href: 'https://www.linkedin.com/company/wamisoftware/posts/?feedView=all' },
+            ].map((link, i) => (
+              <a 
+                key={i} 
+                href={link.href}
+                target={link.href.startsWith('mailto:') ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  if (link.isEmail) {
+                    e.preventDefault();
+                    setIsEmailSelectorOpen(true);
+                  }
+                }}
+                className="px-6 py-3 border border-neutral-800 rounded-xl text-sm font-medium text-white hover:bg-white hover:text-black transition-all flex items-center gap-2 group cursor-pointer"
+              >
+                {link.label} <ArrowRight size={14} className="-rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            ))}
+          </div>
+          {/* Second Row: 5 items */}
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              { label: 'Facebook', href: 'https://www.facebook.com/wamisoftware/' },
+              { label: 'Medium', href: 'https://medium.com/@info.wamisoftware' },
+              { label: 'Instagram', href: 'https://www.instagram.com/wamisoftware?igsh=cW50a3ZxbzdldXlz&utm_source=qr' },
+              { label: 'TikTok', href: 'https://www.tiktok.com/@wamisoftware?_r=1&_t=ZS-94nCY0hmzDz' },
+              { label: 'Clutch', href: 'https://clutch.co/profile/wamisoftware?_gl=1*1bla7gf*_gcl_au*MTE4NTE5Mzc0MS4xNzQ3MDQ1Nzk4*FPAU*MTcyMTEyMzIwMi4xNzQ3MDQ1Nzk4*_ga*MTgyOTk2OTQ3My4xNzQ3MDQ1Nzk4*_ga_D0WFGX8X3V*czE3NDcxNDMzMzAkbzYkZzEkdDE3NDcxNDQ2NjIkajYwJGwwJGgyMDIwNjY3NjQ0*_fplc*RFZOb2JjS1RzT1R4anpSTjdibU92SWw0WUNhVktLdGszSmRSVzVycUxlTlZseWtQbWFrdGpzOE5GelFyMnJ4TiUyQmRLdHElMkY3eUl4TlY1RW54ZlZVZTJMeDIzNmhCa3l3aG1QUlpZOCUyRjdFdGRoV2NqQnZ5aHRiUkxyc3BmT3dRJTNEJTNE' },
+            ].map((link, i) => (
+              <a 
+                key={i} 
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 border border-neutral-800 rounded-xl text-sm font-medium text-white hover:bg-white hover:text-black transition-all flex items-center gap-2 group"
+              >
+                {link.label} <ArrowRight size={14} className="-rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright and Back to Top */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col items-center gap-6 mb-12">
+        <p className="text-white text-xs text-center max-w-2xl">
+          {t.footer.copyright}
+        </p>
+      </div>
+
+      {/* Massive Text */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6 w-full select-none pointer-events-none pb-12">
+        <h1 className="flex justify-between w-full font-satoshi font-medium leading-none uppercase text-[10vw] lg:text-[9.5vw]">
+          {"WAMISOFTWARE".split("").map((char, i) => (
+            <span key={i} className={i < 4 ? "text-[var(--primary)]" : "text-white"}>
+              {char}
+            </span>
+          ))}
+        </h1>
+      </div>
+    </section>
+  );
+};
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 export default function App() {
+  return (
+    <Router>
+      <ScrollToTop />
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
   const [language, setLanguage] = useState<Language>(() => {
     const path = window.location.pathname;
     if (path.startsWith('/ua')) return 'ua';
@@ -941,6 +1180,8 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { scrollY } = useScroll();
+  const { pathname } = useLocation();
+  const isHomePage = pathname === '/';
   const opacityParallax = useTransform(scrollY, [0, 300], [1, 0]);
 
   const t = translations[language];
@@ -1015,10 +1256,15 @@ export default function App() {
       <header className="fixed top-6 left-0 right-0 z-40 px-4 md:px-6 transition-all duration-300">
         <div className={`max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
           {/* Left: Logo */}
-          <a 
-            href="#home" 
+          <Link 
+            to="/" 
             className="flex-shrink-0 flex items-center gap-2 group"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => {
+              setIsMenuOpen(false);
+              if (isHomePage) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
           >
             <img 
               src="/images/logo_animated.svg" 
@@ -1026,12 +1272,27 @@ export default function App() {
               className="w-12 h-12 md:w-16 lg:w-20 object-contain transition-transform"
               referrerPolicy="no-referrer"
             />
-          </a>
+          </Link>
 
           {/* Center: Desktop Nav Links - Hidden on tablet/mobile */}
           <nav className="hidden xl:flex items-center gap-6 2xl:gap-8">
             {navLinks.map((link) => (
-              <a key={link.label} href={link.href} className="nav-link text-white hover:text-[var(--primary)] transition-colors duration-300 font-light whitespace-nowrap">{link.label}</a>
+              <a 
+                key={link.label} 
+                href={isHomePage ? link.href : `/${link.href}`} 
+                onClick={(e) => {
+                  if (isHomePage && link.href.startsWith('#')) {
+                    e.preventDefault();
+                    const element = document.querySelector(link.href);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+                className="nav-link text-white hover:text-[var(--primary)] transition-colors duration-300 font-light whitespace-nowrap"
+              >
+                {link.label}
+              </a>
             ))}
           </nav>
 
@@ -1086,9 +1347,18 @@ export default function App() {
                 {navLinks.map((link) => (
                   <a 
                     key={link.label} 
-                    href={link.href} 
+                    href={isHomePage ? link.href : `/${link.href}`} 
                     className="text-base font-light text-white/70 hover:text-[var(--primary)] hover:translate-x-1 transition-all"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => {
+                      setIsMenuOpen(false);
+                      if (isHomePage && link.href.startsWith('#')) {
+                        e.preventDefault();
+                        const element = document.querySelector(link.href);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }
+                    }}
                   >
                     {link.label}
                   </a>
@@ -1105,8 +1375,11 @@ export default function App() {
           )}
         </AnimatePresence>
       </header>
-
-      {/* --- Hero Section --- */}
+      
+      <Routes>
+        <Route path="/" element={
+          <>
+            {/* --- Hero Section --- */}
       <div className="px-4 md:px-6 relative">
         {/* Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
@@ -1739,106 +2012,14 @@ export default function App() {
           </div>
         </section>
       </div>
+    </>
+  } />
+  <Route path="/case-study/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+</Routes>
 
-      {/* --- New Footer / CTA Section --- */}
-      <section id="contact" className="relative pt-24 pb-0 px-0 max-w-none overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 md:px-12 text-center mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-6"
-          >
-            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
-              {t.contact.label}
-            </span>
-          </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-12"
-          >
-            {t.contact.title}
-          </motion.h2>
-          
-          <motion.button 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            onClick={() => setIsModalOpen(true)}
-            className="btn-primary w-full sm:w-auto flex items-center justify-center gap-3 mx-auto group"
-          >
-            {t.contact.cta} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-        </div>
+<Footer t={t} setIsModalOpen={setIsModalOpen} setIsEmailSelectorOpen={setIsEmailSelectorOpen} />
 
-        {/* Social Links Grid */}
-        <div className="max-w-5xl mx-auto px-4 md:px-6 mb-20">
-          <div className="flex flex-col gap-3 items-center">
-            {/* First Row: 3 items */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {[
-                { label: 'info@wamisoftware.com', href: 'mailto:info@wamisoftware.com', isEmail: true },
-                { label: 'YouTube', href: 'https://www.youtube.com/@WamiSoftWare_IT' },
-                { label: 'LinkedIn', href: 'https://www.linkedin.com/company/wamisoftware/posts/?feedView=all' },
-              ].map((link, i) => (
-                <a 
-                  key={i} 
-                  href={link.href}
-                  target={link.href.startsWith('mailto:') ? undefined : "_blank"}
-                  rel="noopener noreferrer"
-                  onClick={(e) => {
-                    if (link.isEmail) {
-                      e.preventDefault();
-                      setIsEmailSelectorOpen(true);
-                    }
-                  }}
-                  className="px-6 py-3 border border-neutral-800 rounded-xl text-sm font-medium text-white hover:bg-white hover:text-black transition-all flex items-center gap-2 group cursor-pointer"
-                >
-                  {link.label} <ArrowRight size={14} className="-rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </a>
-              ))}
-            </div>
-            {/* Second Row: 5 items */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {[
-                { label: 'Facebook', href: 'https://www.facebook.com/wamisoftware/' },
-                { label: 'Medium', href: 'https://medium.com/@info.wamisoftware' },
-                { label: 'Instagram', href: 'https://www.instagram.com/wamisoftware?igsh=cW50a3ZxbzdldXlz&utm_source=qr' },
-                { label: 'TikTok', href: 'https://www.tiktok.com/@wamisoftware?_r=1&_t=ZS-94nCY0hmzDz' },
-                { label: 'Clutch', href: 'https://clutch.co/profile/wamisoftware?_gl=1*1bla7gf*_gcl_au*MTE4NTE5Mzc0MS4xNzQ3MDQ1Nzk4*FPAU*MTcyMTEyMzIwMi4xNzQ3MDQ1Nzk4*_ga*MTgyOTk2OTQ3My4xNzQ3MDQ1Nzk4*_ga_D0WFGX8X3V*czE3NDcxNDMzMzAkbzYkZzEkdDE3NDcxNDQ2NjIkajYwJGwwJGgyMDIwNjY3NjQ0*_fplc*RFZOb2JjS1RzT1R4anpSTjdibU92SWw0WUNhVktLdGszSmRSVzVycUxlTlZseWtQbWFrdGpzOE5GelFyMnJ4TiUyQmRLdHElMkY3eUl4TlY1RW54ZlZVZTJMeDIzNmhCa3l3aG1QUlpZOCUyRjdFdGRoV2NqQnZ5aHRiUkxyc3BmT3dRJTNEJTNE' },
-              ].map((link, i) => (
-                <a 
-                  key={i} 
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 border border-neutral-800 rounded-xl text-sm font-medium text-white hover:bg-white hover:text-black transition-all flex items-center gap-2 group"
-                >
-                  {link.label} <ArrowRight size={14} className="-rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Copyright and Back to Top */}
-        <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col items-center gap-6 mb-12">
-          <p className="text-white text-xs text-center max-w-2xl">
-            {t.footer.copyright}
-          </p>
-        </div>
-
-        {/* Massive Text */}
-        <div className="max-w-7xl mx-auto px-4 md:px-6 w-full select-none pointer-events-none pb-12">
-          <h1 className="flex justify-between w-full font-satoshi font-medium leading-none uppercase text-[10vw] lg:text-[9.5vw]">
-            {"WAMISOFTWARE".split("").map((char, i) => (
-              <span key={i} className={i < 4 ? "text-[var(--primary)]" : "text-white"}>
-                {char}
-              </span>
-            ))}
-          </h1>
-        </div>
-      </section>
+      {/* --- Modal --- */}
 
       {/* --- Modal --- */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} lang={language} />
