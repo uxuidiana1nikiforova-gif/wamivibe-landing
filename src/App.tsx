@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue } from 'motion/react';
 import { 
   Menu, 
   X, 
@@ -13,6 +13,8 @@ import {
   CheckCircle2, 
   ShieldCheck, 
   Zap, 
+  Anchor,
+  Flame,
   Code2, 
   Layout, 
   Users, 
@@ -46,17 +48,29 @@ interface FormData {
 
 // --- Components ---
 
-const CustomCursor = ({ isMobile }: { isMobile: boolean }) => {
+const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (isMobile) return;
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        setMousePosition({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+        if (!isVisible) setIsVisible(true);
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        setMousePosition({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -80,6 +94,8 @@ const CustomCursor = ({ isMobile }: { isMobile: boolean }) => {
     window.addEventListener('mouseover', handleMouseOver);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
 
@@ -88,12 +104,14 @@ const CustomCursor = ({ isMobile }: { isMobile: boolean }) => {
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [isVisible, isMobile]);
+  }, [isVisible]);
 
-  if (!isVisible || isMobile) return null;
+  if (!isVisible) return null;
 
   return (
     <>
@@ -643,7 +661,7 @@ const TeamFoundationVisual = ({ lang }: { lang: Language }) => {
   const t = translations[lang].hero.supportNodes;
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -837,16 +855,17 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
     <div className="relative">
       <div className="w-full">
         {/* Grid of two cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
           <AnimatePresence mode="wait">
             {/* Left Card: Project Description */}
             <motion.div
               key={`${activeIndex}-left`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6 }}
-              className="relative h-auto lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors"
+              className="relative h-auto md:aspect-video lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors"
             >
               <div className="w-full h-full">
                 <ProjectDescription 
@@ -862,9 +881,10 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               key={`${activeIndex}-right`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, delay: isMobile ? 0 : 0.1 }}
-              className="relative h-auto lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors"
+              className="relative h-auto md:aspect-video lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors"
             >
               <div className="w-full h-full">
                 {currentProject.image ? (
@@ -881,8 +901,48 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                 )}
               </div>
 
-              {/* Info Overlay on Hover */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center px-3 py-4 md:p-6 text-center backdrop-blur-sm">
+              {/* Mobile "View Case" Button - Visible only on mobile/tablet */}
+              {!isMobile && (
+                <div className="lg:hidden absolute bottom-6 right-6 z-30">
+                   {currentProject.id === "balance-pulse" ? (
+                    <Link 
+                      to="/case-study/balance-pulse"
+                      className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                    >
+                      {t.viewCase}
+                      <ArrowRight size={16} />
+                    </Link>
+                  ) : (
+                    <button className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform">
+                      {t.viewCase}
+                      <ArrowRight size={16} />
+                    </button>
+                  )}
+                </div>
+              )}
+              
+              {/* Mobile "View Case" Button for true mobile - using isMobile prop */}
+              {isMobile && (
+                <div className="absolute bottom-4 right-4 z-30">
+                   {currentProject.id === "balance-pulse" ? (
+                    <Link 
+                      to="/case-study/balance-pulse"
+                      className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                    >
+                      {t.viewCase}
+                      <ArrowRight size={14} />
+                    </Link>
+                  ) : (
+                    <button className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform">
+                      {t.viewCase}
+                      <ArrowRight size={14} />
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Info Overlay on Hover - Desktop Only */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 lg:group-hover:opacity-100 transition-opacity hidden lg:flex flex-col items-center justify-center px-3 py-4 md:p-6 text-center backdrop-blur-sm">
                 <h4 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
                   {currentProject.overlayTitle}
                   {(currentProject as any).icon && <span className="text-[var(--primary)]">{(currentProject as any).icon}</span>}
@@ -937,7 +997,17 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
   );
 };
 
-const BorderBeam = ({ delay = 0, duration = 8 }: { delay?: number; duration?: number }) => {
+const BorderBeam = ({ 
+  delay = 0, 
+  duration = 8, 
+  color = "var(--primary)",
+  size = "80px"
+}: { 
+  delay?: number; 
+  duration?: number;
+  color?: string;
+  size?: string;
+}) => {
   return (
     <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden">
       <motion.div
@@ -952,9 +1022,9 @@ const BorderBeam = ({ delay = 0, duration = 8 }: { delay?: number; duration?: nu
         }}
         style={{
           position: "absolute",
-          width: "80px",
+          width: size,
           height: "2px",
-          background: "linear-gradient(90deg, transparent, var(--primary), transparent)",
+          background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
           offsetPath: "rect(0% 100% 100% 0% round 16px)",
           filter: "blur(2px)",
           zIndex: 1,
@@ -977,8 +1047,8 @@ const BorderBeam = ({ delay = 0, duration = 8 }: { delay?: number; duration?: nu
           width: "4px",
           height: "4px",
           borderRadius: "50%",
-          backgroundColor: "var(--primary)",
-          boxShadow: "0 0 10px 2px var(--primary)",
+          backgroundColor: color,
+          boxShadow: `0 0 10px 2px ${color}`,
           offsetPath: "rect(0% 100% 100% 0% round 16px)",
           zIndex: 2
         }}
@@ -987,10 +1057,453 @@ const BorderBeam = ({ delay = 0, duration = 8 }: { delay?: number; duration?: nu
   );
 };
 
+const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
+  const features = [
+    {
+      title: t.portfolio.balancePulse.motivationTitle,
+      desc: t.portfolio.balancePulse.motivationDesc,
+      side: 'right'
+    },
+    {
+      title: t.portfolio.balancePulse.dopamineDeepDiveTitle,
+      desc: t.portfolio.balancePulse.dopamineDeepDiveDesc,
+      side: 'left'
+    },
+    {
+      title: t.portfolio.balancePulse.aiTutorTitle,
+      desc: t.portfolio.balancePulse.aiTutorDesc,
+      side: 'right'
+    },
+    {
+      title: t.portfolio.balancePulse.forecastingTitle,
+      desc: t.portfolio.balancePulse.forecastingDesc,
+      side: 'left'
+    }
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0 });
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const updateConstraints = () => {
+      setWindowWidth(window.innerWidth);
+      if (scrollRef.current) {
+        const fullWidth = scrollRef.current.scrollWidth;
+        const visibleWidth = scrollRef.current.offsetWidth;
+        setDragConstraints({ left: -(fullWidth - visibleWidth), right: 0 });
+      }
+    };
+
+    updateConstraints();
+    window.addEventListener('resize', updateConstraints);
+    return () => window.removeEventListener('resize', updateConstraints);
+  }, []);
+
+  const handleDragEnd = (_: any, info: any) => {
+    const offset = info.offset.x;
+    const velocity = info.velocity.x;
+    
+    // Threshold for swipe
+    const swipeThreshold = 50;
+    const velocityThreshold = 500;
+
+    if (offset < -swipeThreshold || velocity < -velocityThreshold) {
+      setActiveIndex(prev => Math.min(prev + 1, features.length - 1));
+    } else if (offset > swipeThreshold || velocity > velocityThreshold) {
+      setActiveIndex(prev => Math.max(prev - 1, 0));
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current && !isMobile) { // Only for non-drag scroll if any
+      const scrollPosition = scrollRef.current.scrollLeft;
+      const cardWidth = scrollRef.current.offsetWidth - 32;
+      const index = Math.round(scrollPosition / (cardWidth + 16));
+      setActiveIndex(index);
+    }
+  };
+
+  return (
+    <motion.div 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className="relative max-w-7xl mx-auto py-20 md:py-32 sm:overflow-hidden overflow-visible border-t border-white/5"
+    >
+      <div className="relative z-10">
+        {/* Key features Header */}
+        <div className="mb-20 md:mb-32 flex flex-col items-end">
+          <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mb-6" />
+          <div className="text-right max-w-2xl">
+            <motion.h3 
+              variants={itemVariants}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight mb-6"
+            >
+              {t.portfolio.balancePulse.featuresTitle}
+            </motion.h3>
+            <motion.p 
+              variants={itemVariants}
+              className="text-xl md:text-2xl lg:text-3xl text-white font-satoshi font-light leading-relaxed"
+            >
+              {t.portfolio.balancePulse.featuresDesc}
+            </motion.p>
+          </div>
+        </div>
+
+        {/* The Path SVG */}
+        <motion.div 
+          variants={itemVariants}
+          className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1200px] hidden sm:block pointer-events-none"
+        >
+          <svg width="100%" height="100%" viewBox="0 0 800 1450" fill="none" preserveAspectRatio="xMidYMin meet">
+            <motion.path 
+              d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 400, 1200, 400, 1320" 
+              stroke="white" 
+              strokeOpacity="0.15" 
+              strokeWidth="2" 
+              strokeDasharray="12 12" 
+              animate={{
+                strokeDashoffset: [0, -24],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+
+            {/* Node -1: Start (Top center) */}
+            <circle cx="400" cy="120" r="6" fill="var(--primary)" />
+            <motion.circle 
+              cx="400" cy="120" r="12" 
+              stroke="var(--primary)" strokeOpacity="0.3" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 0 }}
+            />
+            
+            {/* Node 0: Motivation (Left of card) */}
+            <circle cx="100" cy="360" r="6" fill="white" fillOpacity="0.4" />
+            <motion.circle 
+              cx="100" cy="360" r="12" 
+              stroke="white" strokeOpacity="0.15" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            
+            {/* Node 1: Dopamine (Right of card) */}
+            <circle cx="700" cy="600" r="6" fill="white" fillOpacity="0.4" />
+            <motion.circle 
+              cx="700" cy="600" r="12" 
+              stroke="white" strokeOpacity="0.15" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+            />
+
+            {/* Node 2: AI Tutor (Left of card) */}
+            <circle cx="100" cy="840" r="6" fill="white" fillOpacity="0.4" />
+            <motion.circle 
+              cx="100" cy="840" r="12" 
+              stroke="white" strokeOpacity="0.15" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+            />
+
+            {/* Node 3: Forecasting (Right of card) */}
+            <circle cx="700" cy="1080" r="6" fill="white" fillOpacity="0.4" />
+            <motion.circle 
+              cx="700" cy="1080" r="12" 
+              stroke="white" strokeOpacity="0.15" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+            />
+
+            {/* Node 4: End (Bottom center) */}
+            <circle cx="400" cy="1320" r="6" fill="white" fillOpacity="0.4" />
+            <motion.circle 
+              cx="400" cy="1320" r="12" 
+              stroke="white" strokeOpacity="0.15" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 2 }}
+            />
+
+            {/* Animated Bubbles along the path */}
+            {[0, 0.2, 0.4, 0.6, 0.8].map((startOffset, i) => (
+              <motion.circle
+                key={i}
+                r="3"
+                fill="#71717a"
+                fillOpacity="0.4"
+                animate={{
+                  offsetDistance: ["0%", "100%"],
+                  opacity: [0, 0.5, 0],
+                  scale: [0.5, 1.2, 0.5]
+                }}
+                transition={{
+                  duration: 15,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: startOffset * 15,
+                }}
+                style={{
+                  offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 400, 1200, 400, 1320')",
+                }}
+              />
+            ))}
+          </svg>
+        </motion.div>
+
+        {/* Features List */}
+        <div className="relative sm:block overflow-hidden sm:overflow-visible min-h-[320px] sm:min-h-0">
+          {isMobile ? (
+            <div className="relative w-full h-[320px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, x: 40, rotateY: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -40, rotateY: -15, scale: 0.95 }}
+                  transition={{ 
+                    duration: 0.6,
+                    ease: [0.23, 1, 0.32, 1]
+                  }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={(_, info) => {
+                    const threshold = 50;
+                    if (info.offset.x < -threshold) {
+                      setActiveIndex((prev) => Math.min(prev + 1, features.length - 1));
+                    } else if (info.offset.x > threshold) {
+                      setActiveIndex((prev) => Math.max(prev - 1, 0));
+                    }
+                  }}
+                  className="absolute inset-0 bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 flex flex-col justify-center rounded-[2rem] shadow-2xl cursor-grab active:cursor-grabbing"
+                  style={{ perspective: "1000px", touchAction: "none" }}
+                >
+                  <BorderBeam delay={activeIndex * 1} duration={15} color="white" size="120px" />
+                  <div className="absolute top-5 right-6 font-mono text-[10px] text-[var(--primary)] opacity-50">
+                    {String(activeIndex + 1).padStart(2, '0')} / {String(features.length).padStart(2, '0')}
+                  </div>
+                  <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
+                    {features[activeIndex].title}
+                  </h4>
+                  <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                    {features[activeIndex].desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          ) : (
+            <motion.div 
+              ref={scrollRef}
+              variants={listVariants}
+              className="sm:block sm:space-x-0 pb-12 sm:pb-0 relative sm:px-0"
+            >
+              {features.map((feature, index) => (
+                <motion.div 
+                  key={index} 
+                  variants={itemVariants}
+                  className={`flex-shrink-0 w-full flex flex-col sm:flex-row items-center sm:mr-0 ${
+                    feature.side === 'right' ? 'sm:justify-end' : 'sm:justify-start'
+                  } sm:h-[240px] md:h-[240px] relative`}
+                >
+                  {/* Feature Card */}
+                  <motion.div
+                    initial={{ 
+                      opacity: 0, 
+                      scale: 0.96,
+                      y: 40,
+                      rotateX: -10
+                    }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      scale: 1, 
+                      y: 0,
+                      rotateX: 0
+                    }}
+                    animate={{
+                      y: [0, -15, 0],
+                      rotateX: [0, 1.2, -1.2, 0],
+                      rotateY: [0, 1.2, -1.2, 0],
+                      scale: [1, 1.005, 1],
+                    }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ 
+                      y: {
+                        duration: 7,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.5
+                      },
+                      rotateX: {
+                        duration: 9,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.3
+                      },
+                      rotateY: {
+                        duration: 11,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.7
+                      },
+                      scale: {
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.4
+                      },
+                      opacity: { duration: 1 },
+                      initialY: { type: "spring", damping: 25, stiffness: 120 }
+                    }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[240px] flex flex-col justify-center"
+                  >
+                    <BorderBeam delay={index * 1} duration={15} color="white" size="120px" />
+                    <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
+                      {feature.title}
+                    </h4>
+                    <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                      {feature.desc}
+                    </p>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+
+        {/* Mobile Scroll Indicators */}
+        <div className="flex sm:hidden justify-center space-x-2 mt-4">
+          {features.map((_, i) => (
+            <div 
+              key={i} 
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                activeIndex === i ? 'bg-[var(--primary)] w-4' : 'bg-white/20'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Final Solution Footer */}
+        <div className="mt-32 flex flex-col items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-left max-w-2xl"
+          >
+            <h3 className="text-3xl md:text-4xl font-satoshi font-medium text-[var(--primary)] mb-6">
+              {t.portfolio.balancePulse.overallTitle}
+            </h3>
+            <p className="text-xl md:text-2xl text-white font-satoshi font-light leading-relaxed italic">
+              {t.portfolio.balancePulse.overallDesc}
+            </p>
+          </motion.div>
+          <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mt-6" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
   const t = translations[lang];
+  const constraintsRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const x = useMotionValue(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  const calculateCenter = () => {
+    if (imageRef.current && constraintsRef.current) {
+      const imgWidth = imageRef.current.offsetWidth;
+      const containerWidth = constraintsRef.current.offsetWidth;
+      // Center the image by calculating the offset difference
+      x.set(-(imgWidth - containerWidth) / 2);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    
+    // Use ResizeObserver for more reliable centering
+    let observer: ResizeObserver | null = null;
+    if (constraintsRef.current) {
+      observer = new ResizeObserver(() => {
+        calculateCenter();
+      });
+      observer.observe(constraintsRef.current);
+    }
+
+    // Also try initial calculation
+    calculateCenter();
+    // Small delay to ensure layout has settled
+    const timer = setTimeout(calculateCenter, 100);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (observer) observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const isTabletOrMobile = windowWidth < 1024;
+
+  const ChipGroup = ({ 
+    items
+  }: { 
+    items: string[]
+  }) => {
+    return (
+      <div className="flex flex-wrap gap-2 md:gap-3 mt-auto pb-4 -mx-2 px-2">
+        {items.map((item) => (
+          <span key={item} className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl bg-white/5 border border-white/10 text-[10px] md:text-[11px] lg:text-xs font-mono uppercase tracking-[0.2em] text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300">
+            {item}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="px-4 md:px-6">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi">
       <div className="pt-32 md:pt-48 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
         {/* Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
@@ -1012,7 +1525,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
               <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
                 Fintech
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-white mb-3 md:mb-6 uppercase leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-normal text-white mb-3 md:mb-6 leading-tight">
                 The Balance Pulse
               </h1>
               <p className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi max-w-2xl leading-tight opacity-95">
@@ -1035,6 +1548,197 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
           </div>
         </motion.div>
       </div>
+
+      {/* Goal of the Project Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+          <div className="lg:col-span-5">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight"
+            >
+              {t.portfolio.balancePulse.goalTitle}
+            </motion.h2>
+          </div>
+          <div className="lg:col-span-7">
+            <motion.p 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-xl md:text-2xl lg:text-3xl text-white font-satoshi font-light leading-relaxed"
+            >
+              {t.portfolio.balancePulse.goalDesc}
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      {/* Secondary Image Section */}
+      <div className="max-w-7xl mx-auto pb-20 md:pb-32">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl border border-white/5 shadow-2xl h-[400px] md:h-[500px] lg:h-auto"
+        >
+          <img 
+            src="/images/image-balance-pulse-2.png" 
+            alt="Balance Pulse Visual" 
+            className="w-full h-full object-cover lg:object-contain object-center block"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </div>
+
+      {/* Core Concept Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start mb-20 md:mb-32">
+          <div className="lg:col-span-5">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight"
+            >
+              {t.portfolio.balancePulse.conceptTitle}
+            </motion.h2>
+          </div>
+          <div className="lg:col-span-7">
+            <motion.p 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-xl md:text-2xl lg:text-3xl text-white font-satoshi font-light leading-relaxed"
+            >
+              {t.portfolio.balancePulse.conceptDesc}
+            </motion.p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-3 lg:gap-12">
+          {/* Essential Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-8 md:p-12 rounded-[2rem] flex flex-col h-full group overflow-hidden"
+          >
+            <BorderBeam delay={0} duration={12} />
+            
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)]/20 flex items-center justify-center">
+                <Anchor size={24} className="text-[var(--primary)]" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-satoshi font-medium text-white tracking-tight">
+                {t.portfolio.balancePulse.essentialTitle}
+              </h3>
+            </div>
+
+            <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed mb-12 opacity-90">
+              {t.portfolio.balancePulse.essentialDesc}
+            </p>
+
+            <ChipGroup 
+              items={['Rent', 'Health', 'Groceries', 'Education']} 
+            />
+          </motion.div>
+
+          {/* Dopamine Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-8 md:p-12 rounded-[2rem] flex flex-col h-full group overflow-hidden"
+          >
+            <BorderBeam delay={3} duration={15} />
+            
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)]/20 flex items-center justify-center">
+                <Flame size={24} className="text-[var(--primary)]" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-satoshi font-medium text-white tracking-tight">
+                {t.portfolio.balancePulse.dopamineTitle}
+              </h3>
+            </div>
+
+            <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed mb-12 opacity-90">
+              {t.portfolio.balancePulse.dopamineDesc}
+            </p>
+
+            <ChipGroup 
+              items={['Coffee', 'Shopping', 'Taxis', 'Entertainment']} 
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Feature Path Section */}
+      <FeaturePath t={t} isMobile={isMobile} />
+
+      {/* Dopamine Image Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        <motion.div
+          ref={constraintsRef}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl border border-white/5 shadow-2xl h-[400px] md:h-[500px] lg:h-auto"
+        >
+          {/* Mobile/Tablet Image - Draggable */}
+          <motion.div 
+            drag="x"
+            dragConstraints={constraintsRef}
+            style={{ x }}
+            className="lg:hidden h-full w-fit cursor-grab active:cursor-grabbing"
+          >
+            <img 
+              ref={imageRef}
+              onLoad={calculateCenter}
+              src="/images/image-dopamin-1.png" 
+              alt="Dopamine Concept Visual Mobile" 
+              className="h-full w-auto max-w-none block pointer-events-none"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+
+          {/* Edge Blur Overlays for Mobile */}
+          <div 
+            className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-zinc-950/25 via-zinc-950/5 to-transparent backdrop-blur-md z-10 pointer-events-none lg:hidden"
+            style={{ maskImage: 'linear-gradient(to right, black 20%, transparent)' }}
+          />
+          <div 
+            className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-zinc-950/25 via-zinc-950/5 to-transparent backdrop-blur-md z-10 pointer-events-none lg:hidden"
+            style={{ maskImage: 'linear-gradient(to left, black 20%, transparent)' }}
+          />
+          
+          {/* Desktop Image */}
+          <img 
+            src="/images/image-dopamin.png" 
+            alt="Dopamine Concept Visual Desktop" 
+            className="hidden lg:block w-full h-full object-cover lg:object-contain object-center block"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+        
+        {/* Mobile Hint */}
+        <div className="lg:hidden mt-4 flex items-center justify-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest opacity-50">
+          <ArrowRight className="rotate-180" size={12} />
+          <span>Drag to explore</span>
+          <ArrowRight size={12} />
+        </div>
+      </div>
+
+      {/* Second Dopamine Image Section - Removed as per user request */}
     </div>
   );
 };
@@ -1042,7 +1746,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
 const Footer = ({ t, setIsModalOpen, setIsEmailSelectorOpen }: { t: any, setIsModalOpen: (val: boolean) => void, setIsEmailSelectorOpen: (val: boolean) => void }) => {
   return (
     <section id="contact" className="relative pt-24 pb-0 px-0 max-w-none overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-12 text-center mb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 text-center mb-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1072,7 +1776,7 @@ const Footer = ({ t, setIsModalOpen, setIsEmailSelectorOpen }: { t: any, setIsMo
       </div>
 
       {/* Social Links Grid */}
-      <div className="max-w-5xl mx-auto px-4 md:px-6 mb-20">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 mb-20">
         <div className="flex flex-col gap-3 items-center">
           {/* First Row: 3 items */}
           <div className="flex flex-wrap justify-center gap-3">
@@ -1122,15 +1826,15 @@ const Footer = ({ t, setIsModalOpen, setIsEmailSelectorOpen }: { t: any, setIsMo
       </div>
 
       {/* Copyright and Back to Top */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col items-center gap-6 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex flex-col items-center gap-6 mb-12">
         <p className="text-white text-xs text-center max-w-2xl">
           {t.footer.copyright}
         </p>
       </div>
 
       {/* Massive Text */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 w-full select-none pointer-events-none pb-12">
-        <h1 className="flex justify-between w-full font-satoshi font-medium leading-none uppercase text-[10vw] lg:text-[9.5vw]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 w-full select-none pointer-events-none pb-12">
+        <h1 className="flex justify-center gap-x-[0.2vw] w-full font-satoshi font-medium leading-none uppercase text-[10vw] lg:text-[7.8vw]">
           {"WAMISOFTWARE".split("").map((char, i) => (
             <span key={i} className={i < 4 ? "text-[var(--primary)]" : "text-white"}>
               {char}
@@ -1191,7 +1895,7 @@ function AppContent() {
   }, [language]);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
@@ -1248,13 +1952,13 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-primary selection:text-black relative overflow-x-hidden">
-      <CustomCursor isMobile={isMobile} />
+      <CustomCursor />
       {/* Global Grid Background */}
       <div className="fixed inset-0 grid-background pointer-events-none -z-10" />
 
       {/* --- Header --- */}
-      <header className="fixed top-6 left-0 right-0 z-40 px-4 md:px-6 transition-all duration-300">
-        <div className={`max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
+      <header className="fixed top-6 left-0 right-0 z-40 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 transition-all duration-300">
+        <div className={`max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center justify-between rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
           {/* Left: Logo */}
           <Link 
             to="/" 
@@ -1380,7 +2084,7 @@ function AppContent() {
         <Route path="/" element={
           <>
             {/* --- Hero Section --- */}
-      <div className="px-4 md:px-6 relative">
+      <div className="relative">
         {/* Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
         <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-[var(--primary)]/5 blur-[80px] rounded-full -z-10" />
@@ -1388,7 +2092,7 @@ function AppContent() {
         {/* Engineering Grid background */}
         <EngineeringGrid />
         
-        <section id="home" className="pt-32 md:pt-64 pb-32 max-w-7xl mx-auto flex flex-col items-center text-center relative">
+        <section id="home" className="pt-32 md:pt-64 pb-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex flex-col items-center text-center relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1473,32 +2177,31 @@ function AppContent() {
       </div>
 
       {/* --- Section 1: Benefits --- */}
-      <div className="px-4 md:px-6">
-        <section id="benefits" className="py-20 md:py-32 max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 md:mb-12"
-          >
-            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
-              {t.benefits.label}
-            </span>
-            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
-              {t.benefits.title}
-            </h2>
-          </motion.div>
+      <section id="benefits" className="py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-8 md:mb-12"
+        >
+          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            {t.benefits.label}
+          </span>
+          <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
+            {t.benefits.title}
+          </h2>
+        </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-6">
-            {t.benefits.items.map((item, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: isMobile ? 0 : i * 0.1 }}
-                className="group relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 px-3 py-4 md:p-6 rounded-2xl transition-all duration-500 flex flex-col h-full w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
-              >
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6">
+          {t.benefits.items.map((item, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: isMobile ? 0 : i * 0.1 }}
+              className="group relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 px-3 py-4 md:p-6 rounded-2xl transition-all duration-500 flex flex-col h-full w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+            >
                 <div className="mb-8">
                   {i === 0 && <HypothesisVisual />}
                   {i === 1 && <CostVisual />}
@@ -1514,144 +2217,140 @@ function AppContent() {
             ))}
           </div>
         </section>
-      </div>
 
       {/* --- Section 2: Synergy --- */}
-      <div className="px-4 md:px-6">
-        <section id="expertise" className="py-20 md:py-32 max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 md:mb-12"
-          >
-            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
-              {t.expertise.label}
-            </span>
-            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
-              {t.expertise.title}
-            </h2>
-          </motion.div>
+      <section id="expertise" className="py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-8 md:mb-12"
+        >
+          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            {t.expertise.label}
+          </span>
+          <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
+            {t.expertise.title}
+          </h2>
+        </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-6 w-full">
-            {isMobile ? (
-              <div className="relative w-full h-[380px] sm:h-[320px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={expertiseIndex}
-                    initial={{ opacity: 0, x: 40, rotateY: 15, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -40, rotateY: -15, scale: 0.95 }}
-                    transition={{ 
-                      duration: 0.6,
-                      ease: [0.23, 1, 0.32, 1]
-                    }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.2}
-                    onDragStart={() => setIsExpertisePaused(true)}
-                    onDragEnd={(_, info) => {
-                      const threshold = 50;
-                      if (info.offset.x < -threshold) {
-                        setExpertiseIndex((prev) => (prev + 1) % t.expertise.items.length);
-                      } else if (info.offset.x > threshold) {
-                        setExpertiseIndex((prev) => (prev - 1 + t.expertise.items.length) % t.expertise.items.length);
-                      }
-                      setIsExpertisePaused(false);
-                    }}
-                    onPointerDown={() => setIsExpertisePaused(true)}
-                    onPointerUp={() => setIsExpertisePaused(false)}
-                    onPointerLeave={() => setIsExpertisePaused(false)}
-                    className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 flex flex-col justify-center rounded-2xl cursor-grab active:cursor-grabbing"
-                    style={{ perspective: "1000px", touchAction: "none" }}
-                  >
-                    <BorderBeam delay={expertiseIndex * 1.5} duration={10 + expertiseIndex} />
-                    <div className="absolute top-5 right-6 font-mono text-[10px] text-[var(--primary)] opacity-50">
-                      {String(expertiseIndex + 1).padStart(2, '0')} / {String(t.expertise.items.length).padStart(2, '0')}
-                    </div>
-                    <h3 className="text-xl font-satoshi font-medium mb-3 text-[var(--primary)] relative z-10">
-                      {t.expertise.items[expertiseIndex].title}
-                    </h3>
-                    <p className="text-lg text-white font-light leading-relaxed">
-                      {t.expertise.items[expertiseIndex].desc}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-                {/* Pagination Dots */}
-                <div className="absolute -bottom-8 left-0 right-0 flex justify-center gap-2">
-                  {t.expertise.items.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setExpertiseIndex(i)}
-                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === expertiseIndex ? 'bg-[var(--primary)] w-4' : 'bg-white/20'}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : (
-              t.expertise.items.map((item, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6 w-full">
+          {isMobile ? (
+            <div className="relative w-full h-[380px] sm:h-[320px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={expertiseIndex}
+                  initial={{ opacity: 0, x: 40, rotateY: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -40, rotateY: -15, scale: 0.95 }}
                   transition={{ 
-                    duration: 0.6, 
-                    delay: isMobile ? 0 : i * 0.1,
-                    ease: "easeOut"
+                    duration: 0.6,
+                    ease: [0.23, 1, 0.32, 1]
                   }}
-                  className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 min-h-[300px] flex flex-col justify-center rounded-2xl transition-all duration-500 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragStart={() => setIsExpertisePaused(true)}
+                  onDragEnd={(_, info) => {
+                    const threshold = 50;
+                    if (info.offset.x < -threshold) {
+                      setExpertiseIndex((prev) => (prev + 1) % t.expertise.items.length);
+                    } else if (info.offset.x > threshold) {
+                      setExpertiseIndex((prev) => (prev - 1 + t.expertise.items.length) % t.expertise.items.length);
+                    }
+                    setIsExpertisePaused(false);
+                  }}
+                  onPointerDown={() => setIsExpertisePaused(true)}
+                  onPointerUp={() => setIsExpertisePaused(false)}
+                  onPointerLeave={() => setIsExpertisePaused(false)}
+                  className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 flex flex-col justify-center rounded-2xl cursor-grab active:cursor-grabbing"
+                  style={{ perspective: "1000px", touchAction: "none" }}
                 >
-                  <BorderBeam delay={i * 1.5} duration={10 + i} />
-                  <h3 className="text-xl font-satoshi font-medium mb-4 text-[var(--primary)] relative z-10">
-                    {item.title}
+                  <BorderBeam delay={expertiseIndex * 1.5} duration={10 + expertiseIndex} />
+                  <div className="absolute top-5 right-6 font-mono text-[10px] text-[var(--primary)] opacity-50">
+                    {String(expertiseIndex + 1).padStart(2, '0')} / {String(t.expertise.items.length).padStart(2, '0')}
+                  </div>
+                  <h3 className="text-xl font-satoshi font-medium mb-3 text-[var(--primary)] relative z-10">
+                    {t.expertise.items[expertiseIndex].title}
                   </h3>
-                  <p className="text-lg md:text-xl text-white font-light leading-relaxed">
-                    {item.desc}
+                  <p className="text-lg text-white font-light leading-relaxed">
+                    {t.expertise.items[expertiseIndex].desc}
                   </p>
                 </motion.div>
-              ))
-            )}
-          </div>
-        </section>
-      </div>
+              </AnimatePresence>
+              {/* Pagination Dots */}
+              <div className="absolute -bottom-8 left-0 right-0 flex justify-center gap-2">
+                {t.expertise.items.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setExpertiseIndex(i)}
+                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === expertiseIndex ? 'bg-[var(--primary)] w-4' : 'bg-white/20'}`}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            t.expertise.items.map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: isMobile ? 0 : i * 0.1,
+                  ease: "easeOut"
+                }}
+                className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 min-h-[300px] flex flex-col justify-center rounded-2xl transition-all duration-500 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <BorderBeam delay={i * 1.5} duration={10 + i} />
+                <h3 className="text-xl font-satoshi font-medium mb-4 text-[var(--primary)] relative z-10">
+                  {item.title}
+                </h3>
+                <p className="text-lg md:text-xl text-white font-light leading-relaxed">
+                  {item.desc}
+                </p>
+              </motion.div>
+            ))
+          )}
+        </div>
+      </section>
 
       {/* --- Section 3: Target --- */}
-      <div className="px-4 md:px-6">
-        <section id="target" className="py-20 md:py-32 max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 md:mb-12"
-          >
-            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
-              {t.target.label}
-            </span>
-            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
-              {t.target.title}
-            </h2>
-          </motion.div>
+      <section id="target" className="py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-8 md:mb-12"
+        >
+          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            {t.target.label}
+          </span>
+          <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white mb-6">
+            {t.target.title}
+          </h2>
+        </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {t.target.items.map((item, i) => {
-              const icons = [Rocket, User, Target, Layers];
-              const Icon = icons[i];
-              const staggers = ["lg:translate-y-0", "lg:translate-y-12", "lg:translate-y-0", "lg:translate-y-12"];
-              const mdStaggers = ["md:translate-y-0", "md:translate-y-8", "md:translate-y-0", "md:translate-y-8"];
-              return (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: isMobile ? 0 : i * 0.15,
-                    ease: "easeOut"
-                  }}
-                  className={`bg-zinc-900/40 backdrop-blur-sm border border-white/5 px-3 py-4 md:px-5 md:py-8 rounded-2xl transition-all duration-500 flex flex-col h-full ${staggers[i]} ${mdStaggers[i]}`}
-                >
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6">
+          {t.target.items.map((item, i) => {
+            const icons = [Rocket, User, Target, Layers];
+            const Icon = icons[i];
+            const staggers = ["lg:translate-y-0", "lg:translate-y-12", "lg:translate-y-0", "lg:translate-y-12"];
+            const mdStaggers = ["md:translate-y-0", "md:translate-y-8", "md:translate-y-0", "md:translate-y-8"];
+            return (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: isMobile ? 0 : i * 0.15,
+                  ease: "easeOut"
+                }}
+                className={`bg-zinc-900/40 backdrop-blur-sm border border-white/5 px-3 py-4 md:px-5 md:py-8 rounded-2xl transition-all duration-500 flex flex-col h-full w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] ${staggers[i]} ${mdStaggers[i]}`}
+              >
                   <div className="relative w-full h-48 bg-[#080808] rounded-xl overflow-hidden border border-white/5 flex items-center justify-center mb-8 group/icon">
                     {/* Subtle Grid Background */}
                     <div 
@@ -1744,12 +2443,10 @@ function AppContent() {
             })}
           </div>
         </section>
-      </div>
 
       {/* --- Section 4: Partnership & Foundation --- */}
-      <div className="px-4 md:px-6">
-        <section id="partnership" className="py-20 md:py-32 max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-16 items-center">
+      <section id="partnership" className="py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -1814,12 +2511,10 @@ function AppContent() {
             </div>
           </div>
         </section>
-      </div>
 
       {/* --- Section 5: Engine (Infinite Carousel) --- */}
-      <div className="px-4 md:px-6">
-        <section className="overflow-hidden py-20 md:py-32 max-w-7xl mx-auto">
-          <div className="flex whitespace-nowrap">
+      <section className="overflow-hidden py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="flex whitespace-nowrap">
             <div className="flex gap-20 animate-scroll items-center">
               {[...aiTools, ...aiTools, ...aiTools].map((tool, i) => (
                 <div key={i} className="flex items-center gap-6 opacity-30 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0 group">
@@ -1835,27 +2530,25 @@ function AppContent() {
             </div>
           </div>
         </section>
-      </div>
 
       {/* --- Section 6: Process --- */}
-      <div className="px-4 md:px-6">
-        <section id="process" className="py-20 md:py-32 max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 md:mb-12"
-          >
-            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
-              {t.process.label}
-            </span>
-            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
-              {t.process.title}
-            </h2>
-          </motion.div>
-          
-          <div className={isMobile ? "" : "grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-3xl overflow-hidden"}>
-            {isMobile ? (
+      <section id="process" className="py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-8 md:mb-12"
+        >
+          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            {t.process.label}
+          </span>
+          <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
+            {t.process.title}
+          </h2>
+        </motion.div>
+        
+        <div className={isMobile ? "" : "flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6"}>
+          {isMobile ? (
               <div className="relative w-full h-[320px] sm:h-[280px]">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -1920,7 +2613,7 @@ function AppContent() {
                     delay: isMobile ? 0 : i * 0.1,
                     ease: "easeOut"
                   }}
-                  className="bg-black p-3 md:p-10"
+                  className="bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-3 md:p-10 rounded-2xl w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
                 >
                   <div className="flex justify-between items-start mb-8">
                     <span className="font-mono text-[var(--primary)] text-sm tracking-widest">
@@ -1939,79 +2632,74 @@ function AppContent() {
             )}
           </div>
         </section>
-      </div>
 
       {/* --- Section 7: Portfolio --- */}
-      <div className="px-4 md:px-6">
-        <section id="portfolio" className="py-20 md:py-32 max-w-7xl mx-auto overflow-hidden">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16 md:mb-24"
-          >
-            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
-              {t.portfolio.label}
-            </span>
-            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
-              {t.portfolio.title}
-            </h2>
-          </motion.div>
+      <section id="portfolio" className="py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16 md:mb-24"
+        >
+          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+            {t.portfolio.label}
+          </span>
+          <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
+            {t.portfolio.title}
+          </h2>
+        </motion.div>
 
-          <PortfolioSlider lang={language} isMobile={isMobile} />
-        </section>
-      </div>
+        <PortfolioSlider lang={language} isMobile={isMobile} />
+      </section>
 
       {/* --- Section 8: FAQ --- */}
-      <div className="px-4 md:px-6">
-        <section id="faq" className="py-20 md:py-32 max-w-7xl mx-auto">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-8">
-              <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
-                {t.faq.label}
-              </span>
-              <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
-                {t.faq.title}
-              </h2>
-            </div>
-            <div className="space-y-4">
-              {t.faq.items.map((faq, i) => (
-                <details 
-                  key={i} 
-                  open={openFaqIndex === i}
-                  onToggle={(e) => {
-                    if ((e.target as HTMLDetailsElement).open) {
-                      setOpenFaqIndex(i);
-                      if (!viewedFaqs.includes(i)) {
-                        setViewedFaqs(prev => [...prev, i]);
-                      }
-                    } else if (openFaqIndex === i) {
-                      setOpenFaqIndex(null);
-                    }
-                  }}
-                  className={`group bg-zinc-900/40 border border-white/5 rounded-2xl cursor-pointer hover:border-[var(--primary)]/20 transition-colors ${viewedFaqs.includes(i) ? 'opacity-90' : ''}`}
-                >
-                  <summary className={`flex items-center justify-between font-medium list-none transition-colors p-3 md:p-6 group-hover:text-[var(--primary)] group-open:text-[var(--primary)] ${viewedFaqs.includes(i) ? 'text-white/60' : 'text-white'}`}>
-                    <div className="flex items-center gap-3">
-                      {viewedFaqs.includes(i) && (
-                        <div className="w-1 h-1 rounded-full bg-[var(--primary)]/40" />
-                      )}
-                      {faq.q}
-                    </div>
-                    <ChevronDown className="group-open:rotate-180 transition-transform text-[var(--primary)]" />
-                  </summary>
-                  <p 
-                    onClick={() => setOpenFaqIndex(null)}
-                    className="px-3 pb-3 md:px-6 md:pb-6 leading-relaxed text-white"
-                  >
-                    {faq.a}
-                  </p>
-                </details>
-              ))}
-            </div>
+      <section id="faq" className="py-20 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-6 border-b border-[var(--primary)]/30 pb-1">
+              {t.faq.label}
+            </span>
+            <h2 className="text-[34px] md:text-[40px] font-satoshi font-medium tracking-tight text-white">
+              {t.faq.title}
+            </h2>
           </div>
-        </section>
-      </div>
+          <div className="space-y-4">
+            {t.faq.items.map((faq, i) => (
+              <details 
+                key={i} 
+                open={openFaqIndex === i}
+                onToggle={(e) => {
+                  if ((e.target as HTMLDetailsElement).open) {
+                    setOpenFaqIndex(i);
+                    if (!viewedFaqs.includes(i)) {
+                      setViewedFaqs(prev => [...prev, i]);
+                    }
+                  } else if (openFaqIndex === i) {
+                    setOpenFaqIndex(null);
+                  }
+                }}
+                className={`group bg-zinc-900/40 border border-white/5 rounded-2xl cursor-pointer hover:border-[var(--primary)]/20 transition-colors ${viewedFaqs.includes(i) ? 'opacity-90' : ''}`}
+              >
+                <summary className={`flex items-center justify-between font-medium list-none transition-colors p-3 md:p-6 group-hover:text-[var(--primary)] group-open:text-[var(--primary)] ${viewedFaqs.includes(i) ? 'text-white/60' : 'text-white'}`}>
+                  <div className="flex items-center gap-3">
+                    {viewedFaqs.includes(i) && (
+                      <div className="w-1 h-1 rounded-full bg-[var(--primary)]/40" />
+                    )}
+                    {faq.q}
+                  </div>
+                  <ChevronDown className="group-open:rotate-180 transition-transform text-[var(--primary)]" />
+                </summary>
+                <p 
+                  onClick={() => setOpenFaqIndex(null)}
+                  className="px-3 pb-3 md:px-6 md:pb-6 leading-relaxed text-white"
+                >
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   } />
   <Route path="/case-study/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />

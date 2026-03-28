@@ -88,7 +88,7 @@ export const translations = {
       label: 'Portfolio',
       title: 'They’ve already shipped. Your turn',
       comingSoon: 'Portfolio content coming soon...',
-      viewCase: 'View Case Study',
+      viewCase: 'View Case',
       vacations: {
         title: 'Wami Vacations – HR Experience Layer ✨',
         desc: 'Beyond simple tracking, we’ve built an engagement layer that turns vacation management into a team-building tool. It’s a space designed to boost motivation, foster belonging, and make corporate culture tangible in every click.'
@@ -96,7 +96,27 @@ export const translations = {
       balancePulse: {
         title: 'The Balance Pulse',
         desc: 'A personal financial coaching experience that goes beyond traditional budgeting tools, focusing on the psychology of spending. The system helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.',
-        category: 'FinTech'
+        category: 'FinTech',
+        goalTitle: 'Goal of the project',
+        goalDesc: 'To create a personal financial coaching experience that helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.',
+        conceptTitle: 'Core concept',
+        conceptDesc: 'Instead of dozens of complex categories, the app divides spending into two types:',
+        essentialTitle: 'Essential',
+        essentialDesc: 'Rent, health, groceries, education — the things that build your foundation.',
+        dopamineTitle: 'Dopamine',
+        dopamineDesc: 'Coffee, impulse shopping, taxis, entertainment — things that bring quick joy but can drain your budget.',
+        featuresTitle: 'Key features',
+        featuresDesc: 'Tools that help you understand your spending through psychology: track satisfaction from each purchase, uncover behavioral patterns, and get personalized AI insights to improve financial habits.',
+        motivationTitle: 'Motivation toggle',
+        motivationDesc: 'Each time you log an expense, you select its type and rate your happiness level (1–5). This allows the AI to calculate your “cost per unit of joy.”',
+        dopamineDeepDiveTitle: 'Dopamine deep dive',
+        dopamineDeepDiveDesc: 'Advanced analytics that uncover patterns. The AI will point out if you tend to spend more on “dopamine” during stressful days (for example, on Tuesdays).',
+        aiTutorTitle: 'AI tutor',
+        aiTutorDesc: 'An interactive section where you receive short, personalized cards on financial literacy, tailored to your actual spending habits.',
+        forecastingTitle: 'Smart forecasting',
+        forecastingDesc: 'You can ask the chat about a major purchase, and it will predict how it will impact your budget next month, taking into account your fixed expenses.',
+        overallTitle: 'Overall',
+        overallDesc: 'This app helps you stop feeling guilty about spending and instead gives you tools for mindful money management.'
       },
       lumina: { title: 'Lumina Health AI', category: 'Medical Diagnostics Platform' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Internal Corporate Ecosystem' }
@@ -258,7 +278,27 @@ export const translations = {
       balancePulse: {
         title: 'The Balance Pulse',
         desc: 'Персональний досвід фінансового коучингу, який виходить за рамки традиційних інструментів бюджетування, зосереджуючись на психології витрат. Система допомагає користувачам відрізняти основні потреби від імпульсивних бажань, що дозволяє приймати більш свідомі та сталі фінансові рішення.',
-        category: 'FinTech'
+        category: 'FinTech',
+        goalTitle: 'Мета проекту',
+        goalDesc: 'Створити персональний досвід фінансового коучингу, який допомагає користувачам відрізняти основні потреби від імпульсивних бажань, що дозволяє приймати більш свідомі та сталі фінансові рішення.',
+        conceptTitle: 'Основна концепція',
+        conceptDesc: 'Замість десятків складних категорій додаток ділить витрати на два типи:',
+        essentialTitle: 'Основне',
+        essentialDesc: 'Оренда, здоров\'я, продукти, освіта — речі, які будують ваш фундамент.',
+        dopamineTitle: 'Дофамін',
+        dopamineDesc: 'Кава, імпульсивні покупки, таксі, розваги — речі, які приносять швидку радість, але можуть виснажити ваш бюджет.',
+        featuresTitle: 'Ключові особливості',
+        featuresDesc: 'Інструменти, що допомагають зрозуміти ваші витрати через психологію: відстежуйте задоволення від кожної покупки, виявляйте поведінкові патерни та отримуйте персоналізовані поради від ШІ для покращення фінансових звичок.',
+        motivationTitle: 'Motivation toggle',
+        motivationDesc: 'Кожного разу, коли ви реєструєте витрату, ви обираєте її тип і оцінюєте рівень щастя (1–5). Це дозволяє ШІ розрахувати вашу «вартість одиниці радості».',
+        dopamineDeepDiveTitle: 'Dopamine deep dive',
+        dopamineDeepDiveDesc: 'Розширена аналітика, що виявляє закономірності. ШІ підкаже, якщо ви схильні витрачати більше на «дофамін» у стресові дні (наприклад, по вівторках).',
+        aiTutorTitle: 'AI tutor',
+        aiTutorDesc: 'Інтерактивний розділ, де ви отримуєте короткі персоналізовані картки з фінансової грамотності, адаптовані до ваших реальних витрат.',
+        forecastingTitle: 'Smart forecasting',
+        forecastingDesc: 'Ви можете запитати чат про велику покупку, і він спрогнозує, як це вплине на ваш бюджет наступного місяця, враховуючи ваші постійні витрати.',
+        overallTitle: 'Загалом',
+        overallDesc: 'Цей додаток допомагає перестати відчувати провину за витрати і натомість дає інструменти для усвідомленого управління грошима.'
       },
       lumina: { title: 'Lumina Health AI', category: 'Медична діагностична платформа' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Внутрішня корпоративна екосистема' }
@@ -412,7 +452,7 @@ export const translations = {
       label: 'Portfolio',
       title: 'Sie haben bereits gelauncht. Sie sind dran',
       comingSoon: 'Portfolio-Inhalte folgen in Kürze...',
-      viewCase: 'Fallstudie ansehen',
+      viewCase: 'Fall ansehen',
       vacations: {
         title: 'Wami Urlaub – HR Experience Layer ✨',
         desc: 'Über das einfache Tracking hinaus haben wir eine Engagement-Ebene geschaffen, die das Urlaubsmanagement in ein Teambuilding-Tool verwandelt. Es ist ein Raum, der darauf ausgelegt ist, die Motivation zu steigern, die Zugehörigkeit zu fördern und die Unternehmenskultur bei jedem Klick erlebbar zu machen.'
@@ -420,7 +460,27 @@ export const translations = {
       balancePulse: {
         title: 'The Balance Pulse',
         desc: 'Ein persönliches Finanz-Coaching-Erlebnis, das über traditionelle Budgetierungstools hinausgeht und sich auf die Psychologie des Ausgebens konzentriert. Das System hilft den Nutzern, wesentliche Bedürfnisse von impulsiven Wünschen zu unterscheiden, was bewusstere und nachhaltigere Finanzentscheidungen ermöglicht.',
-        category: 'FinTech'
+        category: 'FinTech',
+        goalTitle: 'Projektziel',
+        goalDesc: 'Ein persönliches Finanz-Coaching-Erlebnis zu schaffen, das den Nutzern hilft, wesentliche Bedürfnisse von impulsiven Wünschen zu unterscheiden, um bewusstere und nachhaltigere Finanzentscheidungen zu ermöglichen.',
+        conceptTitle: 'Kernkonzept',
+        conceptDesc: 'Anstatt Dutzender komplexer Kategorien unterteilt die App die Ausgaben in zwei Arten:',
+        essentialTitle: 'Essentiell',
+        essentialDesc: 'Miete, Gesundheit, Lebensmittel, Bildung – die Dinge, die Ihr Fundament bilden.',
+        dopamineTitle: 'Dopamin',
+        dopamineDesc: 'Kaffee, Impulskäufe, Taxis, Unterhaltung – Dinge, die schnelle Freude bringen, aber Ihr Budget belasten können.',
+        featuresTitle: 'Hauptmerkmale',
+        featuresDesc: 'Tools, die Ihnen helfen, Ihre Ausgaben durch Psychologie zu verstehen: Verfolgen Sie die Zufriedenheit bei jedem Kauf, decken Sie Verhaltensmuster auf und erhalten Sie personalisierte KI-Einblicke, um Ihre Finanzgewohnheiten zu verbessern.',
+        motivationTitle: 'Motivation toggle',
+        motivationDesc: 'Jedes Mal, wenn Sie eine Ausgabe protokollieren, wählen Sie deren Typ aus und bewerten Ihr Glücksniveau (1–5). Dies ermöglicht es der KI, Ihre „Kosten pro Einheit Freude“ zu berechnen.',
+        dopamineDeepDiveTitle: 'Dopamine deep dive',
+        dopamineDeepDiveDesc: 'Erweiterte Analysen, die Muster aufdecken. Die KI weist Sie darauf hin, wenn Sie an stressigen Tagen (zum Beispiel dienstags) dazu neigen, mehr für „Dopamin“ auszugeben.',
+        aiTutorTitle: 'AI tutor',
+        aiTutorDesc: 'Ein interaktiver Bereich, in dem Sie kurze, personalisierte Karten zur Finanzkompetenz erhalten, die auf Ihre tatsächlichen Ausgabegewohnheiten zugeschnitten sind.',
+        forecastingTitle: 'Smart forecasting',
+        forecastingDesc: 'Sie können den Chat nach einem größeren Kauf fragen, und er wird vorhersagen, wie sich dieser im nächsten Monat auf Ihr Budget auswirken wird, unter Berücksichtigung Ihrer Fixkosten.',
+        overallTitle: 'Insgesamt',
+        overallDesc: 'Diese App hilft Ihnen, sich nicht mehr schuldig wegen Ihrer Ausgaben zu fühlen, und gibt Ihnen stattdessen Tools für ein achtsames Geldmanagement.'
       },
       lumina: { title: 'Lumina Health AI', category: 'Medizinische Diagnoseplattform' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Internes Unternehmens-Ökosystem' }
