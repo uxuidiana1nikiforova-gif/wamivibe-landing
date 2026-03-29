@@ -4,6 +4,7 @@ export type Language = 'en' | 'ua' | 'de';
 export const translations = {
   en: {
     nav: {
+      home: 'Home',
       benefits: 'Benefits',
       expertise: 'Expertise',
       target: 'Target',
@@ -89,6 +90,7 @@ export const translations = {
       title: 'They’ve already shipped. Your turn',
       comingSoon: 'Portfolio content coming soon...',
       viewCase: 'View Case',
+      backToCases: 'Back to cases',
       vacations: {
         title: 'Wami Vacations – HR Experience Layer ✨',
         desc: 'Beyond simple tracking, we’ve built an engagement layer that turns vacation management into a team-building tool. It’s a space designed to boost motivation, foster belonging, and make corporate culture tangible in every click.'
@@ -98,6 +100,14 @@ export const translations = {
         desc: 'A personal financial coaching experience that goes beyond traditional budgeting tools, focusing on the psychology of spending. The system helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.',
         category: 'FinTech',
         goalTitle: 'Goal of the project',
+        servicesTitle: 'Services',
+        servicesItems: [
+          { q: 'Business Alignment', a: 'The “Dopamine vs Important” concept was turned into clear product logic that supports user behavior and business goals.' },
+          { q: 'Architectural Oversight', a: 'The system was designed for AI analytics, personalization, and future scalability.' },
+          { q: 'AI-Assisted Development', a: 'Rapid build of core features: expense tracking, insights, and forecasting.' },
+          { q: 'Security First', a: 'Sensitive user data is protected at every stage.' },
+          { q: 'Code Review & Stability', a: 'Clean, maintainable code ensures product stability throughout development.' }
+        ],
         goalDesc: 'To create a personal financial coaching experience that helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.',
         conceptTitle: 'Core concept',
         conceptDesc: 'Instead of dozens of complex categories, the app divides spending into two types:',
@@ -186,6 +196,7 @@ export const translations = {
   },
   ua: {
     nav: {
+      home: 'Головна',
       benefits: 'Переваги',
       expertise: 'Експертиза',
       target: 'Цільова аудиторія',
@@ -271,6 +282,7 @@ export const translations = {
       title: 'Вони вже запустилися. Ваша черга',
       comingSoon: 'Контент портфоліо незабаром...',
       viewCase: 'Дивитися кейс',
+      backToCases: 'Назад до кейсів',
       vacations: {
         title: 'Wami Відпустки – HR Experience Layer ✨',
         desc: 'Крім простого відстеження, ми створили рівень залучення, який перетворює управління відпустками на інструмент тімбілдінгу. Це простір, розроблений для підвищення мотивації, формування почуття причетності та втілення корпоративної культури в кожному кліку.'
@@ -280,6 +292,14 @@ export const translations = {
         desc: 'Персональний досвід фінансового коучингу, який виходить за рамки традиційних інструментів бюджетування, зосереджуючись на психології витрат. Система допомагає користувачам відрізняти основні потреби від імпульсивних бажань, що дозволяє приймати більш свідомі та сталі фінансові рішення.',
         category: 'FinTech',
         goalTitle: 'Мета проекту',
+        servicesTitle: 'Послуги',
+        servicesItems: [
+          { q: 'Business Alignment', a: 'Концепція «Дофамін проти Важливого» була перетворена на чітку логіку продукту, яка підтримує поведінку користувачів та бізнес-цілі.' },
+          { q: 'Architectural Oversight', a: 'Система була розроблена для ШІ-аналітики, персоналізації та майбутньої масштабованості.' },
+          { q: 'AI-Assisted Development', a: 'Швидка розробка основних функцій: відстеження витрат, інсайти та прогнозування.' },
+          { q: 'Security First', a: 'Конфіденційні дані користувачів захищені на кожному етапі.' },
+          { q: 'Code Review & Stability', a: 'Чистий код, що легко підтримується, забезпечує стабільність продукту протягом усієї розробки.' }
+        ],
         goalDesc: 'Створити персональний досвід фінансового коучингу, який допомагає користувачам відрізняти основні потреби від імпульсивних бажань, що дозволяє приймати більш свідомі та сталі фінансові рішення.',
         conceptTitle: 'Основна концепція',
         conceptDesc: 'Замість десятків складних категорій додаток ділить витрати на два типи:',
@@ -368,6 +388,7 @@ export const translations = {
   },
   de: {
     nav: {
+      home: 'Startseite',
       benefits: 'Vorteile',
       expertise: 'Expertise',
       target: 'Zielgruppe',
@@ -453,6 +474,7 @@ export const translations = {
       title: 'Sie haben bereits gelauncht. Sie sind dran',
       comingSoon: 'Portfolio-Inhalte folgen in Kürze...',
       viewCase: 'Fall ansehen',
+      backToCases: 'Zurück zu den Fällen',
       vacations: {
         title: 'Wami Urlaub – HR Experience Layer ✨',
         desc: 'Über das einfache Tracking hinaus haben wir eine Engagement-Ebene geschaffen, die das Urlaubsmanagement in ein Teambuilding-Tool verwandelt. Es ist ein Raum, der darauf ausgelegt ist, die Motivation zu steigern, die Zugehörigkeit zu fördern und die Unternehmenskultur bei jedem Klick erlebbar zu machen.'
@@ -462,6 +484,14 @@ export const translations = {
         desc: 'Ein persönliches Finanz-Coaching-Erlebnis, das über traditionelle Budgetierungstools hinausgeht und sich auf die Psychologie des Ausgebens konzentriert. Das System hilft den Nutzern, wesentliche Bedürfnisse von impulsiven Wünschen zu unterscheiden, was bewusstere und nachhaltigere Finanzentscheidungen ermöglicht.',
         category: 'FinTech',
         goalTitle: 'Projektziel',
+        servicesTitle: 'Dienstleistungen',
+        servicesItems: [
+          { q: 'Business Alignment', a: 'Das Konzept „Dopamin vs. Wichtig“ wurde in eine klare Produktlogik umgewandelt, die das Nutzerverhalten und die Geschäftsziele unterstützt.' },
+          { q: 'Architectural Oversight', a: 'Das System wurde für KI-Analysen, Personalisierung und zukünftige Skalierbarkeit konzipiert.' },
+          { q: 'AI-gestützte Entwicklung', a: 'Schneller Aufbau von Kernfunktionen: Ausgabenverfolgung, Einblicke und Prognosen.' },
+          { q: 'Sicherheit an erster Stelle', a: 'Sensible Benutzerdaten sind in jeder Phase geschützt.' },
+          { q: 'Code-Review & Stabilität', a: 'Sauberer, wartbarer Code gewährleistet die Produktstabilität während der gesamten Entwicklung.' }
+        ],
         goalDesc: 'Ein persönliches Finanz-Coaching-Erlebnis zu schaffen, das den Nutzern hilft, wesentliche Bedürfnisse von impulsiven Wünschen zu unterscheiden, um bewusstere und nachhaltigere Finanzentscheidungen zu ermöglichen.',
         conceptTitle: 'Kernkonzept',
         conceptDesc: 'Anstatt Dutzender komplexer Kategorien unterteilt die App die Ausgaben in zwei Arten:',

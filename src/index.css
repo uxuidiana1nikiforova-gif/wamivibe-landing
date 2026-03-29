@@ -64,7 +64,7 @@
   }
 
   section {
-    @apply pt-8 pb-24 md:pt-12 md:pb-32 scroll-mt-[64px];
+    @apply pt-8 pb-24 md:pt-12 md:pb-32 scroll-mt-[120px];
   }
 }
 

@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useInView } from 'motion/react';
 import { 
   Menu, 
   X, 
@@ -19,6 +19,7 @@ import {
   Layout, 
   Users, 
   ArrowRight,
+  ArrowLeft,
   ArrowUp,
   Linkedin,
   Youtube,
@@ -53,24 +54,15 @@ const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMouseDevice, setIsMouseDevice] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(pointer: fine)');
+    setIsMouseDevice(mediaQuery.matches);
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
-    };
-
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        setMousePosition({ x: e.touches[0].clientX, y: e.touches[0].clientY });
-        if (!isVisible) setIsVisible(true);
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        setMousePosition({ x: e.touches[0].clientX, y: e.touches[0].clientY });
-      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -90,28 +82,26 @@ const CustomCursor = () => {
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
+    if (mediaQuery.matches) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseover', handleMouseOver);
+      window.addEventListener('mousedown', handleMouseDown);
+      window.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('mouseleave', handleMouseLeave);
+      document.addEventListener('mouseenter', handleMouseEnter);
+    }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
   }, [isVisible]);
 
-  if (!isVisible) return null;
+  if (!isMouseDevice || !isVisible) return null;
 
   return (
     <>
@@ -1117,6 +1107,15 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
   const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0 });
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
+  // Auto-scroll logic
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % features.length);
+    }, 5000); // Change card every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [features.length]);
+
   useEffect(() => {
     const updateConstraints = () => {
       setWindowWidth(window.innerWidth);
@@ -1166,9 +1165,8 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
     >
       <div className="relative z-10">
         {/* Key features Header */}
-        <div className="mb-20 md:mb-32 flex flex-col items-end">
-          <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mb-6" />
-          <div className="text-right max-w-2xl">
+        <div className="mb-20 md:mb-32 flex flex-col items-start">
+          <div className="text-left max-w-2xl">
             <motion.h3 
               variants={itemVariants}
               className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight mb-6"
@@ -1177,11 +1175,12 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
             </motion.h3>
             <motion.p 
               variants={itemVariants}
-              className="text-xl md:text-2xl lg:text-3xl text-white font-satoshi font-light leading-relaxed"
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
             >
               {t.portfolio.balancePulse.featuresDesc}
             </motion.p>
           </div>
+          <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mt-6" />
         </div>
 
         {/* The Path SVG */}
@@ -1420,17 +1419,17 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
         </div>
 
         {/* Final Solution Footer */}
-        <div className="mt-32 flex flex-col items-start">
+        <div className="mt-32 flex flex-col items-end">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-left max-w-2xl"
+            className="text-right max-w-2xl"
           >
             <h3 className="text-3xl md:text-4xl font-satoshi font-medium text-[var(--primary)] mb-6">
               {t.portfolio.balancePulse.overallTitle}
             </h3>
-            <p className="text-xl md:text-2xl text-white font-satoshi font-light leading-relaxed italic">
+            <p className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 italic">
               {t.portfolio.balancePulse.overallDesc}
             </p>
           </motion.div>
@@ -1486,6 +1485,10 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
 
   const isTabletOrMobile = windowWidth < 1024;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const ChipGroup = ({ 
     items
   }: { 
@@ -1503,8 +1506,34 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
   };
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi">
-      <div className="pt-32 md:pt-48 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
+      {/* Back Button - Positioned at the top right, outside of the main content motion div for better clickability */}
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-[110] flex justify-end pointer-events-none">
+        <Link 
+          to="/#portfolio" 
+          className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl"
+          onClick={(e) => {
+            // If we are already on the home page, handle scroll manually
+            if (window.location.pathname === '/') {
+              e.preventDefault();
+              const el = document.getElementById('portfolio');
+              if (el) {
+                const headerOffset = isMobile ? 80 : 160;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.scrollY - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+              }
+            }
+          }}
+        >
+          <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
+            <ArrowLeft className="w-4 h-4 group-hover:text-primary transition-colors" />
+          </div>
+          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.backToCases}</span>
+        </Link>
+      </div>
+
+      <div className="pt-4 md:pt-8 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
         {/* Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
         
@@ -1512,15 +1541,15 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full relative group flex flex-col lg:block"
+          className="w-full relative flex flex-col lg:block"
         >
           {/* Text Content - Above image on mobile/tablet, Overlay on desktop */}
-          <div className="relative lg:absolute lg:inset-0 z-20 p-0 lg:p-16 mb-8 lg:mb-0 flex flex-col justify-start lg:pt-48 items-start">
+          <div className="relative lg:absolute lg:inset-0 z-20 p-0 lg:p-16 mb-8 lg:mb-0 flex flex-col justify-start lg:pt-48 items-start pointer-events-none">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="max-w-3xl"
+              className="max-w-3xl pointer-events-auto"
             >
               <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
                 Fintech
@@ -1563,13 +1592,13 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
               {t.portfolio.balancePulse.goalTitle}
             </motion.h2>
           </div>
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 lg:pt-5">
             <motion.p 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl md:text-2xl lg:text-3xl text-white font-satoshi font-light leading-relaxed"
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
             >
               {t.portfolio.balancePulse.goalDesc}
             </motion.p>
@@ -1609,13 +1638,13 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
               {t.portfolio.balancePulse.conceptTitle}
             </motion.h2>
           </div>
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 lg:pt-5">
             <motion.p 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl md:text-2xl lg:text-3xl text-white font-satoshi font-light leading-relaxed"
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
             >
               {t.portfolio.balancePulse.conceptDesc}
             </motion.p>
@@ -1738,8 +1767,100 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
         </div>
       </div>
 
-      {/* Second Dopamine Image Section - Removed as per user request */}
+      {/* Second Dopamine Image Section for Mobile/Tablet */}
+      <div className="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-20 md:pb-32">
+        <div className="flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-4 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-6px)]"
+          >
+            <BorderBeam delay={5} duration={15} />
+            <img 
+              src="/images/image-dopamin-2.png" 
+              alt="Dopamine Concept Visual 2" 
+              className="w-full h-auto rounded-2xl"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Services Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-light text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+        >
+          {t.portfolio.balancePulse.servicesTitle}
+        </motion.h2>
+
+        <div className="w-full max-w-4xl space-y-0 px-4">
+          {t.portfolio.balancePulse.servicesItems.map((item: any, i: number) => (
+            <ServiceItem key={i} item={item} index={i} />
+          ))}
+        </div>
+      </div>
     </div>
+  );
+};
+
+const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef(null);
+  // amount: 1.0 means it triggers only when the entire item is visible
+  // margin: "-15% 0px -35% 0px" creates a narrow "active window" in the middle-top of the screen
+  // This ensures items stay closed longer at the bottom and close sooner at the top
+  const isInView = useInView(ref, { amount: 1.0, margin: "-15% 0px -35% 0px" });
+
+  useEffect(() => {
+    setIsOpen(isInView);
+  }, [isInView]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1.2, delay: index * 0.1 }}
+      className="group border-b border-white/10 overflow-hidden last:border-0"
+    >
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full flex items-center justify-start pt-6 md:pt-8 transition-all duration-500 ${isOpen ? 'pb-1 md:pb-1.5' : 'pb-6 md:pb-8'} cursor-pointer text-left group`}
+      >
+        <h3 className={`text-xl md:text-2xl font-satoshi font-medium tracking-tight transition-all duration-1000 ${isOpen ? 'text-[var(--primary)]' : 'text-white group-hover:text-[var(--primary)]'}`}>
+          {item.q}
+        </h3>
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }} // Extremely slow and smooth duration: 1.8s
+          >
+            <div className="pb-6 md:pb-8 text-left">
+              <motion.p 
+                initial={{ y: 3, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 max-w-2xl"
+              >
+                {item.a}
+              </motion.p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
@@ -1847,10 +1968,12 @@ const Footer = ({ t, setIsModalOpen, setIsEmailSelectorOpen }: { t: any, setIsMo
 };
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
   return null;
 };
 
@@ -1884,11 +2007,35 @@ function AppContent() {
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { scrollY } = useScroll();
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const isHomePage = pathname === '/';
   const opacityParallax = useTransform(scrollY, [0, 300], [1, 0]);
 
   const t = translations[language];
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.substring(1);
+      const scrollWithRetry = (retries = 0) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const headerOffset = isMobile ? 80 : 160; 
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        } else if (retries < 30) {
+          setTimeout(() => scrollWithRetry(retries + 1), 100);
+        }
+      };
+      // Increased delay to allow page transition and rendering to complete
+      const timer = setTimeout(() => scrollWithRetry(), 200);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, hash, isMobile]);
 
   useEffect(() => {
     localStorage.setItem('language', language);
