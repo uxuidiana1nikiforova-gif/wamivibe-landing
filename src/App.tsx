@@ -1817,11 +1817,11 @@ const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) =
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef(null);
   
-  // We use a stable trigger (the header area) to avoid layout shift feedback loops
-  // margin: "-10% 0px -25% 0px" creates a stable active zone
+  // Extremely focused trigger zone (middle 30% of the screen)
+  // This forces a very distinct "one-by-one" sequence for both opening and closing
   const isInView = useInView(triggerRef, { 
-    amount: 0.8, 
-    margin: "-10% 0px -25% 0px" 
+    amount: 0.5, 
+    margin: "-35% 0px -35% 0px" 
   });
 
   useEffect(() => {
@@ -1833,7 +1833,7 @@ const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) =
       <button 
         ref={triggerRef}
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-start pt-6 md:pt-8 transition-all duration-700 ${isOpen ? 'pb-2 md:pb-3' : 'pb-6 md:pb-8'} cursor-pointer text-left group`}
+        className={`w-full flex items-center justify-start pt-6 md:pt-8 transition-all duration-1000 ease-[0.16,1,0.3,1] ${isOpen ? 'pb-2 md:pb-3' : 'pb-6 md:pb-8'} cursor-pointer text-left group`}
       >
         <motion.h3 
           initial={{ opacity: 0, y: 10 }}
@@ -1852,15 +1852,21 @@ const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) =
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ 
-              duration: 2.2, // Even slower: 2.2s
+              // Uniform slow duration (2.5s) for both opening and closing
+              // This creates the "liquid" feel the user requested
+              duration: 2.5,
               ease: [0.16, 1, 0.3, 1] 
             }}
           >
             <div className="pb-6 md:pb-8 text-left">
               <motion.p 
-                initial={{ y: 5, opacity: 0 }}
+                initial={{ y: 8, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1.5, delay: 0.4 }} // Slower text appearance
+                transition={{ 
+                  duration: 1.8, 
+                  delay: 0.4,
+                  ease: "easeOut"
+                }}
                 className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 max-w-2xl"
               >
                 {item.a}
