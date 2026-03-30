@@ -1486,7 +1486,10 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
   const isTabletOrMobile = windowWidth < 1024;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const ChipGroup = ({ 
@@ -1812,32 +1815,35 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
 
 const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef(null);
-  // amount: 1.0 means it triggers only when the entire item is visible
-  // margin: "-15% 0px -35% 0px" creates a narrow "active window" in the middle-top of the screen
-  // This ensures items stay closed longer at the bottom and close sooner at the top
-  const isInView = useInView(ref, { amount: 1.0, margin: "-15% 0px -35% 0px" });
+  const triggerRef = useRef(null);
+  
+  // We use a stable trigger (the header area) to avoid layout shift feedback loops
+  // margin: "-10% 0px -25% 0px" creates a stable active zone
+  const isInView = useInView(triggerRef, { 
+    amount: 0.8, 
+    margin: "-10% 0px -25% 0px" 
+  });
 
   useEffect(() => {
     setIsOpen(isInView);
   }, [isInView]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1.2, delay: index * 0.1 }}
-      className="group border-b border-white/10 overflow-hidden last:border-0"
-    >
+    <div className="group border-b border-white/10 overflow-hidden last:border-0">
       <button 
+        ref={triggerRef}
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-start pt-6 md:pt-8 transition-all duration-500 ${isOpen ? 'pb-1 md:pb-1.5' : 'pb-6 md:pb-8'} cursor-pointer text-left group`}
+        className={`w-full flex items-center justify-start pt-6 md:pt-8 transition-all duration-700 ${isOpen ? 'pb-2 md:pb-3' : 'pb-6 md:pb-8'} cursor-pointer text-left group`}
       >
-        <h3 className={`text-xl md:text-2xl font-satoshi font-medium tracking-tight transition-all duration-1000 ${isOpen ? 'text-[var(--primary)]' : 'text-white group-hover:text-[var(--primary)]'}`}>
+        <motion.h3 
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: index * 0.1 }}
+          className={`text-xl md:text-2xl font-satoshi font-medium tracking-tight transition-all duration-1000 ${isOpen ? 'text-[var(--primary)]' : 'text-white group-hover:text-[var(--primary)]'}`}
+        >
           {item.q}
-        </h3>
+        </motion.h3>
       </button>
       <AnimatePresence initial={false}>
         {isOpen && (
@@ -1845,13 +1851,16 @@ const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) =
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }} // Extremely slow and smooth duration: 1.8s
+            transition={{ 
+              duration: 2.2, // Even slower: 2.2s
+              ease: [0.16, 1, 0.3, 1] 
+            }}
           >
             <div className="pb-6 md:pb-8 text-left">
               <motion.p 
-                initial={{ y: 3, opacity: 0 }}
+                initial={{ y: 5, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1.2, delay: 0.3 }}
+                transition={{ duration: 1.5, delay: 0.4 }} // Slower text appearance
                 className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 max-w-2xl"
               >
                 {item.a}
@@ -1860,7 +1869,7 @@ const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) =
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 
@@ -1969,11 +1978,23 @@ const Footer = ({ t, setIsModalOpen, setIsEmailSelectorOpen }: { t: any, setIsMo
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
+  
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   useEffect(() => {
     if (!hash) {
-      window.scrollTo(0, 0);
+      // Small delay to ensure the DOM has updated and layout shifts are minimized
+      const timer = setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [pathname, hash]);
+  
   return null;
 };
 

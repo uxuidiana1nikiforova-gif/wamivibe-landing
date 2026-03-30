@@ -17,7 +17,8 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* Removed scroll-behavior: smooth to allow instant jumps on page transitions. 
+       Smooth scrolling is handled programmatically for anchor links. */
   }
 
   body {
