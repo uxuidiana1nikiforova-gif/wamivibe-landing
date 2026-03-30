@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useInView } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useInView, useSpring } from 'motion/react';
 import { 
   Menu, 
   X, 
@@ -37,7 +37,7 @@ import {
   ExternalLink,
   Languages
 } from 'lucide-react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { translations, Language } from './translations';
 
 // --- Types ---
@@ -903,10 +903,13 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                       <ArrowRight size={16} />
                     </Link>
                   ) : (
-                    <button className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform">
+                    <Link 
+                      to="/case-study/wami-vacations"
+                      className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                    >
                       {t.viewCase}
                       <ArrowRight size={16} />
-                    </button>
+                    </Link>
                   )}
                 </div>
               )}
@@ -923,10 +926,13 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                       <ArrowRight size={14} />
                     </Link>
                   ) : (
-                    <button className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform">
+                    <Link 
+                      to="/case-study/wami-vacations"
+                      className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                    >
                       {t.viewCase}
                       <ArrowRight size={14} />
-                    </button>
+                    </Link>
                   )}
                 </div>
               )}
@@ -946,7 +952,12 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                     {t.viewCase}
                   </Link>
                 ) : (
-                  <button className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap">{t.viewCase}</button>
+                  <Link 
+                    to="/case-study/wami-vacations"
+                    className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
+                  >
+                    {t.viewCase}
+                  </Link>
                 )}
               </div>
             </motion.div>
@@ -1442,10 +1453,21 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
 
 const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
   const t = translations[lang];
+  const navigate = useNavigate();
   const constraintsRef = useRef<HTMLDivElement>(null);
+  const nextProjectRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const x = useMotionValue(0);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  // Motion values for the interactive lens
+  const lensX = useMotionValue(0);
+  const lensY = useMotionValue(0);
+  
+  const lensClipPath = useTransform([lensX, lensY], ([lx, ly]: [number, number]) => {
+    const radius = isMobile ? 55 : 110;
+    return `circle(${radius}px at calc(50% + ${lx}px) calc(50% + ${ly}px))`;
+  });
 
   const calculateCenter = () => {
     if (imageRef.current && constraintsRef.current) {
@@ -1512,28 +1534,15 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button - Positioned at the top right, outside of the main content motion div for better clickability */}
       <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-[110] flex justify-end pointer-events-none">
-        <Link 
-          to="/#portfolio" 
-          className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl"
-          onClick={(e) => {
-            // If we are already on the home page, handle scroll manually
-            if (window.location.pathname === '/') {
-              e.preventDefault();
-              const el = document.getElementById('portfolio');
-              if (el) {
-                const headerOffset = isMobile ? 80 : 160;
-                const elementPosition = el.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.scrollY - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-              }
-            }
-          }}
+        <button 
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
         >
           <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
             <ArrowLeft className="w-4 h-4 group-hover:text-primary transition-colors" />
           </div>
-          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.backToCases}</span>
-        </Link>
+          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
+        </button>
       </div>
 
       <div className="pt-4 md:pt-8 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
@@ -1798,7 +1807,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-light text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
         >
           {t.portfolio.balancePulse.servicesTitle}
         </motion.h2>
@@ -1808,6 +1817,289 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
             <ServiceItem key={i} item={item} index={i} />
           ))}
         </div>
+      </div>
+
+      {/* Teamvoice Section */}
+      <div className="w-full max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center md:px-0">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+        >
+          {t.portfolio.balancePulse.teamVoiceTitle}
+        </motion.h2>
+
+        {/* Mobile Carousel */}
+        <div className="w-full md:hidden">
+          <TeamVoiceMobileCarousel items={t.portfolio.balancePulse.teamVoiceItems} />
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:block w-full max-w-6xl px-6 space-y-12">
+          {t.portfolio.balancePulse.teamVoiceItems.map((item: any, i: number) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: i * 0.1 }}
+              className="grid grid-cols-1 md:grid-cols-[1fr_1fr_2.5fr] gap-4 md:gap-12 items-start border-b border-white/5 pb-12 last:border-0"
+            >
+              <div className="text-xs md:text-sm text-white/40 font-mono uppercase tracking-[0.2em] pt-1">
+                {item.name}
+              </div>
+              <div className="text-base md:text-lg text-white/70 font-satoshi font-medium uppercase tracking-wider pt-0.5">
+                {item.role}
+              </div>
+              <div className="text-lg md:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                {item.quote}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Next Project Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center overflow-hidden">
+        <div ref={nextProjectRef} className="relative group block w-full max-w-4xl py-20">
+          {/* Blurred Background Text */}
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white/10 blur-[1px] leading-tight tracking-tighter text-center select-none"
+          >
+            {t.portfolio.nextProject}
+          </motion.h2>
+          
+          {/* Sharp Text Layer (Masked to be visible only inside the lens) */}
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+            style={{
+              clipPath: lensClipPath,
+              WebkitClipPath: lensClipPath
+            }}
+          >
+            <h2 className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center">
+              {t.portfolio.nextProject}
+            </h2>
+          </motion.div>
+          
+          {/* Lens Image Overlay - Draggable */}
+          <motion.div 
+            drag
+            dragElastic={0.1}
+            dragConstraints={nextProjectRef}
+            onTap={() => navigate('/case-study/wami-vacations')}
+            style={{ x: lensX, y: lensY }}
+            whileHover={{ scale: 1.02 }}
+            whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[100px] h-[100px] md:w-[180px] md:h-[180px] lg:w-[250px] lg:h-[250px] flex items-center justify-center z-20"
+          >
+            <img 
+              src="/images/LENS (Mask Group).png" 
+              alt="Lens Mask" 
+              className="w-full h-full object-contain opacity-90 pointer-events-none"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+        </div>
+
+        {/* Link to Next Case - Separate from the interactive lens to allow clicking */}
+        <Link to="/case-study/wami-vacations" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+          <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
+
+    </div>
+  );
+};
+
+const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
+  const t = translations[lang];
+  const navigate = useNavigate();
+  const nextProjectRef = useRef<HTMLDivElement>(null);
+  
+  // Motion values for the interactive lens
+  const lensX = useMotionValue(0);
+  const lensY = useMotionValue(0);
+  
+  const lensClipPath = useTransform([lensX, lensY], ([lx, ly]: [number, number]) => {
+    const radius = isMobile ? 55 : 110;
+    return `circle(${radius}px at calc(50% + ${lx}px) calc(50% + ${ly}px))`;
+  });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
+      {/* Back Button */}
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-[110] flex justify-end pointer-events-none">
+        <button 
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
+        >
+          <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
+            <ArrowLeft className="w-4 h-4 group-hover:text-primary transition-colors" />
+          </div>
+          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
+        </button>
+      </div>
+
+      <div className="pt-4 md:pt-8 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full text-center"
+        >
+          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
+            HR Tech
+          </span>
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-satoshi font-normal text-white mb-6 leading-tight">
+            {t.portfolio.vacations.title}
+          </h1>
+          <p className="text-xl md:text-2xl lg:text-3xl text-white/70 font-satoshi max-w-3xl mx-auto leading-relaxed">
+            {t.portfolio.vacations.desc}
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Next Project Section (linking back to Balance Pulse for now) */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center overflow-hidden">
+        <div ref={nextProjectRef} className="relative group block w-full max-w-4xl py-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white/10 blur-[1px] leading-tight tracking-tighter text-center select-none"
+          >
+            {t.portfolio.nextProject}
+          </motion.h2>
+          
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+            style={{
+              clipPath: lensClipPath,
+              WebkitClipPath: lensClipPath
+            }}
+          >
+            <h2 className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center">
+              {t.portfolio.nextProject}
+            </h2>
+          </motion.div>
+          
+          <motion.div 
+            drag
+            dragElastic={0.1}
+            dragConstraints={nextProjectRef}
+            onTap={() => navigate('/case-study/balance-pulse')}
+            style={{ x: lensX, y: lensY }}
+            whileHover={{ scale: 1.02 }}
+            whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[100px] h-[100px] md:w-[180px] md:h-[180px] lg:w-[250px] lg:h-[250px] flex items-center justify-center z-20"
+          >
+            <img 
+              src="/images/LENS (Mask Group).png" 
+              alt="Lens Mask" 
+              className="w-full h-full object-contain opacity-90 pointer-events-none"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+        </div>
+
+        <Link to="/case-study/balance-pulse" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+          <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+const TeamVoiceMobileCarousel = ({ items }: { items: any[] }) => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % items.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [items.length]);
+
+  return (
+    <div className="w-full overflow-hidden relative flex flex-col">
+      <div className="relative w-full grid grid-cols-1 grid-rows-1">
+        {/* Invisible stack to maintain equal height based on tallest item */}
+        {items.map((item, i) => (
+          <div 
+            key={`ghost-${i}`} 
+            className="col-start-1 row-start-1 invisible pointer-events-none px-3 py-12 text-left"
+            aria-hidden="true"
+          >
+            <div className="text-lg font-satoshi font-light leading-relaxed mb-8">
+              {item.quote}
+            </div>
+            <div className="mt-auto">
+              <div className="text-sm font-satoshi font-medium uppercase tracking-wider mb-1">
+                {item.role}
+              </div>
+              <div className="text-[10px] font-mono uppercase tracking-[0.2em]">
+                {item.name}
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Visible animated card */}
+        <div className="col-start-1 row-start-1 relative">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -50) setIndex((prev) => (prev + 1) % items.length);
+                if (info.offset.x > 50) setIndex((prev) => (prev - 1 + items.length) % items.length);
+              }}
+              className="w-full h-full flex flex-col justify-start text-left cursor-grab active:cursor-grabbing bg-white/[0.03] rounded-xl px-3 py-12 backdrop-blur-sm"
+            >
+              <div className="text-lg text-white font-satoshi font-light leading-relaxed opacity-90 mb-8">
+                {items[index].quote}
+              </div>
+              <div className="mt-auto">
+                <div className="text-sm text-white/70 font-satoshi font-medium uppercase tracking-wider mb-1">
+                  {items[index].role}
+                </div>
+                <div className="text-[10px] text-white/40 font-mono uppercase tracking-[0.2em]">
+                  {items[index].name}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+      
+      {/* Dots */}
+      <div className="flex justify-center gap-3 mt-8">
+        {items.map((_, i) => (
+          <button 
+            key={i} 
+            onClick={() => setIndex(i)}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === index ? 'bg-[var(--primary)] w-6' : 'bg-white/10'}`}
+          />
+        ))}
       </div>
     </div>
   );
@@ -2877,6 +3169,7 @@ function AppContent() {
     </>
   } />
   <Route path="/case-study/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+  <Route path="/case-study/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
 </Routes>
 
 <Footer t={t} setIsModalOpen={setIsModalOpen} setIsEmailSelectorOpen={setIsEmailSelectorOpen} />

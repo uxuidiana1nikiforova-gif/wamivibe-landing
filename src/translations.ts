@@ -90,7 +90,10 @@ export const translations = {
       title: 'They’ve already shipped. Your turn',
       comingSoon: 'Portfolio content coming soon...',
       viewCase: 'View Case',
+      back: 'Back',
       backToCases: 'Back to cases',
+      nextProject: 'Next project',
+      goToNextCase: 'Go to next case',
       vacations: {
         title: 'Wami Vacations – HR Experience Layer ✨',
         desc: 'Beyond simple tracking, we’ve built an engagement layer that turns vacation management into a team-building tool. It’s a space designed to boost motivation, foster belonging, and make corporate culture tangible in every click.'
@@ -126,7 +129,25 @@ export const translations = {
         forecastingTitle: 'Smart forecasting',
         forecastingDesc: 'You can ask the chat about a major purchase, and it will predict how it will impact your budget next month, taking into account your fixed expenses.',
         overallTitle: 'Overall',
-        overallDesc: 'This app helps you stop feeling guilty about spending and instead gives you tools for mindful money management.'
+        overallDesc: 'This app helps you stop feeling guilty about spending and instead gives you tools for mindful money management.',
+        teamVoiceTitle: 'Teamvoice',
+        teamVoiceItems: [
+          {
+            name: 'Alisa',
+            role: 'Product Owner',
+            quote: 'This project showed how a clear idea can quickly evolve into a real product with the right approach. The “Dopamine vs Important” concept developed rapidly, and vibe coding allowed us to test and refine features almost in real time. It felt less like a traditional process and more like continuous product thinking and iteration.'
+          },
+          {
+            name: 'Diana',
+            role: 'UX/UI Designer',
+            quote: 'This product was all about simplifying complexity. We focused on making financial tracking intuitive and emotionally engaging, not overwhelming. With vibe coding, design decisions could be instantly tested in the interface, making the process faster and more collaborative.'
+          },
+          {
+            name: 'Alex',
+            role: 'Senior Developer',
+            quote: 'The development speed was impressive, but maintaining code quality was key. With AI generating parts of the implementation, my role was to review, structure, and ensure long-term scalability. In the end, we achieved both — fast delivery and solid engineering standards.'
+          }
+        ]
       },
       lumina: { title: 'Lumina Health AI', category: 'Medical Diagnostics Platform' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Internal Corporate Ecosystem' }
@@ -282,7 +303,10 @@ export const translations = {
       title: 'Вони вже запустилися. Ваша черга',
       comingSoon: 'Контент портфоліо незабаром...',
       viewCase: 'Дивитися кейс',
+      back: 'Назад',
       backToCases: 'Назад до кейсів',
+      nextProject: 'Наступний проект',
+      goToNextCase: 'Перейти до наступного кейсу',
       vacations: {
         title: 'Wami Відпустки – HR Experience Layer ✨',
         desc: 'Крім простого відстеження, ми створили рівень залучення, який перетворює управління відпустками на інструмент тімбілдінгу. Це простір, розроблений для підвищення мотивації, формування почуття причетності та втілення корпоративної культури в кожному кліку.'
@@ -318,7 +342,25 @@ export const translations = {
         forecastingTitle: 'Smart forecasting',
         forecastingDesc: 'Ви можете запитати чат про велику покупку, і він спрогнозує, як це вплине на ваш бюджет наступного місяця, враховуючи ваші постійні витрати.',
         overallTitle: 'Загалом',
-        overallDesc: 'Цей додаток допомагає перестати відчувати провину за витрати і натомість дає інструменти для усвідомленого управління грошима.'
+        overallDesc: 'Цей додаток допомагає перестати відчувати провину за витрати і натомість дає інструменти для усвідомленого управління грошима.',
+        teamVoiceTitle: 'Голос команди',
+        teamVoiceItems: [
+          {
+            name: 'Аліса',
+            role: 'Product Owner',
+            quote: 'Цей проект показав, як чітка ідея може швидко перетворитися на реальний продукт за правильного підходу. Концепція «Дофамін проти Важливого» розвивалася стрімко, а vibe coding дозволив нам тестувати та вдосконалювати функції майже в реальному часі. Це було менше схоже на традиційний процес і більше на безперервне продуктове мислення та ітерації.'
+          },
+          {
+            name: 'Діана',
+            role: 'UX/UI Designer',
+            quote: 'Цей продукт був присвячений спрощенню складності. Ми зосередилися на тому, щоб зробити фінансове відстеження інтуїтивно зрозумілим та емоційно привабливим, а не обтяжливим. Завдяки vibe coding дизайнерські рішення можна було миттєво протестувати в інтерфейсі, що зробило процес швидшим та більш спільним.'
+          },
+          {
+            name: 'Алекс',
+            role: 'Senior Developer',
+            quote: 'Швидкість розробки була вражаючою, але ключовим було збереження якості коду. Оскільки ШІ генерував частини реалізації, моєю роллю було переглядати, структурувати та забезпечувати довгострокову масштабованість. Зрештою, ми досягли обох цілей — швидкої доставки та надійних інженерних стандартів.'
+          }
+        ]
       },
       lumina: { title: 'Lumina Health AI', category: 'Медична діагностична платформа' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Внутрішня корпоративна екосистема' }
@@ -474,7 +516,10 @@ export const translations = {
       title: 'Sie haben bereits gelauncht. Sie sind dran',
       comingSoon: 'Portfolio-Inhalte folgen in Kürze...',
       viewCase: 'Fall ansehen',
+      back: 'Zurück',
       backToCases: 'Zurück zu den Fällen',
+      nextProject: 'Nächstes projekt',
+      goToNextCase: 'Zum nächsten Projekt',
       vacations: {
         title: 'Wami Urlaub – HR Experience Layer ✨',
         desc: 'Über das einfache Tracking hinaus haben wir eine Engagement-Ebene geschaffen, die das Urlaubsmanagement in ein Teambuilding-Tool verwandelt. Es ist ein Raum, der darauf ausgelegt ist, die Motivation zu steigern, die Zugehörigkeit zu fördern und die Unternehmenskultur bei jedem Klick erlebbar zu machen.'
@@ -510,7 +555,25 @@ export const translations = {
         forecastingTitle: 'Smart forecasting',
         forecastingDesc: 'Sie können den Chat nach einem größeren Kauf fragen, und er wird vorhersagen, wie sich dieser im nächsten Monat auf Ihr Budget auswirken wird, unter Berücksichtigung Ihrer Fixkosten.',
         overallTitle: 'Insgesamt',
-        overallDesc: 'Diese App hilft Ihnen, sich nicht mehr schuldig wegen Ihrer Ausgaben zu fühlen, und gibt Ihnen stattdessen Tools für ein achtsames Geldmanagement.'
+        overallDesc: 'Diese App hilft Ihnen, sich nicht mehr schuldig wegen Ihrer Ausgaben zu fühlen, und gibt Ihnen stattdessen Tools für ein achtsames Geldmanagement.',
+        teamVoiceTitle: 'Stimme des Teams',
+        teamVoiceItems: [
+          {
+            name: 'Alisa',
+            role: 'Product Owner',
+            quote: 'Dieses Projekt hat gezeigt, wie sich eine klare Idee mit dem richtigen Ansatz schnell zu einem echten Produkt entwickeln kann. Das Konzept „Dopamin vs. Wichtig“ entwickelte sich rasant, und Vibe Coding ermöglichte es uns, Funktionen fast in Echtzeit zu testen und zu verfeinern. Es fühlte sich weniger wie ein traditioneller Prozess an, sondern mehr wie kontinuierliches Produktdenken und Iteration.'
+          },
+          {
+            name: 'Diana',
+            role: 'UX/UI Designer',
+            quote: 'Bei diesem Produkt ging es vor allem darum, Komplexität zu vereinfachen. Wir haben uns darauf konzentriert, die Finanzverfolgung intuitiv und emotional ansprechend zu gestalten, nicht überwältigend. Mit Vibe Coding konnten Designentscheidungen sofort im Interface getestet werden, was den Prozess schneller und kollaborativer machte.'
+          },
+          {
+            name: 'Alex',
+            role: 'Senior Developer',
+            quote: 'Die Entwicklungsgeschwindigkeit war beeindruckend, aber die Aufrechterhaltung der Codequalität war entscheidend. Da die KI Teile der Implementierung generierte, bestand meine Aufgabe darin, diese zu überprüfen, zu strukturieren und die langfristige Skalierbarkeit sicherzustellen. Am Ende haben wir beides erreicht – eine schnelle Lieferung und solide Engineering-Standards.'
+          }
+        ]
       },
       lumina: { title: 'Lumina Health AI', category: 'Medizinische Diagnoseplattform' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Internes Unternehmens-Ökosystem' }
