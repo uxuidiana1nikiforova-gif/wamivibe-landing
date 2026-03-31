@@ -95,11 +95,11 @@ export const translations = {
       nextProject: 'Next project',
       goToNextCase: 'Go to next case',
       vacations: {
-        title: 'Wami Vacations – HR Experience Layer ✨',
+        title: 'Wami vacations — HR experience layer',
         desc: 'Beyond simple tracking, we’ve built an engagement layer that turns vacation management into a team-building tool. It’s a space designed to boost motivation, foster belonging, and make corporate culture tangible in every click.'
       },
       balancePulse: {
-        title: 'The Balance Pulse',
+        title: 'The balance pulse',
         desc: 'A personal financial coaching experience that goes beyond traditional budgeting tools, focusing on the psychology of spending. The system helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.',
         category: 'FinTech',
         goalTitle: 'Goal of the project',
@@ -150,7 +150,12 @@ export const translations = {
         ]
       },
       lumina: { title: 'Lumina Health AI', category: 'Medical Diagnostics Platform' },
-      wamioff: { title: 'WAMIOFF Platform', category: 'Internal Corporate Ecosystem' }
+      wamioff: { title: 'WAMIOFF Platform', category: 'Internal Corporate Ecosystem' },
+      citySurvivalKit: {
+        title: 'City survival kit — product for relocation with AI assistant',
+        desc: 'Not just a city guide, but a full-fledged “operating system” for life in a new place. The product helps people adapt quickly — from basic needs to understanding local rules and the environment.',
+        category: 'Relocation AI'
+      }
     },
     mockups: {
       lumina: {
@@ -308,11 +313,11 @@ export const translations = {
       nextProject: 'Наступний проект',
       goToNextCase: 'Перейти до наступного кейсу',
       vacations: {
-        title: 'Wami Відпустки – HR Experience Layer ✨',
+        title: 'Wami відпустки — HR experience layer',
         desc: 'Крім простого відстеження, ми створили рівень залучення, який перетворює управління відпустками на інструмент тімбілдінгу. Це простір, розроблений для підвищення мотивації, формування почуття причетності та втілення корпоративної культури в кожному кліку.'
       },
       balancePulse: {
-        title: 'The Balance Pulse',
+        title: 'The balance pulse',
         desc: 'Персональний досвід фінансового коучингу, який виходить за рамки традиційних інструментів бюджетування, зосереджуючись на психології витрат. Система допомагає користувачам відрізняти основні потреби від імпульсивних бажань, що дозволяє приймати більш свідомі та сталі фінансові рішення.',
         category: 'FinTech',
         goalTitle: 'Мета проекту',
@@ -363,7 +368,12 @@ export const translations = {
         ]
       },
       lumina: { title: 'Lumina Health AI', category: 'Медична діагностична платформа' },
-      wamioff: { title: 'WAMIOFF Platform', category: 'Внутрішня корпоративна екосистема' }
+      wamioff: { title: 'WAMIOFF Platform', category: 'Внутрішня корпоративна екосистема' },
+      citySurvivalKit: {
+        title: 'City survival kit — продукт для релокації з ШІ-асистентом',
+        desc: 'Не просто путівник містом, а повноцінна «операційна система» для життя на новому місці. Продукт допомагає людям швидко адаптуватися — від базових потреб до розуміння місцевих правил та середовища.',
+        category: 'Relocation AI'
+      }
     },
     mockups: {
       lumina: {
@@ -521,11 +531,11 @@ export const translations = {
       nextProject: 'Nächstes projekt',
       goToNextCase: 'Zum nächsten Projekt',
       vacations: {
-        title: 'Wami Urlaub – HR Experience Layer ✨',
+        title: 'Wami urlaub — HR experience layer',
         desc: 'Über das einfache Tracking hinaus haben wir eine Engagement-Ebene geschaffen, die das Urlaubsmanagement in ein Teambuilding-Tool verwandelt. Es ist ein Raum, der darauf ausgelegt ist, die Motivation zu steigern, die Zugehörigkeit zu fördern und die Unternehmenskultur bei jedem Klick erlebbar zu machen.'
       },
       balancePulse: {
-        title: 'The Balance Pulse',
+        title: 'The balance pulse',
         desc: 'Ein persönliches Finanz-Coaching-Erlebnis, das über traditionelle Budgetierungstools hinausgeht und sich auf die Psychologie des Ausgebens konzentriert. Das System hilft den Nutzern, wesentliche Bedürfnisse von impulsiven Wünschen zu unterscheiden, was bewusstere und nachhaltigere Finanzentscheidungen ermöglicht.',
         category: 'FinTech',
         goalTitle: 'Projektziel',
@@ -576,7 +586,12 @@ export const translations = {
         ]
       },
       lumina: { title: 'Lumina Health AI', category: 'Medizinische Diagnoseplattform' },
-      wamioff: { title: 'WAMIOFF Platform', category: 'Internes Unternehmens-Ökosystem' }
+      wamioff: { title: 'WAMIOFF Platform', category: 'Internes Unternehmens-Ökosystem' },
+      citySurvivalKit: {
+        title: 'City survival kit',
+        desc: 'Nicht nur ein Stadtführer, sondern ein vollwertiges „Betriebssystem“ für das Leben an einem neuen Ort. Das Produkt hilft Menschen, sich schnell anzupassen – von Grundbedürfnissen bis hin zum Verständnis lokaler Regeln und der Umgebung.',
+        category: 'Produktdesign'
+      }
     },
     mockups: {
       lumina: {

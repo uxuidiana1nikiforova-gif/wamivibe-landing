@@ -790,9 +790,9 @@ const ProjectDescription = ({ title, desc, icon }: { title: string; desc: string
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="text-xl md:text-2xl font-satoshi font-medium mb-4 text-white leading-tight flex items-center gap-2">
-            {title}
-            {icon && <span className="text-[var(--primary)]">{icon}</span>}
+          <h3 className="text-xl md:text-2xl font-satoshi font-medium mb-4 text-white leading-tight flex items-start gap-2">
+            {icon && <span className="text-[var(--primary)] flex-shrink-0 mt-1">{icon}</span>}
+            <span>{title}</span>
           </h3>
           <p className="text-base md:text-lg lg:text-xl text-white font-light leading-relaxed opacity-80">
             {desc}
@@ -818,6 +818,16 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
       overlayCategory: t.balancePulse.category,
       icon: <Sparkles size={20} />
     },
+    {
+      id: "city-survival-kit",
+      title: t.citySurvivalKit.title,
+      desc: t.citySurvivalKit.desc,
+      image: "/images/cover-city-kit.png",
+      imageAlt: t.citySurvivalKit.title,
+      overlayTitle: t.citySurvivalKit.title,
+      overlayCategory: t.citySurvivalKit.category,
+      icon: <Sparkles size={20} />
+    },
     { 
       id: "wami-vacations",
       title: t.vacations.title,
@@ -825,7 +835,8 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
       image: "/images/image_case1.svg",
       imageAlt: t.vacations.title,
       overlayTitle: t.vacations.title,
-      overlayCategory: "HR Tech" // Adding a default category since it's missing in translations
+      overlayCategory: "HR Tech",
+      icon: <Sparkles size={20} />
     }
   ];
 
@@ -894,71 +905,42 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               {/* Mobile "View Case" Button - Visible only on mobile/tablet */}
               {!isMobile && (
                 <div className="lg:hidden absolute bottom-6 right-6 z-30">
-                   {currentProject.id === "balance-pulse" ? (
-                    <Link 
-                      to="/case-study/balance-pulse"
-                      className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
-                    >
-                      {t.viewCase}
-                      <ArrowRight size={16} />
-                    </Link>
-                  ) : (
-                    <Link 
-                      to="/case-study/wami-vacations"
-                      className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
-                    >
-                      {t.viewCase}
-                      <ArrowRight size={16} />
-                    </Link>
-                  )}
+                  <Link 
+                    to={`/case-study/${currentProject.id}`}
+                    className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                  >
+                    {t.viewCase}
+                    <ArrowRight size={16} />
+                  </Link>
                 </div>
               )}
               
               {/* Mobile "View Case" Button for true mobile - using isMobile prop */}
               {isMobile && (
                 <div className="absolute bottom-4 right-4 z-30">
-                   {currentProject.id === "balance-pulse" ? (
-                    <Link 
-                      to="/case-study/balance-pulse"
-                      className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
-                    >
-                      {t.viewCase}
-                      <ArrowRight size={14} />
-                    </Link>
-                  ) : (
-                    <Link 
-                      to="/case-study/wami-vacations"
-                      className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
-                    >
-                      {t.viewCase}
-                      <ArrowRight size={14} />
-                    </Link>
-                  )}
+                  <Link 
+                    to={`/case-study/${currentProject.id}`}
+                    className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                  >
+                    {t.viewCase}
+                    <ArrowRight size={14} />
+                  </Link>
                 </div>
               )}
 
               {/* Info Overlay on Hover - Desktop Only */}
               <div className="absolute inset-0 bg-black/60 opacity-0 lg:group-hover:opacity-100 transition-opacity hidden lg:flex flex-col items-center justify-center px-3 py-4 md:p-6 text-center backdrop-blur-sm">
                 <h4 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                  {(currentProject as any).icon && <span className="text-[var(--primary)] flex-shrink-0">{(currentProject as any).icon}</span>}
                   {currentProject.overlayTitle}
-                  {(currentProject as any).icon && <span className="text-[var(--primary)]">{(currentProject as any).icon}</span>}
                 </h4>
                 <p className="text-zinc-300 text-sm mb-4">{currentProject.overlayCategory}</p>
-                {currentProject.id === "balance-pulse" ? (
-                  <Link 
-                    to="/case-study/balance-pulse"
-                    className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
-                  >
-                    {t.viewCase}
-                  </Link>
-                ) : (
-                  <Link 
-                    to="/case-study/wami-vacations"
-                    className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
-                  >
-                    {t.viewCase}
-                  </Link>
-                )}
+                <Link 
+                  to={`/case-study/${currentProject.id}`}
+                  className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
+                >
+                  {t.viewCase}
+                </Link>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -1451,6 +1433,746 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
   );
 };
 
+const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
+  const t = translations[lang];
+  const navigate = useNavigate();
+  const constraintsRef = useRef<HTMLDivElement>(null);
+  const nextProjectRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const x = useMotionValue(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  const features = [
+    {
+      title: 'Essential Map',
+      desc: 'verified nearby services (banks, hospitals, transport, SIM cards)',
+      side: 'right'
+    },
+    {
+      title: 'Bureaucracy Flow',
+      desc: 'step-by-step guides (documents, bank account, legalization) in a roadmap format',
+      side: 'left'
+    },
+    {
+      title: 'AI Assistant',
+      desc: 'answers questions and guides users through processes (adapted to user status)',
+      side: 'right'
+    },
+    {
+      title: 'Life Hacks Feed',
+      desc: 'local tips from residents',
+      side: 'left'
+    },
+    {
+      title: 'Cost Simulator',
+      desc: 'forecasts cost of living in the city',
+      side: 'right'
+    },
+    {
+      title: 'Emotional Layer',
+      desc: 'basic support + community recommendations',
+      side: 'left'
+    }
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % features.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [features.length]);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  // Motion values for the interactive lens
+  const lensX = useMotionValue(0);
+  const lensY = useMotionValue(0);
+  
+  const lensClipPath = useTransform([lensX, lensY], ([lx, ly]: [number, number]) => {
+    const radius = isMobile ? 55 : 110;
+    return `circle(${radius}px at calc(50% + ${lx}px) calc(50% + ${ly}px))`;
+  });
+
+  const calculateCenter = () => {
+    if (imageRef.current && constraintsRef.current) {
+      const imgWidth = imageRef.current.offsetWidth;
+      const containerWidth = constraintsRef.current.offsetWidth;
+      x.set(-(imgWidth - containerWidth) / 2);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    
+    let observer: ResizeObserver | null = null;
+    if (constraintsRef.current) {
+      observer = new ResizeObserver(() => {
+        calculateCenter();
+      });
+      observer.observe(constraintsRef.current);
+    }
+
+    calculateCenter();
+    const timer = setTimeout(calculateCenter, 100);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (observer) observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
+      {/* Back Button */}
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-[110] flex justify-end pointer-events-none">
+        <button 
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
+        >
+          <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
+            <ArrowLeft className="w-4 h-4 group-hover:text-primary transition-colors" />
+          </div>
+          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
+        </button>
+      </div>
+
+      <div className="pt-4 md:pt-8 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full relative flex flex-col lg:block"
+        >
+          <div className="relative lg:absolute lg:inset-0 z-20 p-0 lg:p-16 mb-8 lg:mb-0 flex flex-col justify-start lg:pt-48 items-start pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="max-w-3xl pointer-events-auto"
+            >
+              <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
+                {t.portfolio.citySurvivalKit.category}
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-normal text-white mb-3 md:mb-6 leading-tight">
+                <span>City survival kit</span>
+              </h1>
+              <p className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi max-w-2xl leading-tight opacity-95">
+                {lang === 'ua' 
+                  ? 'Продукт для релокації з ШІ-асистентом'
+                  : lang === 'de'
+                  ? 'Produkt für den Umzug mit KI-Assistent'
+                  : 'Product for relocation with AI assistant'
+                }
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl border border-white/5 shadow-2xl h-[400px] md:h-[500px] lg:h-auto">
+            <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black/80 via-black/25 to-transparent z-10 pointer-events-none" />
+            <img 
+              src="/images/cover-citi-kit-2.png" 
+              alt="City Survival Kit Cover" 
+              className="w-full h-full object-cover lg:object-contain object-[82%_center] lg:object-center block"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Goal of the Project Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+          <div className="lg:col-span-5">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight"
+            >
+              Goal of the project
+            </motion.h2>
+          </div>
+          <div className="lg:col-span-7 lg:pt-5">
+            <motion.p 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
+            >
+              {lang === 'ua'
+                ? 'Створити не просто путівник містом, а повноцінну «операційну систему» для життя на новому місці. Проект має на меті допомогти людям швидко адаптуватися на новому місці, охоплюючи все — від базових потреб до розуміння місцевих правил та навколишнього середовища.'
+                : lang === 'de'
+                ? 'Nicht nur einen Stadtführer zu erstellen, sondern ein vollwertiges „Betriebssystem“ für das Leben an einem neuen Ort. Das Projekt zielt darauf ab, Menschen zu helfen, sich schnell an einem neuen Ort zurechtzufinden, und deckt alles ab – von den Grundbedürfnissen bis hin zum Verständnis lokaler Regeln und der Umgebung.'
+                : 'To create not just a city guide, but a full-fledged “operating system” for life in a new place. The project aims to help people adapt quickly in a new place, covering everything from basic needs to understanding local rules and the surrounding environment.'
+              }
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      {/* Secondary Image Section */}
+      <div className="max-w-7xl mx-auto pb-20 md:pb-32">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl border border-white/5 shadow-2xl h-[400px] md:h-[500px] lg:h-auto"
+        >
+          <img 
+            src="/images/image1-city-kit.png" 
+            alt="City Survival Kit Visual" 
+            className="w-full h-full object-cover lg:object-contain object-center block"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </div>
+
+      {/* Core Concept Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start mb-20 md:mb-32">
+          <div className="lg:col-span-5">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight"
+            >
+              {lang === 'ua' ? 'Основна концепція' : lang === 'de' ? 'Kernkonzept' : 'Core concept'}
+            </motion.h2>
+          </div>
+          <div className="lg:col-span-7 lg:pt-5">
+            <motion.p 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
+            >
+              {lang === 'ua'
+                ? 'Цифровий компаньйон для релокації, який усуває хаос після переїзду, супроводжуючи користувачів через місцеву бюрократію, основні послуги та культурний контекст.'
+                : lang === 'de'
+                ? 'Ein digitaler Begleiter für den Umzug, der das Chaos nach dem Einzug beseitigt, indem er die Nutzer durch die lokale Bürokratie, wichtige Dienstleistungen und den kulturellen Kontext führt.'
+                : 'A digital companion for relocation that eliminates post-move chaos by guiding users through local bureaucracy, essential services, and cultural context.'
+              }
+            </motion.p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-3 lg:gap-12">
+          {/* Target Audience Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-8 md:p-12 rounded-[2rem] flex flex-col h-full group overflow-hidden"
+          >
+            <BorderBeam delay={0} duration={12} />
+            
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)]/20 flex items-center justify-center">
+                <Users size={24} className="text-[var(--primary)]" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-satoshi font-medium text-white tracking-tight">
+                {lang === 'ua' ? 'Цільова аудиторія' : lang === 'de' ? 'Zielgruppe' : 'Target audience'}
+              </h3>
+            </div>
+
+            <div className="flex flex-wrap gap-2 md:gap-3 mt-auto pb-4 -mx-2 px-2">
+              {(lang === 'ua' 
+                ? ['Релоканти', 'Цифрові кочівники', 'Студенти', 'Експати', 'Біженці']
+                : lang === 'de'
+                ? ['Relocators', 'Digitale Nomaden', 'Studenten', 'Expats', 'Flüchtlinge']
+                : ['Relocators', 'Digital nomads', 'Students', 'Expats', 'Refugees']
+              ).map((item) => (
+                <span key={item} className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl bg-white/5 border border-white/10 text-[10px] md:text-[11px] lg:text-xs font-mono uppercase tracking-[0.2em] text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Problems it solves Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-8 md:p-12 rounded-[2rem] flex flex-col h-full group overflow-hidden"
+          >
+            <BorderBeam delay={3} duration={15} />
+            
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)]/20 flex items-center justify-center">
+                <Target size={24} className="text-[var(--primary)]" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-satoshi font-medium text-white tracking-tight">
+                {lang === 'ua' ? 'Проблеми, які вирішує' : lang === 'de' ? 'Gelöste Probleme' : 'Problems it solves'}
+              </h3>
+            </div>
+
+            <div className="flex flex-wrap gap-2 md:gap-3 mt-auto pb-4 -mx-2 px-2">
+              {(lang === 'ua'
+                ? ['Хаос після релокації', 'Нерозуміння бюрократії', 'Пошук сервісів', 'Культурний контекст']
+                : lang === 'de'
+                ? ['Chaos nach Umzug', 'Bürokratie-Dschungel', 'Service-Suche', 'Kulturkontext']
+                : ['Chaos after relocation', 'Bureaucracy confusion', 'Finding services', 'Cultural context']
+              ).map((item) => (
+                <span key={item} className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl bg-white/5 border border-white/10 text-[10px] md:text-[11px] lg:text-xs font-mono uppercase tracking-[0.2em] text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Key features Section */}
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+        className="relative max-w-7xl mx-auto py-20 md:py-32 sm:overflow-hidden overflow-visible border-t border-white/5"
+      >
+        <div className="relative z-10">
+          {/* Key features Header */}
+          <div className="mb-20 md:mb-32 flex flex-col items-start px-6">
+            <div className="text-left max-w-2xl">
+              <motion.h3 
+                variants={itemVariants}
+                className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight mb-6"
+              >
+                Key features
+              </motion.h3>
+              <motion.p 
+                variants={itemVariants}
+                className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
+              >
+                Tools that help you adapt quickly to a new city: find nearby services, follow bureaucracy guides, get AI support, discover local tips, forecast expenses, and receive basic emotional support.
+              </motion.p>
+            </div>
+            <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mt-6" />
+          </div>
+
+          {/* The Path SVG */}
+          <motion.div 
+            variants={itemVariants}
+            className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1400px] hidden sm:block pointer-events-none"
+          >
+            <svg width="100%" height="100%" viewBox="0 0 800 1650" fill="none" preserveAspectRatio="xMidYMin meet">
+              <motion.path 
+                d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 100, 1200, 100, 1320 S 700, 1440, 700, 1560 S 400, 1680, 400, 1800" 
+                stroke="white" 
+                strokeOpacity="0.15" 
+                strokeWidth="2" 
+                strokeDasharray="12 12" 
+                animate={{
+                  strokeDashoffset: [0, -24],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+
+              {/* Nodes along the path */}
+              <circle cx="400" cy="120" r="6" fill="var(--primary)" />
+              <motion.circle 
+                cx="400" cy="120" r="12" 
+                stroke="var(--primary)" strokeOpacity="0.3" strokeWidth="1"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+              
+              {[360, 600, 840, 1080, 1320, 1560].map((y, i) => (
+                <React.Fragment key={i}>
+                  <circle cx={i % 2 === 0 ? 100 : 700} cy={y} r="6" fill="white" fillOpacity="0.4" />
+                  <motion.circle 
+                    cx={i % 2 === 0 ? 100 : 700} cy={y} r="12" 
+                    stroke="white" strokeOpacity="0.15" strokeWidth="1"
+                    animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                  />
+                </React.Fragment>
+              ))}
+
+              <circle cx="400" cy="1800" r="6" fill="white" fillOpacity="0.4" />
+              <motion.circle 
+                cx="400" cy="1800" r="12" 
+                stroke="white" strokeOpacity="0.15" strokeWidth="1"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 3 }}
+              />
+
+              {/* Animated Bubbles along the path */}
+              {[0, 0.2, 0.4, 0.6, 0.8].map((startOffset, i) => (
+                <motion.circle
+                  key={i}
+                  r="3"
+                  fill="#71717a"
+                  fillOpacity="0.4"
+                  animate={{
+                    offsetDistance: ["0%", "100%"],
+                    opacity: [0, 0.5, 0],
+                    scale: [0.5, 1.2, 0.5]
+                  }}
+                  transition={{
+                    duration: 15,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: startOffset * 15,
+                  }}
+                  style={{
+                    offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 100, 1200, 100, 1320 S 700, 1440, 700, 1560 S 400, 1680, 400, 1800')",
+                  }}
+                />
+              ))}
+            </svg>
+          </motion.div>
+
+          {/* Features List */}
+          <div className="relative sm:block overflow-hidden sm:overflow-visible min-h-[320px] sm:min-h-0 px-6">
+            {isMobile ? (
+              <div className="relative w-full h-[320px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeIndex}
+                    initial={{ opacity: 0, x: 40, rotateY: 15, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -40, rotateY: -15, scale: 0.95 }}
+                    transition={{ 
+                      duration: 0.6,
+                      ease: [0.23, 1, 0.32, 1]
+                    }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(_, info) => {
+                      const threshold = 50;
+                      if (info.offset.x < -threshold) {
+                        setActiveIndex((prev) => Math.min(prev + 1, features.length - 1));
+                      } else if (info.offset.x > threshold) {
+                        setActiveIndex((prev) => Math.max(prev - 1, 0));
+                      }
+                    }}
+                    className="absolute inset-0 bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 flex flex-col justify-center rounded-[2rem] shadow-2xl cursor-grab active:cursor-grabbing"
+                    style={{ perspective: "1000px", touchAction: "none" }}
+                  >
+                    <BorderBeam delay={activeIndex * 1} duration={15} color="white" size="120px" />
+                    <div className="absolute top-5 right-6 font-mono text-[10px] text-[var(--primary)] opacity-50">
+                      {String(activeIndex + 1).padStart(2, '0')} / {String(features.length).padStart(2, '0')}
+                    </div>
+                    <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
+                      {features[activeIndex].title}
+                    </h4>
+                    <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                      {features[activeIndex].desc}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            ) : (
+              <motion.div 
+                ref={scrollRef}
+                variants={listVariants}
+                className="sm:block sm:space-x-0 pb-12 sm:pb-0 relative sm:px-0"
+              >
+                {features.map((feature, index) => (
+                  <motion.div 
+                    key={index} 
+                    variants={itemVariants}
+                    className={`flex-shrink-0 w-full flex flex-col sm:flex-row items-center sm:mr-0 ${
+                      feature.side === 'right' ? 'sm:justify-end' : 'sm:justify-start'
+                    } sm:h-[240px] md:h-[240px] relative`}
+                  >
+                    {/* Feature Card */}
+                    <motion.div
+                      initial={{ 
+                        opacity: 0, 
+                        scale: 0.96,
+                        y: 40,
+                        rotateX: -10
+                      }}
+                      whileInView={{ 
+                        opacity: 1, 
+                        scale: 1, 
+                        y: 0,
+                        rotateX: 0
+                      }}
+                      animate={{
+                        y: [0, -15, 0],
+                        rotateX: [0, 1.2, -1.2, 0],
+                        rotateY: [0, 1.2, -1.2, 0],
+                        scale: [1, 1.005, 1],
+                      }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ 
+                        y: {
+                          duration: 7,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.5
+                        },
+                        rotateX: {
+                          duration: 9,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.3
+                        },
+                        rotateY: {
+                          duration: 11,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.7
+                        },
+                        scale: {
+                          duration: 8,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.4
+                        },
+                        opacity: { duration: 1 },
+                        initialY: { type: "spring", damping: 25, stiffness: 120 }
+                      }}
+                      style={{ transformStyle: "preserve-3d" }}
+                      className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[240px] flex flex-col justify-center"
+                    >
+                      <BorderBeam delay={index * 1} duration={15} color="white" size="120px" />
+                      <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
+                        {feature.title}
+                      </h4>
+                      <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                        {feature.desc}
+                      </p>
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </div>
+
+          {/* Mobile Scroll Indicators */}
+          <div className="flex sm:hidden justify-center space-x-2 mt-4">
+            {features.map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  activeIndex === i ? 'bg-[var(--primary)] w-4' : 'bg-white/20'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Final Solution Footer */}
+          <div className="mt-32 flex flex-col items-end px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-right max-w-2xl"
+            >
+              <h3 className="text-3xl md:text-4xl font-satoshi font-medium text-[var(--primary)] mb-6">
+                Overall
+              </h3>
+              <p className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 italic">
+                reduces stress and adaptation time in a new city, providing a sense of control and clarity
+              </p>
+            </motion.div>
+            <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mt-6" />
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Desktop Visual Showcase Section */}
+      <div className="hidden lg:block max-w-7xl mx-auto pb-20 md:pb-32">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full overflow-hidden rounded-[2.5rem] border border-white/5 shadow-2xl"
+        >
+          <img 
+            src="/images/image-kit.png" 
+            alt="City Survival Kit Full View" 
+            className="w-full h-auto block"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </div>
+
+      {/* Mobile/Tablet Visual Showcase Section */}
+      <div className="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-20 md:pb-32">
+        <div className="space-y-12">
+          {/* image-kit-1: Draggable with Blur Overlays */}
+          <div className="relative">
+            <motion.div
+              ref={constraintsRef}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl border border-white/5 shadow-2xl h-[400px] md:h-[500px]"
+            >
+              <motion.div 
+                drag="x"
+                dragConstraints={constraintsRef}
+                style={{ x }}
+                className="h-full w-fit cursor-grab active:cursor-grabbing"
+              >
+                <img 
+                  ref={imageRef}
+                  onLoad={calculateCenter}
+                  src="/images/image-kit-1.png" 
+                  alt="City Survival Kit Visual 1 Mobile" 
+                  className="h-full w-auto max-w-none block pointer-events-none"
+                  referrerPolicy="no-referrer"
+                />
+              </motion.div>
+
+              {/* Edge Blur Overlays */}
+              <div 
+                className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-zinc-950/25 via-zinc-950/5 to-transparent backdrop-blur-md z-10 pointer-events-none"
+                style={{ maskImage: 'linear-gradient(to right, black 20%, transparent)' }}
+              />
+              <div 
+                className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-zinc-950/25 via-zinc-950/5 to-transparent backdrop-blur-md z-10 pointer-events-none"
+                style={{ maskImage: 'linear-gradient(to left, black 20%, transparent)' }}
+              />
+            </motion.div>
+            
+            {/* Mobile Hint */}
+            <div className="mt-4 flex items-center justify-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest opacity-50">
+              <ArrowRight className="rotate-180" size={12} />
+              <span>Drag to explore</span>
+              <ArrowRight size={12} />
+            </div>
+          </div>
+
+          {/* image-kit-2: Card-like (Size matched to image-dopamin-2) */}
+          <div className="flex justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-4 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-6px)]"
+            >
+              <img 
+                src="/images/image-kit-2.png" 
+                alt="City Survival Kit Visual 2 Mobile" 
+                className="w-full h-auto rounded-2xl shadow-2xl"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Next Project Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center overflow-hidden">
+        <div ref={nextProjectRef} className="relative group block w-full max-w-4xl py-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white/10 blur-[1px] leading-tight tracking-tighter text-center select-none"
+          >
+            {t.portfolio.nextProject}
+          </motion.h2>
+          
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+            style={{
+              clipPath: lensClipPath,
+              WebkitClipPath: lensClipPath
+            }}
+          >
+            <h2 className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center">
+              {t.portfolio.nextProject}
+            </h2>
+          </motion.div>
+          
+          <motion.div 
+            drag
+            dragElastic={0.1}
+            dragConstraints={nextProjectRef}
+            onTap={() => navigate('/case-study/wami-vacations')}
+            style={{ x: lensX, y: lensY }}
+            whileHover={{ scale: 1.02 }}
+            whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[100px] h-[100px] md:w-[180px] md:h-[180px] lg:w-[250px] lg:h-[250px] flex items-center justify-center z-20"
+          >
+            <img 
+              src="/images/LENS (Mask Group).png" 
+              alt="Lens Mask" 
+              className="w-full h-full object-contain opacity-90 pointer-events-none"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+        </div>
+
+        <Link to="/case-study/wami-vacations" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+          <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
+    </div>
+  );
+};
+
 const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
   const t = translations[lang];
   const navigate = useNavigate();
@@ -1567,7 +2289,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
                 Fintech
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-normal text-white mb-3 md:mb-6 leading-tight">
-                The Balance Pulse
+                <span>{t.portfolio.balancePulse.title}</span>
               </h1>
               <p className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi max-w-2xl leading-tight opacity-95">
                 AI coach for conscious financial decisions based on spending psychology
@@ -1893,7 +2615,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/case-study/wami-vacations')}
+            onTap={() => navigate('/case-study/city-survival-kit')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -1909,7 +2631,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
         </div>
 
         {/* Link to Next Case - Separate from the interactive lens to allow clicking */}
-        <Link to="/case-study/wami-vacations" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to="/case-study/city-survival-kit" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -1962,8 +2684,9 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
           <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
             HR Tech
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-satoshi font-normal text-white mb-6 leading-tight">
-            {t.portfolio.vacations.title}
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-satoshi font-normal text-white mb-6 leading-tight flex items-center justify-center gap-4">
+            <Sparkles className="text-[var(--primary)] flex-shrink-0 w-8 h-8 md:w-12 md:h-12 lg:w-14 lg:h-14" />
+            <span>{t.portfolio.vacations.title}</span>
           </h1>
           <p className="text-xl md:text-2xl lg:text-3xl text-white/70 font-satoshi max-w-3xl mx-auto leading-relaxed">
             {t.portfolio.vacations.desc}
@@ -3169,6 +3892,7 @@ function AppContent() {
     </>
   } />
   <Route path="/case-study/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+  <Route path="/case-study/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
   <Route path="/case-study/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
 </Routes>
 
