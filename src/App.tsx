@@ -1096,18 +1096,20 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
   };
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0 });
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   // Auto-scroll logic
   useEffect(() => {
+    if (isPaused) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % features.length);
     }, 5000); // Change card every 5 seconds
 
     return () => clearInterval(interval);
-  }, [features.length]);
+  }, [features.length, isPaused]);
 
   useEffect(() => {
     const updateConstraints = () => {
@@ -1303,6 +1305,9 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
                       setActiveIndex((prev) => Math.max(prev - 1, 0));
                     }
                   }}
+                  onPointerDown={() => setIsPaused(true)}
+                  onPointerUp={() => setIsPaused(false)}
+                  onPointerLeave={() => setIsPaused(false)}
                   className="absolute inset-0 bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 flex flex-col justify-center rounded-[2rem] shadow-2xl cursor-grab active:cursor-grabbing"
                   style={{ perspective: "1000px", touchAction: "none" }}
                 >
@@ -1444,46 +1449,48 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
 
   const features = [
     {
-      title: 'Essential Map',
-      desc: 'verified nearby services (banks, hospitals, transport, SIM cards)',
+      title: 'Essential map',
+      desc: 'Verified nearby services (banks, hospitals, transport, SIM cards)',
       side: 'right'
     },
     {
-      title: 'Bureaucracy Flow',
-      desc: 'step-by-step guides (documents, bank account, legalization) in a roadmap format',
+      title: 'Bureaucracy flow',
+      desc: 'Step-by-step guides (documents, bank account, legalization) in a roadmap format',
       side: 'left'
     },
     {
-      title: 'AI Assistant',
-      desc: 'answers questions and guides users through processes (adapted to user status)',
+      title: 'AI assistant',
+      desc: 'Answers questions and guides users through processes (adapted to user status)',
       side: 'right'
     },
     {
-      title: 'Life Hacks Feed',
-      desc: 'local tips from residents',
+      title: 'Life hacks feed',
+      desc: 'Local tips from residents',
       side: 'left'
     },
     {
-      title: 'Cost Simulator',
-      desc: 'forecasts cost of living in the city',
+      title: 'Cost simulator',
+      desc: 'Forecasts cost of living in the city',
       side: 'right'
     },
     {
-      title: 'Emotional Layer',
-      desc: 'basic support + community recommendations',
+      title: 'Emotional layer',
+      desc: 'Basic support + community recommendations',
       side: 'left'
     }
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (isPaused) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % features.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [features.length]);
+  }, [features.length, isPaused]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -1906,6 +1913,9 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                         setActiveIndex((prev) => Math.max(prev - 1, 0));
                       }
                     }}
+                    onPointerDown={() => setIsPaused(true)}
+                    onPointerUp={() => setIsPaused(false)}
+                    onPointerLeave={() => setIsPaused(false)}
                     className="absolute inset-0 bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 flex flex-col justify-center rounded-[2rem] shadow-2xl cursor-grab active:cursor-grabbing"
                     style={{ perspective: "1000px", touchAction: "none" }}
                   >
@@ -2117,6 +2127,67 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
               />
             </motion.div>
           </div>
+        </div>
+      </div>
+
+      {/* Services Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+        >
+          {t.portfolio.citySurvivalKit.servicesTitle}
+        </motion.h2>
+
+        <div className="w-full max-w-4xl space-y-0 px-4">
+          {t.portfolio.citySurvivalKit.servicesItems.map((item: any, i: number) => (
+            <ServiceItem key={i} item={item} index={i} />
+          ))}
+        </div>
+      </div>
+
+      {/* Teamvoice Section */}
+      <div className="w-full max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center md:px-0">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+        >
+          {t.portfolio.citySurvivalKit.teamVoiceTitle}
+        </motion.h2>
+
+        {/* Mobile Carousel */}
+        <div className="w-full md:hidden">
+          <TeamVoiceMobileCarousel items={t.portfolio.citySurvivalKit.teamVoiceItems} />
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:block w-full max-w-6xl px-6 space-y-12">
+          {t.portfolio.citySurvivalKit.teamVoiceItems.map((item: any, i: number) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: i * 0.1 }}
+              className="grid grid-cols-1 md:grid-cols-[1fr_1fr_2.5fr] gap-4 md:gap-12 items-start border-b border-white/5 pb-12 last:border-0"
+            >
+              <div className="text-xs md:text-sm text-white/40 font-mono uppercase tracking-[0.2em] pt-1">
+                {item.name}
+              </div>
+              <div className="text-base md:text-lg text-white/70 font-satoshi font-medium uppercase tracking-wider pt-0.5">
+                {item.role}
+              </div>
+              <div className="text-lg md:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                {item.quote}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
 
@@ -2749,13 +2820,15 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
 
 const TeamVoiceMobileCarousel = ({ items }: { items: any[] }) => {
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % items.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [items.length]);
+  }, [items.length, isPaused]);
 
   return (
     <div className="w-full overflow-hidden relative flex flex-col">
@@ -2796,6 +2869,9 @@ const TeamVoiceMobileCarousel = ({ items }: { items: any[] }) => {
                 if (info.offset.x < -50) setIndex((prev) => (prev + 1) % items.length);
                 if (info.offset.x > 50) setIndex((prev) => (prev - 1 + items.length) % items.length);
               }}
+              onPointerDown={() => setIsPaused(true)}
+              onPointerUp={() => setIsPaused(false)}
+              onPointerLeave={() => setIsPaused(false)}
               className="w-full h-full flex flex-col justify-start text-left cursor-grab active:cursor-grabbing bg-white/[0.03] rounded-xl px-3 py-12 backdrop-blur-sm"
             >
               <div className="text-lg text-white font-satoshi font-light leading-relaxed opacity-90 mb-8">

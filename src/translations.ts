@@ -105,11 +105,11 @@ export const translations = {
         goalTitle: 'Goal of the project',
         servicesTitle: 'Services',
         servicesItems: [
-          { q: 'Business Alignment', a: 'The “Dopamine vs Important” concept was turned into clear product logic that supports user behavior and business goals.' },
-          { q: 'Architectural Oversight', a: 'The system was designed for AI analytics, personalization, and future scalability.' },
-          { q: 'AI-Assisted Development', a: 'Rapid build of core features: expense tracking, insights, and forecasting.' },
-          { q: 'Security First', a: 'Sensitive user data is protected at every stage.' },
-          { q: 'Code Review & Stability', a: 'Clean, maintainable code ensures product stability throughout development.' }
+          { q: 'Business alignment', a: 'The “Dopamine vs Important” concept was turned into clear product logic that supports user behavior and business goals.' },
+          { q: 'Architectural oversight', a: 'The system was designed for AI analytics, personalization, and future scalability.' },
+          { q: 'AI-assisted development', a: 'Rapid build of core features: expense tracking, insights, and forecasting.' },
+          { q: 'Security first', a: 'Sensitive user data is protected at every stage.' },
+          { q: 'Code review & stability', a: 'Clean, maintainable code ensures product stability throughout development.' }
         ],
         goalDesc: 'To create a personal financial coaching experience that helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.',
         conceptTitle: 'Core concept',
@@ -154,7 +154,33 @@ export const translations = {
       citySurvivalKit: {
         title: 'City survival kit — product for relocation with AI assistant',
         desc: 'Not just a city guide, but a full-fledged “operating system” for life in a new place. The product helps people adapt quickly — from basic needs to understanding local rules and the environment.',
-        category: 'Relocation AI'
+        category: 'Relocation AI',
+        servicesTitle: 'Services',
+        servicesItems: [
+          { q: 'Business logic', a: 'The concept of rapid adaptation and a local guide was turned into clear product logic that supports user behavior and business goals.' },
+          { q: 'Architectural design', a: 'The system is designed for AI personalization, analytics, and future scalability.' },
+          { q: 'AI product support', a: 'Rapid implementation of core features: service map, bureaucracy guides, cost forecasting, and AI assistant.' },
+          { q: 'User security', a: 'Personal data and user history are protected at every stage.' },
+          { q: 'Code quality & stability', a: 'Regular code reviews and testing ensure product reliability and stability.' }
+        ],
+        teamVoiceTitle: 'Teamvoice',
+        teamVoiceItems: [
+          {
+            name: 'Valery',
+            role: 'Product Owner',
+            quote: 'This project showed how the idea of an "operating system for a new city" can quickly turn into a real product. Thanks to vibe coding, we could test and refine features in near real-time, making the process flexible and user-oriented.'
+          },
+          {
+            name: 'Diana',
+            role: 'UX/UI Designer',
+            quote: 'The goal was to make adaptation as simple and clear as possible. We created an interface that helps find services, navigate bureaucracy, and get local tips without overwhelming the user. Thanks to vibe coding, the design could be immediately checked for viability in a real product.'
+          },
+          {
+            name: 'Oleg',
+            role: 'Senior Developer',
+            quote: 'Rapid implementation of key features was important, but even more important was system reliability and scalability. I was responsible for architecture, code review, and integration of AI features. As a result, we got a product that is both fast to launch and maintain in the long term.'
+          }
+        ]
       }
     },
     mockups: {
@@ -323,11 +349,11 @@ export const translations = {
         goalTitle: 'Мета проекту',
         servicesTitle: 'Послуги',
         servicesItems: [
-          { q: 'Business Alignment', a: 'Концепція «Дофамін проти Важливого» була перетворена на чітку логіку продукту, яка підтримує поведінку користувачів та бізнес-цілі.' },
-          { q: 'Architectural Oversight', a: 'Система була розроблена для ШІ-аналітики, персоналізації та майбутньої масштабованості.' },
-          { q: 'AI-Assisted Development', a: 'Швидка розробка основних функцій: відстеження витрат, інсайти та прогнозування.' },
-          { q: 'Security First', a: 'Конфіденційні дані користувачів захищені на кожному етапі.' },
-          { q: 'Code Review & Stability', a: 'Чистий код, що легко підтримується, забезпечує стабільність продукту протягом усієї розробки.' }
+          { q: 'Business alignment', a: 'Концепція «Дофамін проти Важливого» була перетворена на чітку логіку продукту, яка підтримує поведінку користувачів та бізнес-цілі.' },
+          { q: 'Architectural oversight', a: 'Система була розроблена для ШІ-аналітики, персоналізації та майбутньої масштабованості.' },
+          { q: 'AI-assisted development', a: 'Швидка розробка основних функцій: відстеження витрат, інсайти та прогнозування.' },
+          { q: 'Security first', a: 'Конфіденційні дані користувачів захищені на кожному етапі.' },
+          { q: 'Code review & stability', a: 'Чистий код, що легко підтримується, забезпечує стабільність продукту протягом усієї розробки.' }
         ],
         goalDesc: 'Створити персональний досвід фінансового коучингу, який допомагає користувачам відрізняти основні потреби від імпульсивних бажань, що дозволяє приймати більш свідомі та сталі фінансові рішення.',
         conceptTitle: 'Основна концепція',
@@ -372,7 +398,33 @@ export const translations = {
       citySurvivalKit: {
         title: 'City survival kit — продукт для релокації з ШІ-асистентом',
         desc: 'Не просто путівник містом, а повноцінна «операційна система» для життя на новому місці. Продукт допомагає людям швидко адаптуватися — від базових потреб до розуміння місцевих правил та середовища.',
-        category: 'Relocation AI'
+        category: 'Relocation AI',
+        servicesTitle: 'Послуги',
+        servicesItems: [
+          { q: 'Business logic', a: 'Концепція швидкої адаптації та локального гіда була перетворена на чітку логіку продукту, яка підтримує поведінку користувачів та бізнес-цілі.' },
+          { q: 'Architectural design', a: 'Система розроблена для ШІ-персоналізації, аналітики та майбутньої масштабованості.' },
+          { q: 'AI product support', a: 'Швидке впровадження основних функцій: карта сервісів, бюрократичні гайди, прогнозування витрат та ШІ-асистент.' },
+          { q: 'User security', a: 'Особисті дані та історія користувачів захищені на кожному етапі.' },
+          { q: 'Code quality & stability', a: 'Регулярні рев\'ю коду та тестування забезпечують надійність та стабільність продукту.' }
+        ],
+        teamVoiceTitle: 'Teamvoice',
+        teamVoiceItems: [
+          {
+            name: 'Valery',
+            role: 'Product Owner',
+            quote: 'Цей проєкт показав, як ідея “операційної системи для нового міста” може швидко перетворитися на реальний продукт. Завдяки vibe coding ми могли тестувати та уточнювати функції в режимі майже реального часу, роблячи процес гнучким і орієнтованим на користувача.'
+          },
+          {
+            name: 'Diana',
+            role: 'UX/UI Designer',
+            quote: 'Мета була зробити адаптацію максимально простою та зрозумілою. Ми створювали інтерфейс, який допомагає знаходити сервіси, проходити бюрократію та отримувати локальні поради без перевантаження користувача. Завдяки vibe coding дизайн відразу можна було перевірити на життєздатність у реальному продукті.'
+          },
+          {
+            name: 'Oleg',
+            role: 'Senior Developer',
+            quote: 'Швидка реалізація ключових функцій була важлива, але ще важливішою — надійність системи та масштабованість. Я відповідав за архітектуру, код-рев’ю та інтеграцію AI-функцій. В результаті ми отримали продукт, який одночасно швидко запускати і підтримувати в довгостроковій перспективі.'
+          }
+        ]
       }
     },
     mockups: {
@@ -541,8 +593,8 @@ export const translations = {
         goalTitle: 'Projektziel',
         servicesTitle: 'Dienstleistungen',
         servicesItems: [
-          { q: 'Business Alignment', a: 'Das Konzept „Dopamin vs. Wichtig“ wurde in eine klare Produktlogik umgewandelt, die das Nutzerverhalten und die Geschäftsziele unterstützt.' },
-          { q: 'Architectural Oversight', a: 'Das System wurde für KI-Analysen, Personalisierung und zukünftige Skalierbarkeit konzipiert.' },
+          { q: 'Business alignment', a: 'Das Konzept „Dopamin vs. Wichtig“ wurde in eine klare Produktlogik umgewandelt, die das Nutzerverhalten und die Geschäftsziele unterstützt.' },
+          { q: 'Architectural oversight', a: 'Das System wurde für KI-Analysen, Personalisierung und zukünftige Skalierbarkeit konzipiert.' },
           { q: 'AI-gestützte Entwicklung', a: 'Schneller Aufbau von Kernfunktionen: Ausgabenverfolgung, Einblicke und Prognosen.' },
           { q: 'Sicherheit an erster Stelle', a: 'Sensible Benutzerdaten sind in jeder Phase geschützt.' },
           { q: 'Code-Review & Stabilität', a: 'Sauberer, wartbarer Code gewährleistet die Produktstabilität während der gesamten Entwicklung.' }
@@ -590,7 +642,33 @@ export const translations = {
       citySurvivalKit: {
         title: 'City survival kit',
         desc: 'Nicht nur ein Stadtführer, sondern ein vollwertiges „Betriebssystem“ für das Leben an einem neuen Ort. Das Produkt hilft Menschen, sich schnell anzupassen – von Grundbedürfnissen bis hin zum Verständnis lokaler Regeln und der Umgebung.',
-        category: 'Produktdesign'
+        category: 'Produktdesign',
+        servicesTitle: 'Dienstleistungen',
+        servicesItems: [
+          { q: 'Business logic', a: 'Das Konzept der schnellen Anpassung und eines lokalen Guides wurde in eine klare Produktlogik umgewandelt, die das Nutzerverhalten und die Geschäftsziele unterstützt.' },
+          { q: 'Architectural design', a: 'Das System ist für KI-Personalisierung, Analysen und zukünftige Skalierbarkeit konzipiert.' },
+          { q: 'AI product support', a: 'Schnelle Implementierung von Kernfunktionen: Service-Map, Bürokratie-Leitfäden, Kostenprognosen und KI-Assistent.' },
+          { q: 'User security', a: 'Persönliche Daten und der Nutzerverlauf sind in jeder Phase geschützt.' },
+          { q: 'Code quality & stability', a: 'Regelmäßige Code-Reviews und Tests gewährleisten Produktzuverlässigkeit und -stabilität.' }
+        ],
+        teamVoiceTitle: 'Teamvoice',
+        teamVoiceItems: [
+          {
+            name: 'Valery',
+            role: 'Product Owner',
+            quote: 'Dieses Projekt hat gezeigt, wie die Idee eines „Betriebssystems für eine neue Stadt“ schnell zu einem realen Produkt werden kann. Dank Vibe-Coding konnten wir Funktionen fast in Echtzeit testen und verfeinern, was den Prozess flexibel und benutzerorientiert gestaltete.'
+          },
+          {
+            name: 'Diana',
+            role: 'UX/UI Designer',
+            quote: 'Das Ziel war es, die Anpassung so einfach und klar wie möglich zu gestalten. Wir haben eine Benutzeroberfläche geschaffen, die hilft, Dienste zu finden, Bürokratie zu bewältigen und lokale Tipps zu erhalten, ohne den Benutzer zu überfordern. Dank Vibe-Coding konnte das Design sofort auf seine Lebensfähigkeit in einem realen Produkt überprüft werden.'
+          },
+          {
+            name: 'Oleg',
+            role: 'Senior Developer',
+            quote: 'Die schnelle Implementierung der wichtigsten Funktionen war wichtig, aber noch wichtiger war die Zuverlässigkeit und Skalierbarkeit des Systems. Ich war für die Architektur, das Code-Review und die Integration von KI-Funktionen verantwortlich. Das Ergebnis ist ein Produkt, das sowohl schnell zu starten als auch langfristig wartbar ist.'
+          }
+        ]
       }
     },
     mockups: {
