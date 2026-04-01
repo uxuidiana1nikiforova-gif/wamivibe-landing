@@ -778,7 +778,7 @@ const TeamFoundationVisual = ({ lang }: { lang: Language }) => {
 
 const ProjectDescription = ({ title, desc, icon }: { title: string; desc: string; icon?: React.ReactNode }) => {
   return (
-    <div className="w-full h-auto lg:h-full bg-black rounded-[2rem] px-3 py-4 md:p-10 flex flex-col justify-start relative overflow-hidden border border-white/10 group/project">
+    <div className="w-full h-auto lg:h-full bg-black/40 px-3 py-4 md:p-10 flex flex-col justify-start relative overflow-hidden group/project">
       {/* Background Glow */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-[var(--primary)]/10 blur-[100px] rounded-full transition-all duration-700 group-hover/project:bg-[var(--primary)]/20" />
       <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-white/5 blur-[100px] rounded-full" />
@@ -843,7 +843,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-20 border border-dashed border-white/10 rounded-[2rem] bg-white/5">
+      <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl sm:rounded-[2rem] bg-white/5">
         <p className="text-zinc-500 font-mono text-sm uppercase tracking-widest">
           {t.comingSoon}
         </p>
@@ -899,7 +899,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-black/40 border border-dashed border-white/10 rounded-2xl sm:rounded-[2rem]">
+                  <div className="w-full h-full flex items-center justify-center bg-black/40 border border-dashed border-white/10">
                     <span className="text-zinc-500 font-mono text-xs uppercase tracking-widest">Visual Coming Soon</span>
                   </div>
                 )}
@@ -1571,18 +1571,23 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
   }, []);
 
   useEffect(() => {
-    const title = 'City Survival Kit — Case Study | Wami Vibe';
-    const desc = t.portfolio.citySurvivalKit.desc;
+    const title = 'City survival kit';
+    const desc = 'Product for relocation with AI assistant. Not just a city guide, but a full-fledged “operating system” for life in a new place. The product helps people adapt quickly — from basic needs to understanding local rules and the environment.';
+    const url = 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/city-survival-kit';
+    const image = 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-city-kit.png';
     document.title = title;
     
     const metaTags = [
       { name: 'description', content: desc },
       { property: 'og:title', content: title },
       { property: 'og:description', content: desc },
-      { property: 'og:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-city-survival-kit.png' },
+      { property: 'og:image', content: image },
+      { property: 'og:url', content: url },
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: desc },
-      { name: 'twitter:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-city-survival-kit.png' }
+      { name: 'twitter:image', content: image }
     ];
 
     metaTags.forEach(tag => {
@@ -1608,7 +1613,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-end pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-start pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
@@ -1642,6 +1647,9 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-normal text-white mb-3 md:mb-6 leading-tight">
                 <span>City survival kit</span>
               </h1>
+              <h2 className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi font-normal max-w-2xl leading-tight opacity-95">
+                Product for relocation with AI assistant
+              </h2>
             </motion.div>
           </div>
 
@@ -2062,7 +2070,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                 Overall
               </h3>
               <p className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 italic">
-                reduces stress and adaptation time in a new city, providing a sense of control and clarity
+                Reduces stress and adaptation time in a new city, providing a sense of control and clarity
               </p>
             </motion.div>
             <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mt-6" />
@@ -2327,18 +2335,23 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
   const isTabletOrMobile = windowWidth < 1024;
 
   useEffect(() => {
-    const title = 'Balance Pulse — Case Study | Wami Vibe';
-    const desc = t.portfolio.balancePulse.desc;
+    const title = 'The balance pulse';
+    const desc = 'A personal financial coaching experience that goes beyond traditional budgeting tools, focusing on the psychology of spending. The system helps users distinguish essential needs from impulsive desires, enabling more conscious and sustainable financial decisions.';
+    const url = 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/balance-pulse';
+    const image = 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/case-cover-1.png';
     document.title = title;
     
     const metaTags = [
       { name: 'description', content: desc },
       { property: 'og:title', content: title },
       { property: 'og:description', content: desc },
-      { property: 'og:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-balance-pulse.png' },
+      { property: 'og:image', content: image },
+      { property: 'og:url', content: url },
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: desc },
-      { name: 'twitter:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-balance-pulse.png' }
+      { name: 'twitter:image', content: image }
     ];
 
     metaTags.forEach(tag => {
@@ -2380,7 +2393,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button - Positioned at the top right, outside of the main content motion div for better clickability */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-end pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-start pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
@@ -2416,9 +2429,9 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-normal text-white mb-3 md:mb-6 leading-tight">
                 <span>{t.portfolio.balancePulse.title}</span>
               </h1>
-              <p className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi max-w-2xl leading-tight opacity-95">
+              <h2 className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi font-normal max-w-2xl leading-tight opacity-95">
                 AI coach for conscious financial decisions based on spending psychology
-              </p>
+              </h2>
             </motion.div>
           </div>
 
@@ -2815,7 +2828,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-end pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-start pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
@@ -2841,9 +2854,9 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
             <Sparkles className="text-[var(--primary)] flex-shrink-0 w-8 h-8 md:w-12 md:h-12 lg:w-14 lg:h-14" />
             <span>{t.portfolio.vacations.title}</span>
           </h1>
-          <p className="text-xl md:text-2xl lg:text-3xl text-white/70 font-satoshi max-w-3xl mx-auto leading-relaxed">
+          <h2 className="text-xl md:text-2xl lg:text-3xl text-white/70 font-satoshi max-w-3xl mx-auto leading-relaxed">
             {t.portfolio.vacations.desc}
-          </p>
+          </h2>
         </motion.div>
       </div>
 
@@ -3212,6 +3225,41 @@ function AppContent() {
   const opacityParallax = useTransform(scrollY, [0, 300], [1, 0]);
 
   const t = translations[language];
+
+  useEffect(() => {
+    if (isHomePage) {
+      const title = 'Wami Vibe — Digital Product Design Studio';
+      const desc = 'We create digital products that people love. From strategy to design and development, we help you build the future.';
+      const url = 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app';
+      const image = 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/og-image.png';
+      document.title = title;
+      
+      const metaTags = [
+        { name: 'description', content: desc },
+        { property: 'og:title', content: title },
+        { property: 'og:description', content: desc },
+        { property: 'og:image', content: image },
+        { property: 'og:url', content: url },
+        { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: title },
+        { name: 'twitter:description', content: desc },
+        { name: 'twitter:image', content: image }
+      ];
+
+      metaTags.forEach(tag => {
+        const selector = tag.name ? `meta[name="${tag.name}"]` : `meta[property="${tag.property}"]`;
+        let element = document.querySelector(selector);
+        if (!element) {
+          element = document.createElement('meta');
+          if (tag.name) element.setAttribute('name', tag.name);
+          if (tag.property) element.setAttribute('property', tag.property);
+          document.head.appendChild(element);
+        }
+        element.setAttribute('content', tag.content);
+      });
+    }
+  }, [isHomePage, language]);
 
   useEffect(() => {
     if (hash) {
