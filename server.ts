@@ -71,14 +71,14 @@ async function startServer() {
   // Dynamic Meta Tags for SEO/Social Media
   const serveIndex = async (req: express.Request, res: express.Response) => {
     const url = req.url;
-    const lang = url.startsWith("/uk") ? "uk" : url.startsWith("/de") ? "de" : "en";
+    const lang = url.startsWith("/ua") ? "ua" : url.startsWith("/de") ? "de" : "en";
     
     const translations = {
       en: {
         title: "WAMI | Vibe Coding with Senior Oversight",
         description: "High-speed development with expert quality control. We build your ideas into production-ready apps at the speed of thought.",
       },
-      uk: {
+      ua: {
         title: "WAMI | Vibe Coding з сеньорною підтримкою",
         description: "Швидка розробка з експертним контролем якості. Перетворюємо ваші ідеї на готові продукти зі швидкістю думки.",
       },

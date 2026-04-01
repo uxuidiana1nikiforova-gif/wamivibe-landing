@@ -37,7 +37,7 @@ import {
   ExternalLink,
   Languages
 } from 'lucide-react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { translations, Language } from './translations';
 
 // --- Types ---
@@ -841,6 +841,8 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
     }
   ];
 
+  const langPrefix = lang === 'en' ? '' : `/${lang}`;
+
   if (projects.length === 0) {
     return (
       <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl sm:rounded-[2rem] bg-white/5">
@@ -867,7 +869,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6 }}
-              onClick={() => navigate(`/${currentProject.id}`)}
+              onClick={() => navigate(`${langPrefix}/${currentProject.id}`)}
               className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors cursor-pointer hover:border-[var(--primary)]/30"
             >
               <div className="w-full h-full">
@@ -887,7 +889,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, delay: isMobile ? 0 : 0.1 }}
-              onClick={() => navigate(`/${currentProject.id}`)}
+              onClick={() => navigate(`${langPrefix}/${currentProject.id}`)}
               className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors cursor-pointer"
             >
               <div className="w-full h-full">
@@ -909,7 +911,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               {!isMobile && (
                 <div className="lg:hidden absolute bottom-6 right-6 z-30">
                   <Link 
-                    to={`/${currentProject.id}`}
+                    to={`${langPrefix}/${currentProject.id}`}
                     className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -923,7 +925,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               {isMobile && (
                 <div className="absolute bottom-4 right-4 z-30">
                   <Link 
-                    to={`/${currentProject.id}`}
+                    to={`${langPrefix}/${currentProject.id}`}
                     className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -941,7 +943,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                 </h4>
                 <p className="text-zinc-300 text-sm mb-4">{currentProject.overlayCategory}</p>
                 <Link 
-                  to={`/${currentProject.id}`}
+                  to={`${langPrefix}/${currentProject.id}`}
                   className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -2254,7 +2256,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/wami-vacations')}
+            onTap={() => navigate(lang === 'en' ? '/wami-vacations' : `/${lang}/wami-vacations`)}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2269,7 +2271,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           </motion.div>
         </div>
 
-        <Link to="/wami-vacations" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to={lang === 'en' ? "/wami-vacations" : `/${lang}/wami-vacations`} className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -2753,7 +2755,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/case/city-survival-kit')}
+            onTap={() => navigate(lang === 'en' ? '/city-survival-kit' : `/${lang}/city-survival-kit`)}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2769,7 +2771,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
         </div>
 
         {/* Link to Next Case - Separate from the interactive lens to allow clicking */}
-        <Link to="/case/city-survival-kit" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to={lang === 'en' ? '/city-survival-kit' : `/${lang}/city-survival-kit`} className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -2889,7 +2891,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/balance-pulse')}
+            onTap={() => navigate(lang === 'en' ? '/balance-pulse' : `/${lang}/balance-pulse`)}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2904,7 +2906,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
           </motion.div>
         </div>
 
-        <Link to="/balance-pulse" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to={lang === 'en' ? "/balance-pulse" : `/${lang}/balance-pulse`} className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -3199,7 +3201,67 @@ export default function App() {
   );
 }
 
+const HomeRoute = ({ 
+  language, 
+  isMobile, 
+  handleLanguageChange, 
+  scrolled, 
+  isMenuOpen, 
+  setIsMenuOpen, 
+  expertiseIndex, 
+  setExpertiseIndex, 
+  isExpertisePaused, 
+  setIsExpertisePaused, 
+  processIndex, 
+  setProcessIndex, 
+  isProcessPaused, 
+  setIsProcessPaused, 
+  openFaqIndex, 
+  setOpenFaqIndex, 
+  viewedFaqs, 
+  setViewedFaqs,
+  t
+}: any) => (
+  <>
+    <Navigation 
+      scrolled={scrolled} 
+      isMenuOpen={isMenuOpen} 
+      setIsMenuOpen={setIsMenuOpen} 
+      lang={language} 
+      handleLanguageChange={handleLanguageChange}
+    />
+    <Hero t={t} isMobile={isMobile} />
+    <Benefits t={t} isMobile={isMobile} />
+    <Expertise 
+      t={t} 
+      isMobile={isMobile} 
+      expertiseIndex={expertiseIndex} 
+      setExpertiseIndex={setExpertiseIndex} 
+      isExpertisePaused={isExpertisePaused} 
+      setIsExpertisePaused={setIsExpertisePaused} 
+    />
+    <Process 
+      t={t} 
+      isMobile={isMobile} 
+      processIndex={processIndex} 
+      setProcessIndex={setProcessIndex} 
+      isProcessPaused={isProcessPaused} 
+      setIsProcessPaused={setIsProcessPaused} 
+    />
+    <Portfolio t={t} isMobile={isMobile} lang={language} />
+    <FAQ 
+      t={t} 
+      openFaqIndex={openFaqIndex} 
+      setOpenFaqIndex={setOpenFaqIndex} 
+      viewedFaqs={viewedFaqs} 
+      setViewedFaqs={setViewedFaqs} 
+    />
+  </>
+);
+
 function AppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [language, setLanguage] = useState<Language>(() => {
     const path = window.location.pathname;
     if (path.startsWith('/ua')) return 'ua';
@@ -3207,6 +3269,33 @@ function AppContent() {
     const saved = localStorage.getItem('language');
     return (saved === 'en' || saved === 'ua' || saved === 'de') ? saved as Language : 'en';
   });
+
+  useEffect(() => {
+    const path = location.pathname;
+    let newLang: Language = 'en';
+    if (path.startsWith('/ua')) newLang = 'ua';
+    else if (path.startsWith('/de')) newLang = 'de';
+    else {
+      const saved = localStorage.getItem('language');
+      newLang = (saved === 'en' || saved === 'ua' || saved === 'de') ? saved as Language : 'en';
+    }
+    
+    if (newLang !== language) {
+      setLanguage(newLang);
+    }
+  }, [location.pathname, language]);
+
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+    localStorage.setItem('language', lang);
+    
+    // Update URL if needed
+    const currentPath = location.pathname;
+    const pathWithoutLang = currentPath.replace(/^\/(ua|de)/, '');
+    const newPath = lang === 'en' ? pathWithoutLang || '/' : `/${lang}${pathWithoutLang}`;
+    navigate(newPath);
+  };
+
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -3356,7 +3445,7 @@ function AppContent() {
         <div className={`max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center justify-between rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
           {/* Left: Logo */}
           <Link 
-            to="/" 
+            to={language === 'en' ? "/" : `/${language}`} 
             className="flex-shrink-0 flex items-center gap-2 group"
             onClick={() => {
               setIsMenuOpen(false);
@@ -3378,7 +3467,7 @@ function AppContent() {
             {navLinks.map((link) => (
               <a 
                 key={link.label} 
-                href={isHomePage ? link.href : `/${link.href}`} 
+                href={isHomePage ? link.href : `${language === 'en' ? '' : `/${language}`}/${link.href}`} 
                 onClick={(e) => {
                   if (isHomePage && link.href.startsWith('#')) {
                     e.preventDefault();
@@ -3400,19 +3489,19 @@ function AppContent() {
             {/* Language Switcher */}
             <div className="flex items-center bg-zinc-900/40 border border-white/10 rounded-xl p-1 mr-2">
               <button 
-                onClick={() => setLanguage('en')}
+                onClick={() => handleLanguageChange('en')}
                 className={`px-3 py-1 text-sm font-medium rounded-lg transition-all ${language === 'en' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 EN
               </button>
               <button 
-                onClick={() => setLanguage('de')}
+                onClick={() => handleLanguageChange('de')}
                 className={`px-3 py-1 text-sm font-medium rounded-lg transition-all ${language === 'de' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 DE
               </button>
               <button 
-                onClick={() => setLanguage('ua')}
+                onClick={() => handleLanguageChange('ua')}
                 className={`px-3 py-1 text-sm font-medium rounded-lg transition-all ${language === 'ua' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 UA
@@ -3446,7 +3535,7 @@ function AppContent() {
                 {navLinks.map((link) => (
                   <a 
                     key={link.label} 
-                    href={isHomePage ? link.href : `/${link.href}`} 
+                    href={isHomePage ? link.href : `${language === 'en' ? '' : `/${language}`}/${link.href}`} 
                     className="text-base font-light text-white/70 hover:text-[var(--primary)] hover:translate-x-1 transition-all"
                     onClick={(e) => {
                       setIsMenuOpen(false);
@@ -3476,9 +3565,10 @@ function AppContent() {
       </header>
       
       <Routes>
-        <Route path="/" element={
-          <>
-            {/* --- Hero Section --- */}
+        {['/', '/ua', '/de'].map(path => (
+          <Route key={path} path={path} element={
+            <>
+              {/* --- Hero Section --- */}
       <div className="relative">
         {/* Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
@@ -4097,9 +4187,24 @@ function AppContent() {
       </section>
     </>
   } />
-  <Route path="/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
-  <Route path="/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
-  <Route path="/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
+))}
+
+<Route path="/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+<Route path="/ua/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+<Route path="/de/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+
+<Route path="/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
+<Route path="/ua/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
+<Route path="/de/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
+
+<Route path="/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
+<Route path="/ua/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
+<Route path="/de/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
+
+{/* Fallback for old /case/ links */}
+<Route path="/case/city-survival-kit" element={<Navigate to="/city-survival-kit" replace />} />
+<Route path="/case/balance-pulse" element={<Navigate to="/balance-pulse" replace />} />
+<Route path="/case/wami-vacations" element={<Navigate to="/wami-vacations" replace />} />
 </Routes>
 
 <Footer t={t} setIsModalOpen={setIsModalOpen} setIsEmailSelectorOpen={setIsEmailSelectorOpen} />
