@@ -805,6 +805,7 @@ const ProjectDescription = ({ title, desc, icon }: { title: string; desc: string
 
 const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
   const t = translations[lang].portfolio;
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   
   const projects = [
@@ -866,7 +867,8 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6 }}
-              className="relative h-auto md:aspect-video lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors"
+              onClick={() => navigate(`/${currentProject.id}`)}
+              className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors cursor-pointer hover:border-[var(--primary)]/30"
             >
               <div className="w-full h-full">
                 <ProjectDescription 
@@ -885,7 +887,8 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, delay: isMobile ? 0 : 0.1 }}
-              className="relative h-auto md:aspect-video lg:aspect-video rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors"
+              onClick={() => navigate(`/${currentProject.id}`)}
+              className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors cursor-pointer"
             >
               <div className="w-full h-full">
                 {currentProject.image ? (
@@ -896,7 +899,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-black/40 border border-dashed border-white/10 rounded-[2rem]">
+                  <div className="w-full h-full flex items-center justify-center bg-black/40 border border-dashed border-white/10 rounded-2xl sm:rounded-[2rem]">
                     <span className="text-zinc-500 font-mono text-xs uppercase tracking-widest">Visual Coming Soon</span>
                   </div>
                 )}
@@ -906,8 +909,9 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               {!isMobile && (
                 <div className="lg:hidden absolute bottom-6 right-6 z-30">
                   <Link 
-                    to={`/case-study/${currentProject.id}`}
+                    to={`/${currentProject.id}`}
                     className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {t.viewCase}
                     <ArrowRight size={16} />
@@ -919,8 +923,9 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               {isMobile && (
                 <div className="absolute bottom-4 right-4 z-30">
                   <Link 
-                    to={`/case-study/${currentProject.id}`}
+                    to={`/${currentProject.id}`}
                     className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {t.viewCase}
                     <ArrowRight size={14} />
@@ -936,8 +941,9 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                 </h4>
                 <p className="text-zinc-300 text-sm mb-4">{currentProject.overlayCategory}</p>
                 <Link 
-                  to={`/case-study/${currentProject.id}`}
+                  to={`/${currentProject.id}`}
                   className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {t.viewCase}
                 </Link>
@@ -1565,6 +1571,34 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
   }, []);
 
   useEffect(() => {
+    const title = 'City Survival Kit — Case Study | Wami Vibe';
+    const desc = t.portfolio.citySurvivalKit.desc;
+    document.title = title;
+    
+    const metaTags = [
+      { name: 'description', content: desc },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: desc },
+      { property: 'og:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-city-survival-kit.png' },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: desc },
+      { name: 'twitter:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-city-survival-kit.png' }
+    ];
+
+    metaTags.forEach(tag => {
+      const selector = tag.name ? `meta[name="${tag.name}"]` : `meta[property="${tag.property}"]`;
+      let element = document.querySelector(selector);
+      if (!element) {
+        element = document.createElement('meta');
+        if (tag.name) element.setAttribute('name', tag.name);
+        if (tag.property) element.setAttribute('property', tag.property);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', tag.content);
+    });
+  }, [lang, t]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
@@ -1574,7 +1608,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-[110] flex justify-end pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-end pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
@@ -1608,14 +1642,6 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-normal text-white mb-3 md:mb-6 leading-tight">
                 <span>City survival kit</span>
               </h1>
-              <p className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi max-w-2xl leading-tight opacity-95">
-                {lang === 'ua' 
-                  ? 'Продукт для релокації з ШІ-асистентом'
-                  : lang === 'de'
-                  ? 'Produkt für den Umzug mit KI-Assistent'
-                  : 'Product for relocation with AI assistant'
-                }
-              </p>
             </motion.div>
           </div>
 
@@ -2220,7 +2246,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/case-study/wami-vacations')}
+            onTap={() => navigate('/wami-vacations')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2235,7 +2261,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           </motion.div>
         </div>
 
-        <Link to="/case-study/wami-vacations" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to="/wami-vacations" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -2301,6 +2327,34 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
   const isTabletOrMobile = windowWidth < 1024;
 
   useEffect(() => {
+    const title = 'Balance Pulse — Case Study | Wami Vibe';
+    const desc = t.portfolio.balancePulse.desc;
+    document.title = title;
+    
+    const metaTags = [
+      { name: 'description', content: desc },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: desc },
+      { property: 'og:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-balance-pulse.png' },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: desc },
+      { name: 'twitter:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-balance-pulse.png' }
+    ];
+
+    metaTags.forEach(tag => {
+      const selector = tag.name ? `meta[name="${tag.name}"]` : `meta[property="${tag.property}"]`;
+      let element = document.querySelector(selector);
+      if (!element) {
+        element = document.createElement('meta');
+        if (tag.name) element.setAttribute('name', tag.name);
+        if (tag.property) element.setAttribute('property', tag.property);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', tag.content);
+    });
+  }, [lang, t]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
@@ -2326,7 +2380,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button - Positioned at the top right, outside of the main content motion div for better clickability */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-[110] flex justify-end pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-end pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
@@ -2686,7 +2740,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/case-study/city-survival-kit')}
+            onTap={() => navigate('/case/city-survival-kit')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2702,7 +2756,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
         </div>
 
         {/* Link to Next Case - Separate from the interactive lens to allow clicking */}
-        <Link to="/case-study/city-survival-kit" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to="/case/city-survival-kit" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -2727,13 +2781,41 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
   });
 
   useEffect(() => {
+    const title = lang === 'ua' ? 'Wami vacations — Wami Vibe' : 'Wami vacations — Wami Vibe';
+    const desc = t.portfolio.vacations.desc;
+    document.title = title;
+    
+    const metaTags = [
+      { name: 'description', content: desc },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: desc },
+      { property: 'og:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-wami-vacations.png' },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: desc },
+      { name: 'twitter:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-wami-vacations.png' }
+    ];
+
+    metaTags.forEach(tag => {
+      const selector = tag.name ? `meta[name="${tag.name}"]` : `meta[property="${tag.property}"]`;
+      let element = document.querySelector(selector);
+      if (!element) {
+        element = document.createElement('meta');
+        if (tag.name) element.setAttribute('name', tag.name);
+        if (tag.property) element.setAttribute('property', tag.property);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', tag.content);
+    });
+  }, [lang, t]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-[110] flex justify-end pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-end pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
@@ -2794,7 +2876,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/case-study/balance-pulse')}
+            onTap={() => navigate('/balance-pulse')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2809,7 +2891,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
           </motion.div>
         </div>
 
-        <Link to="/case-study/balance-pulse" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to="/balance-pulse" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -3967,9 +4049,9 @@ function AppContent() {
       </section>
     </>
   } />
-  <Route path="/case-study/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
-  <Route path="/case-study/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
-  <Route path="/case-study/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
+  <Route path="/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+  <Route path="/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
+  <Route path="/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
 </Routes>
 
 <Footer t={t} setIsModalOpen={setIsModalOpen} setIsEmailSelectorOpen={setIsEmailSelectorOpen} />

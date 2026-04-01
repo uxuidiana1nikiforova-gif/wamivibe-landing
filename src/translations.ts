@@ -152,7 +152,7 @@ export const translations = {
       lumina: { title: 'Lumina Health AI', category: 'Medical Diagnostics Platform' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Internal Corporate Ecosystem' },
       citySurvivalKit: {
-        title: 'City survival kit — product for relocation with AI assistant',
+        title: 'City survival kit',
         desc: 'Not just a city guide, but a full-fledged “operating system” for life in a new place. The product helps people adapt quickly — from basic needs to understanding local rules and the environment.',
         category: 'Relocation AI',
         servicesTitle: 'Services',
@@ -396,7 +396,7 @@ export const translations = {
       lumina: { title: 'Lumina Health AI', category: 'Медична діагностична платформа' },
       wamioff: { title: 'WAMIOFF Platform', category: 'Внутрішня корпоративна екосистема' },
       citySurvivalKit: {
-        title: 'City survival kit — продукт для релокації з ШІ-асистентом',
+        title: 'City survival kit',
         desc: 'Не просто путівник містом, а повноцінна «операційна система» для життя на новому місці. Продукт допомагає людям швидко адаптуватися — від базових потреб до розуміння місцевих правил та середовища.',
         category: 'Relocation AI',
         servicesTitle: 'Послуги',
