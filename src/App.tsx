@@ -37,7 +37,7 @@ import {
   ExternalLink,
   Languages
 } from 'lucide-react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { translations, Language } from './translations';
 
 // --- Types ---
@@ -841,8 +841,6 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
     }
   ];
 
-  const langPrefix = lang === 'en' ? '' : `/${lang}`;
-
   if (projects.length === 0) {
     return (
       <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl sm:rounded-[2rem] bg-white/5">
@@ -869,7 +867,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6 }}
-              onClick={() => navigate(`${langPrefix}/${currentProject.id}`)}
+              onClick={() => navigate(`/${currentProject.id}`)}
               className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors cursor-pointer hover:border-[var(--primary)]/30"
             >
               <div className="w-full h-full">
@@ -889,7 +887,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               whileHover={{ y: -5, scale: 1.01 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, delay: isMobile ? 0 : 0.1 }}
-              onClick={() => navigate(`${langPrefix}/${currentProject.id}`)}
+              onClick={() => navigate(`/${currentProject.id}`)}
               className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors cursor-pointer"
             >
               <div className="w-full h-full">
@@ -911,7 +909,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               {!isMobile && (
                 <div className="lg:hidden absolute bottom-6 right-6 z-30">
                   <Link 
-                    to={`${langPrefix}/${currentProject.id}`}
+                    to={`/${currentProject.id}`}
                     className="px-5 py-2.5 bg-[var(--primary)] text-black rounded-full text-sm font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -925,7 +923,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               {isMobile && (
                 <div className="absolute bottom-4 right-4 z-30">
                   <Link 
-                    to={`${langPrefix}/${currentProject.id}`}
+                    to={`/${currentProject.id}`}
                     className="px-4 py-2 bg-[var(--primary)] text-black rounded-full text-xs font-bold shadow-[0_10px_20px_rgba(251,248,80,0.3)] flex items-center gap-2 active:scale-95 transition-transform"
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -943,7 +941,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
                 </h4>
                 <p className="text-zinc-300 text-sm mb-4">{currentProject.overlayCategory}</p>
                 <Link 
-                  to={`${langPrefix}/${currentProject.id}`}
+                  to={`/${currentProject.id}`}
                   className="px-6 py-2 bg-[var(--primary)] text-black rounded-full text-sm font-bold whitespace-nowrap"
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -1189,9 +1187,9 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
         {/* The Path SVG */}
         <motion.div 
           variants={itemVariants}
-          className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1200px] hidden sm:block pointer-events-none"
+          className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1320px] hidden sm:block pointer-events-none"
         >
-          <svg width="100%" height="100%" viewBox="0 0 800 1450" fill="none" preserveAspectRatio="xMidYMin meet">
+          <svg width="100%" height="100%" viewBox="0 0 800 1320" fill="none" preserveAspectRatio="xMidYMin meet">
             <motion.path 
               d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 400, 1200, 400, 1320" 
               stroke="white" 
@@ -1308,9 +1306,9 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
                   onDragEnd={(_, info) => {
                     const threshold = 50;
                     if (info.offset.x < -threshold) {
-                      setActiveIndex((prev) => Math.min(prev + 1, features.length - 1));
+                      setActiveIndex((prev) => (prev + 1) % features.length);
                     } else if (info.offset.x > threshold) {
-                      setActiveIndex((prev) => Math.max(prev - 1, 0));
+                      setActiveIndex((prev) => (prev - 1 + features.length) % features.length);
                     }
                   }}
                   onPointerDown={() => setIsPaused(true)}
@@ -1360,43 +1358,13 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
                       y: 0,
                       rotateX: 0
                     }}
-                    animate={{
-                      y: [0, -15, 0],
-                      rotateX: [0, 1.2, -1.2, 0],
-                      rotateY: [0, 1.2, -1.2, 0],
-                      scale: [1, 1.005, 1],
-                    }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ 
-                      y: {
-                        duration: 7,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.5
-                      },
-                      rotateX: {
-                        duration: 9,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.3
-                      },
-                      rotateY: {
-                        duration: 11,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.7
-                      },
-                      scale: {
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.4
-                      },
                       opacity: { duration: 1 },
                       initialY: { type: "spring", damping: 25, stiffness: 120 }
                     }}
                     style={{ transformStyle: "preserve-3d" }}
-                    className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[240px] flex flex-col justify-center"
+                    className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[200px] flex flex-col justify-center"
                   >
                     <BorderBeam delay={index * 1} duration={15} color="white" size="120px" />
                     <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
@@ -1615,15 +1583,13 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-start pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 relative z-30 flex justify-start pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
         >
-          <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
-            <ArrowLeft className="w-4 h-4 group-hover:text-primary transition-colors" />
-          </div>
-          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
+          <ArrowLeft className="w-5 h-5 group-hover:text-primary transition-colors" />
+          <span className="text-[13px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
         </button>
       </div>
 
@@ -1850,9 +1816,9 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           {/* The Path SVG */}
           <motion.div 
             variants={itemVariants}
-            className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1400px] hidden sm:block pointer-events-none"
+            className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1800px] hidden sm:block pointer-events-none"
           >
-            <svg width="100%" height="100%" viewBox="0 0 800 1650" fill="none" preserveAspectRatio="xMidYMin meet">
+            <svg width="100%" height="100%" viewBox="0 0 800 1800" fill="none" preserveAspectRatio="xMidYMin meet">
               <motion.path 
                 d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 100, 1200, 100, 1320 S 700, 1440, 700, 1560 S 400, 1680, 400, 1800" 
                 stroke="white" 
@@ -1917,7 +1883,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                     delay: startOffset * 15,
                   }}
                   style={{
-                    offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 100, 1200, 100, 1320 S 700, 1440, 700, 1560 S 400, 1680, 400, 1800')",
+                    offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 520, 700, 520, 700, 680 S 100, 840, 100, 1000 S 700, 1160, 700, 1320 S 100, 1480, 100, 1640 S 700, 1800, 700, 1960 S 400, 2120, 400, 2200')",
                   }}
                 />
               ))}
@@ -1944,9 +1910,9 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                     onDragEnd={(_, info) => {
                       const threshold = 50;
                       if (info.offset.x < -threshold) {
-                        setActiveIndex((prev) => Math.min(prev + 1, features.length - 1));
+                        setActiveIndex((prev) => (prev + 1) % features.length);
                       } else if (info.offset.x > threshold) {
-                        setActiveIndex((prev) => Math.max(prev - 1, 0));
+                        setActiveIndex((prev) => (prev - 1 + features.length) % features.length);
                       }
                     }}
                     onPointerDown={() => setIsPaused(true)}
@@ -1980,60 +1946,30 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                     variants={itemVariants}
                     className={`flex-shrink-0 w-full flex flex-col sm:flex-row items-center sm:mr-0 ${
                       feature.side === 'right' ? 'sm:justify-end' : 'sm:justify-start'
-                    } sm:h-[240px] md:h-[240px] relative`}
+                  } sm:h-[240px] md:h-[240px] relative`}
+                >
+                  {/* Feature Card */}
+                  <motion.div
+                    initial={{ 
+                      opacity: 0, 
+                      scale: 0.96,
+                      y: 40,
+                      rotateX: -10
+                    }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      scale: 1, 
+                      y: 0,
+                      rotateX: 0
+                    }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ 
+                      opacity: { duration: 1 },
+                      initialY: { type: "spring", damping: 25, stiffness: 120 }
+                    }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[200px] flex flex-col justify-center"
                   >
-                    {/* Feature Card */}
-                    <motion.div
-                      initial={{ 
-                        opacity: 0, 
-                        scale: 0.96,
-                        y: 40,
-                        rotateX: -10
-                      }}
-                      whileInView={{ 
-                        opacity: 1, 
-                        scale: 1, 
-                        y: 0,
-                        rotateX: 0
-                      }}
-                      animate={{
-                        y: [0, -15, 0],
-                        rotateX: [0, 1.2, -1.2, 0],
-                        rotateY: [0, 1.2, -1.2, 0],
-                        scale: [1, 1.005, 1],
-                      }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ 
-                        y: {
-                          duration: 7,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: index * 0.5
-                        },
-                        rotateX: {
-                          duration: 9,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: index * 0.3
-                        },
-                        rotateY: {
-                          duration: 11,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: index * 0.7
-                        },
-                        scale: {
-                          duration: 8,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: index * 0.4
-                        },
-                        opacity: { duration: 1 },
-                        initialY: { type: "spring", damping: 25, stiffness: 120 }
-                      }}
-                      style={{ transformStyle: "preserve-3d" }}
-                      className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[240px] flex flex-col justify-center"
-                    >
                       <BorderBeam delay={index * 1} duration={15} color="white" size="120px" />
                       <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
                         {feature.title}
@@ -2207,10 +2143,10 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           {t.portfolio.citySurvivalKit.teamVoiceItems.map((item: any, i: number) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: i * 0.2, ease: [0.215, 0.61, 0.355, 1] }}
               className="grid grid-cols-1 md:grid-cols-[1fr_1fr_2.5fr] gap-4 md:gap-12 items-start border-b border-white/5 pb-12 last:border-0"
             >
               <div className="text-xs md:text-sm text-white/40 font-mono uppercase tracking-[0.2em] pt-1">
@@ -2256,7 +2192,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate(lang === 'en' ? '/wami-vacations' : `/${lang}/wami-vacations`)}
+            onTap={() => navigate('/wami-vacations')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2271,7 +2207,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           </motion.div>
         </div>
 
-        <Link to={lang === 'en' ? "/wami-vacations" : `/${lang}/wami-vacations`} className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to="/wami-vacations" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -2395,15 +2331,13 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button - Positioned at the top right, outside of the main content motion div for better clickability */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-start pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 relative z-30 flex justify-start pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
         >
-          <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
-            <ArrowLeft className="w-4 h-4 group-hover:text-primary transition-colors" />
-          </div>
-          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
+          <ArrowLeft className="w-5 h-5 group-hover:text-primary transition-colors" />
+          <span className="text-[13px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
         </button>
       </div>
 
@@ -2703,10 +2637,10 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
           {t.portfolio.balancePulse.teamVoiceItems.map((item: any, i: number) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: i * 0.2, ease: [0.215, 0.61, 0.355, 1] }}
               className="grid grid-cols-1 md:grid-cols-[1fr_1fr_2.5fr] gap-4 md:gap-12 items-start border-b border-white/5 pb-12 last:border-0"
             >
               <div className="text-xs md:text-sm text-white/40 font-mono uppercase tracking-[0.2em] pt-1">
@@ -2755,7 +2689,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate(lang === 'en' ? '/city-survival-kit' : `/${lang}/city-survival-kit`)}
+            onTap={() => navigate('/city-survival-kit')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2771,7 +2705,7 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
         </div>
 
         {/* Link to Next Case - Separate from the interactive lens to allow clicking */}
-        <Link to={lang === 'en' ? '/city-survival-kit' : `/${lang}/city-survival-kit`} className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to="/city-survival-kit" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -2830,15 +2764,13 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 font-satoshi relative">
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 px-6 relative z-30 flex justify-start pointer-events-none">
+      <div className="max-w-7xl mx-auto pt-28 md:pt-36 relative z-30 flex justify-start pointer-events-none">
         <button 
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2.5 text-white/50 hover:text-primary transition-all duration-300 group cursor-pointer pointer-events-auto bg-black/40 backdrop-blur-md p-2 rounded-xl shadow-2xl border-none outline-none"
         >
-          <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
-            <ArrowLeft className="w-4 h-4 group-hover:text-primary transition-colors" />
-          </div>
-          <span className="text-[11px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
+          <ArrowLeft className="w-5 h-5 group-hover:text-primary transition-colors" />
+          <span className="text-[13px] font-light uppercase tracking-widest select-none">{t.portfolio.back}</span>
         </button>
       </div>
 
@@ -2891,7 +2823,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate(lang === 'en' ? '/balance-pulse' : `/${lang}/balance-pulse`)}
+            onTap={() => navigate('/balance-pulse')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2906,7 +2838,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
           </motion.div>
         </div>
 
-        <Link to={lang === 'en' ? "/balance-pulse" : `/${lang}/balance-pulse`} className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
+        <Link to="/balance-pulse" className="mt-12 group flex items-center gap-3 text-white/50 hover:text-[var(--primary)] transition-colors duration-300">
           <span className="text-sm font-light uppercase tracking-widest">{t.portfolio.goToNextCase}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
@@ -3201,67 +3133,7 @@ export default function App() {
   );
 }
 
-const HomeRoute = ({ 
-  language, 
-  isMobile, 
-  handleLanguageChange, 
-  scrolled, 
-  isMenuOpen, 
-  setIsMenuOpen, 
-  expertiseIndex, 
-  setExpertiseIndex, 
-  isExpertisePaused, 
-  setIsExpertisePaused, 
-  processIndex, 
-  setProcessIndex, 
-  isProcessPaused, 
-  setIsProcessPaused, 
-  openFaqIndex, 
-  setOpenFaqIndex, 
-  viewedFaqs, 
-  setViewedFaqs,
-  t
-}: any) => (
-  <>
-    <Navigation 
-      scrolled={scrolled} 
-      isMenuOpen={isMenuOpen} 
-      setIsMenuOpen={setIsMenuOpen} 
-      lang={language} 
-      handleLanguageChange={handleLanguageChange}
-    />
-    <Hero t={t} isMobile={isMobile} />
-    <Benefits t={t} isMobile={isMobile} />
-    <Expertise 
-      t={t} 
-      isMobile={isMobile} 
-      expertiseIndex={expertiseIndex} 
-      setExpertiseIndex={setExpertiseIndex} 
-      isExpertisePaused={isExpertisePaused} 
-      setIsExpertisePaused={setIsExpertisePaused} 
-    />
-    <Process 
-      t={t} 
-      isMobile={isMobile} 
-      processIndex={processIndex} 
-      setProcessIndex={setProcessIndex} 
-      isProcessPaused={isProcessPaused} 
-      setIsProcessPaused={setIsProcessPaused} 
-    />
-    <Portfolio t={t} isMobile={isMobile} lang={language} />
-    <FAQ 
-      t={t} 
-      openFaqIndex={openFaqIndex} 
-      setOpenFaqIndex={setOpenFaqIndex} 
-      viewedFaqs={viewedFaqs} 
-      setViewedFaqs={setViewedFaqs} 
-    />
-  </>
-);
-
 function AppContent() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [language, setLanguage] = useState<Language>(() => {
     const path = window.location.pathname;
     if (path.startsWith('/ua')) return 'ua';
@@ -3269,33 +3141,6 @@ function AppContent() {
     const saved = localStorage.getItem('language');
     return (saved === 'en' || saved === 'ua' || saved === 'de') ? saved as Language : 'en';
   });
-
-  useEffect(() => {
-    const path = location.pathname;
-    let newLang: Language = 'en';
-    if (path.startsWith('/ua')) newLang = 'ua';
-    else if (path.startsWith('/de')) newLang = 'de';
-    else {
-      const saved = localStorage.getItem('language');
-      newLang = (saved === 'en' || saved === 'ua' || saved === 'de') ? saved as Language : 'en';
-    }
-    
-    if (newLang !== language) {
-      setLanguage(newLang);
-    }
-  }, [location.pathname, language]);
-
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-    localStorage.setItem('language', lang);
-    
-    // Update URL if needed
-    const currentPath = location.pathname;
-    const pathWithoutLang = currentPath.replace(/^\/(ua|de)/, '');
-    const newPath = lang === 'en' ? pathWithoutLang || '/' : `/${lang}${pathWithoutLang}`;
-    navigate(newPath);
-  };
-
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -3445,7 +3290,7 @@ function AppContent() {
         <div className={`max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center justify-between rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
           {/* Left: Logo */}
           <Link 
-            to={language === 'en' ? "/" : `/${language}`} 
+            to="/" 
             className="flex-shrink-0 flex items-center gap-2 group"
             onClick={() => {
               setIsMenuOpen(false);
@@ -3467,7 +3312,7 @@ function AppContent() {
             {navLinks.map((link) => (
               <a 
                 key={link.label} 
-                href={isHomePage ? link.href : `${language === 'en' ? '' : `/${language}`}/${link.href}`} 
+                href={isHomePage ? link.href : `/${link.href}`} 
                 onClick={(e) => {
                   if (isHomePage && link.href.startsWith('#')) {
                     e.preventDefault();
@@ -3489,19 +3334,19 @@ function AppContent() {
             {/* Language Switcher */}
             <div className="flex items-center bg-zinc-900/40 border border-white/10 rounded-xl p-1 mr-2">
               <button 
-                onClick={() => handleLanguageChange('en')}
+                onClick={() => setLanguage('en')}
                 className={`px-3 py-1 text-sm font-medium rounded-lg transition-all ${language === 'en' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 EN
               </button>
               <button 
-                onClick={() => handleLanguageChange('de')}
+                onClick={() => setLanguage('de')}
                 className={`px-3 py-1 text-sm font-medium rounded-lg transition-all ${language === 'de' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 DE
               </button>
               <button 
-                onClick={() => handleLanguageChange('ua')}
+                onClick={() => setLanguage('ua')}
                 className={`px-3 py-1 text-sm font-medium rounded-lg transition-all ${language === 'ua' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 UA
@@ -3535,7 +3380,7 @@ function AppContent() {
                 {navLinks.map((link) => (
                   <a 
                     key={link.label} 
-                    href={isHomePage ? link.href : `${language === 'en' ? '' : `/${language}`}/${link.href}`} 
+                    href={isHomePage ? link.href : `/${link.href}`} 
                     className="text-base font-light text-white/70 hover:text-[var(--primary)] hover:translate-x-1 transition-all"
                     onClick={(e) => {
                       setIsMenuOpen(false);
@@ -3565,10 +3410,9 @@ function AppContent() {
       </header>
       
       <Routes>
-        {['/', '/ua', '/de'].map(path => (
-          <Route key={path} path={path} element={
-            <>
-              {/* --- Hero Section --- */}
+        <Route path="/" element={
+          <>
+            {/* --- Hero Section --- */}
       <div className="relative">
         {/* Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
@@ -4187,24 +4031,9 @@ function AppContent() {
       </section>
     </>
   } />
-))}
-
-<Route path="/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
-<Route path="/ua/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
-<Route path="/de/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
-
-<Route path="/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
-<Route path="/ua/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
-<Route path="/de/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
-
-<Route path="/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
-<Route path="/ua/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
-<Route path="/de/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
-
-{/* Fallback for old /case/ links */}
-<Route path="/case/city-survival-kit" element={<Navigate to="/city-survival-kit" replace />} />
-<Route path="/case/balance-pulse" element={<Navigate to="/balance-pulse" replace />} />
-<Route path="/case/wami-vacations" element={<Navigate to="/wami-vacations" replace />} />
+  <Route path="/balance-pulse" element={<CaseStudyBalancePulse lang={language} isMobile={isMobile} />} />
+  <Route path="/city-survival-kit" element={<CaseStudyCitySurvivalKit lang={language} isMobile={isMobile} />} />
+  <Route path="/wami-vacations" element={<CaseStudyWamiVacations lang={language} isMobile={isMobile} />} />
 </Routes>
 
 <Footer t={t} setIsModalOpen={setIsModalOpen} setIsEmailSelectorOpen={setIsEmailSelectorOpen} />
