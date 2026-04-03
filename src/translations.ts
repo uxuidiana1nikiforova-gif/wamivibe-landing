@@ -95,8 +95,58 @@ export const translations = {
       nextProject: 'Next project',
       goToNextCase: 'Go to next case',
       vacations: {
-        title: 'Wami vacations — HR experience layer',
-        desc: 'Beyond simple tracking, we’ve built an engagement layer that turns vacation management into a team-building tool. It’s a space designed to boost motivation, foster belonging, and make corporate culture tangible in every click.'
+        title: 'Volunteer OPS',
+        desc: 'A tool for volunteers and volunteer organizations that turns chaos into order. Tracks donations, inventory, procurement, and reporting — all in one place.',
+        category: 'SaaS',
+        goalTitle: 'Goal of the project',
+        goalDesc: 'To create a unified operations platform for volunteer organizations that simplifies donation tracking, inventory management, procurement, and reporting, while ensuring transparency and building trust with donors.',
+        conceptTitle: 'Core concept',
+        conceptDesc: 'The platform separates the experience into two roles — each with its own clear value, but connected through one transparent system.',
+        orgsTitle: 'Volunteer Organizations',
+        orgsDesc: 'Full operational control in one place. Manage resources, track expenses, and handle day-to-day operations efficiently.',
+        orgsFeatures: ['Inventory', 'Procurement', 'Suppliers', 'Reports', 'Balance'],
+        volunteersTitle: 'Volunteers',
+        volunteersDesc: 'Complete transparency without extra effort. See exactly where donations go through a clear and accessible public dashboard.',
+        volunteersFeatures: ['Donations', 'History', 'Dashboard', 'Reports'],
+        featuresTitle: 'Key Features',
+        featuresDesc: 'Core tools that transform chaotic volunteer operations into a structured, transparent, and manageable system.',
+        feature1Title: 'Donation Tracking',
+        feature1Desc: 'Record every incoming donation and expense with real-time balance visibility — no spreadsheets, no confusion.',
+        feature2Title: 'Procurement Management',
+        feature2Desc: 'Create requests, manage suppliers, and track delivery statuses — all in one place with full history.',
+        feature3Title: 'Inventory Management',
+        feature3Desc: 'Monitor available resources, track stock levels, and identify critical shortages through a simple interface.',
+        feature4Title: 'Donor Reporting',
+        feature4Desc: 'Automatically generate detailed reports on how funds are used — saving time and increasing trust.',
+        servicesTitle: 'Services',
+        servicesItems: [
+          { q: 'Product Strategy & Alignment', a: 'Defined workflows and user roles for volunteer organizations and donors, turning scattered processes into a clear, structured system.' },
+          { q: 'Platform Architecture & Scalability', a: 'Designed the system to support multiple user roles, real-time donation and inventory data, and future growth for expanding volunteer operations.' },
+          { q: 'Feature Development', a: 'Implemented core functionalities: donation tracking, inventory management, procurement workflow, automated donor reporting, and a public transparency dashboard.' },
+          { q: 'UI/UX Design', a: 'Created an intuitive interface for both organizations and donors, making complex processes simple and transparent.' },
+          { q: 'Data Security & Compliance', a: 'Protected sensitive data — donor contributions and organizational resources — at every stage of the workflow.' },
+          { q: 'Code Quality & Maintainability', a: 'Developed clean, maintainable code to ensure platform stability and simplify future feature expansion.' }
+        ],
+        overallTitle: 'Overall',
+        overallDesc: 'The platform covers the entire operational cycle of a volunteer organization — from the first donation to the final report, enabling transparent resource management and building trust with donors.',
+        teamVoiceTitle: 'Teamvoice',
+        teamVoiceItems: [
+          {
+            name: 'Valeria',
+            role: 'Product Owner',
+            quote: 'This project showed how a chaotic volunteer workflow could transform into a streamlined, transparent system with the right approach. The “Volunteer Ops Platform” concept developed quickly, and vibe coding allowed us to test and refine features almost in real time. It felt less like a traditional process and more like continuous product thinking and iteration.'
+          },
+          {
+            name: 'Diana',
+            role: 'UX/UI Designer',
+            quote: 'This product was all about making complex operations simple and transparent. We focused on creating an interface where tracking donations, managing inventory, and generating reports feels intuitive, not overwhelming. With vibe coding, design decisions could be instantly tested in the platform, making collaboration faster and more effective.'
+          },
+          {
+            name: 'Roman',
+            role: 'Senior Developer',
+            quote: 'The speed of development was impressive, but maintaining data integrity and scalability was key. With AI assisting parts of the implementation, my role was to review, structure, and ensure long-term reliability. In the end, we delivered a platform that’s both fast and robust — helping volunteer organizations operate efficiently while building trust with donors.'
+          }
+        ]
       },
       balancePulse: {
         title: 'The balance pulse',
@@ -339,8 +389,58 @@ export const translations = {
       nextProject: 'Наступний проект',
       goToNextCase: 'Перейти до наступного кейсу',
       vacations: {
-        title: 'Wami відпустки — HR experience layer',
-        desc: 'Крім простого відстеження, ми створили рівень залучення, який перетворює управління відпустками на інструмент тімбілдінгу. Це простір, розроблений для підвищення мотивації, формування почуття причетності та втілення корпоративної культури в кожному кліку.'
+        title: 'Volunteer OPS',
+        desc: 'Інструмент для волонтерів та волонтерських організацій, який перетворює хаос на порядок. Відстежує пожертви, інвентар, закупівлі та звітність — все в одному місці.',
+        category: 'SaaS',
+        goalTitle: 'Мета проекту',
+        goalDesc: 'Створити єдину операційну платформу для волонтерських організацій, яка спрощує відстеження пожертв, управління інвентарем, закупівлі та звітність, забезпечуючи при цьому прозорість та довіру донорів.',
+        conceptTitle: 'Основна концепція',
+        conceptDesc: 'Платформа розділяє досвід на дві ролі — кожна з власною чіткою цінністю, але з’єднана через одну прозору систему.',
+        orgsTitle: 'Волонтерські організації',
+        orgsDesc: 'Повний операційний контроль в одному місці. Керуйте ресурсами, відстежуйте витрати та ефективно виконуйте повсякденні операції.',
+        orgsFeatures: ['Інвентар', 'Закупівлі', 'Постачальники', 'Звіти', 'Баланс'],
+        volunteersTitle: 'Волонтери',
+        volunteersDesc: 'Повна прозорість без зайвих зусиль. Дивіться, куди саме йдуть пожертви, через зрозумілу та доступну публічну панель.',
+        volunteersFeatures: ['Пожертви', 'Історія', 'Дашборд', 'Звіти'],
+        featuresTitle: 'Ключові особливості',
+        featuresDesc: 'Основні інструменти, які перетворюють хаотичні волонтерські операції на структуровану, прозору та керовану систему.',
+        feature1Title: 'Відстеження пожертв',
+        feature1Desc: 'Записуйте кожну вхідну пожертву та витрату з видимістю балансу в реальному часі — без таблиць та плутанини.',
+        feature2Title: 'Управління закупівлями',
+        feature2Desc: 'Створюйте запити, керуйте постачальниками та відстежуйте статуси доставки — все в одному місці з повною історією.',
+        feature3Title: 'Управління інвентарем',
+        feature3Desc: 'Моніторте доступні ресурси, відстежуйте рівні запасів та виявляйте критичну нестачу через простий інтерфейс.',
+        feature4Title: 'Звітність для донорів',
+        feature4Desc: 'Автоматично створюйте детальні звіти про використання коштів — заощаджуючи час та підвищуючи довіру.',
+        servicesTitle: 'Послуги',
+        servicesItems: [
+          { q: 'Продуктова стратегія та узгодження', a: 'Визначено робочі процеси та ролі користувачів для волонтерських організацій та донорів, перетворюючи розрізнені процеси на чітку, структуровану систему.' },
+          { q: 'Архітектура платформи та масштабованість', a: 'Система розроблена для підтримки декількох ролей користувачів, даних про пожертвування та інвентар у реальному часі, а також майбутнього зростання волонтерських операцій.' },
+          { q: 'Розробка функціоналу', a: 'Впроваджено основні функції: відстеження пожертв, управління інвентарем, робочий процес закупівель, автоматизована звітність перед донорами та публічний дашборд прозорості.' },
+          { q: 'UI/UX дизайн', a: 'Створено інтуїтивно зрозумілий інтерфейс як для організацій, так і для донорів, що робить складні процеси простими та прозорими.' },
+          { q: 'Безпека даних та відповідність стандартам', a: 'Захищено конфіденційні дані — внески донорів та ресурси організації — на кожному етапі робочого процесу.' },
+          { q: 'Якість коду та підтримка', a: 'Розроблено чистий код, що легко підтримується, для забезпечення стабільності платформи та спрощення майбутнього розширення функціоналу.' }
+        ],
+        overallTitle: 'Загалом',
+        overallDesc: 'Платформа охоплює весь операційний цикл волонтерської організації — від першої пожертви до фінального звіту, забезпечуючи прозоре управління ресурсами та розбудову довіри з донорами.',
+        teamVoiceTitle: 'Тімвойс',
+        teamVoiceItems: [
+          {
+            name: 'Валерія',
+            role: 'Product Owner',
+            quote: 'Цей проект показав, як хаотичний робочий процес волонтерів може перетворитися на впорядковану, прозору систему за правильного підходу. Концепція «Volunteer Ops Platform» розвивалася швидко, а vibe coding дозволив нам тестувати та вдосконалювати функції майже в реальному часі. Це відчувалося не як традиційний процес, а як безперервне продуктове мислення та ітерації.'
+          },
+          {
+            name: 'Діана',
+            role: 'UX/UI Designer',
+            quote: 'Цей продукт був присвячений тому, щоб зробити складні операції простими та прозорими. Ми зосередилися на створенні інтерфейсу, де відстеження пожертв, управління інвентарем та створення звітів відчуваються інтуїтивно зрозумілими, а не обтяжливими. Завдяки vibe coding дизайнерські рішення можна було миттєво перевірити на платформі, що зробило співпрацю швидшою та ефективнішою.'
+          },
+          {
+            name: 'Роман',
+            role: 'Senior Developer',
+            quote: 'Швидкість розробки вражала, але ключовим було збереження цілісності даних та масштабованість. Оскільки ШІ допомагав у частині впровадження, моєю роллю було переглядати, структурувати та забезпечувати довгострокову надійність. Зрештою, ми створили платформу, яка є водночас швидкою та надійною — допомагаючи волонтерським організаціям працювати ефективно, одночасно будуючи довіру з донорами.'
+          }
+        ]
       },
       balancePulse: {
         title: 'The balance pulse',
@@ -583,8 +683,58 @@ export const translations = {
       nextProject: 'Nächstes projekt',
       goToNextCase: 'Zum nächsten Projekt',
       vacations: {
-        title: 'Wami urlaub — HR experience layer',
-        desc: 'Über das einfache Tracking hinaus haben wir eine Engagement-Ebene geschaffen, die das Urlaubsmanagement in ein Teambuilding-Tool verwandelt. Es ist ein Raum, der darauf ausgelegt ist, die Motivation zu steigern, die Zugehörigkeit zu fördern und die Unternehmenskultur bei jedem Klick erlebbar zu machen.'
+        title: 'Volunteer OPS',
+        desc: 'Ein Tool für Freiwillige und Freiwilligenorganisationen, das Chaos in Ordnung verwandelt. Verfolgt Spenden, Inventar, Beschaffung und Berichterstattung — alles an einem Ort.',
+        category: 'SaaS',
+        goalTitle: 'Projektziel',
+        goalDesc: 'Schaffung einer einheitlichen Betriebsplattform für Freiwilligenorganisationen, die die Spendenverfolgung, die Bestandsverwaltung, die Beschaffung und die Berichterstattung vereinfacht und gleichzeitig Transparenz gewährleistet und Vertrauen bei den Spendern aufbaut.',
+        conceptTitle: 'Kernkonzept',
+        conceptDesc: 'Die Plattform trennt die Erfahrung in zwei Rollen — jede mit ihrem eigenen klaren Wert, aber verbunden durch ein transparentes System.',
+        orgsTitle: 'Freiwilligenorganisationen',
+        orgsDesc: 'Vollständige operative Kontrolle an einem Ort. Verwalten Sie Ressourcen, verfolgen Sie Ausgaben und wickeln Sie das Tagesgeschäft effizient ab.',
+        orgsFeatures: ['Inventar', 'Beschaffung', 'Lieferanten', 'Berichte', 'Bilanz'],
+        volunteersTitle: 'Freiwillige',
+        volunteersDesc: 'Vollständige Transparenz ohne zusätzlichen Aufwand. Sehen Sie über ein klares und zugängliches öffentliches Dashboard genau, wohin Spenden fließen.',
+        volunteersFeatures: ['Spenden', 'Verlauf', 'Dashboard', 'Berichte'],
+        featuresTitle: 'Hauptmerkmale',
+        featuresDesc: 'Kernwerkzeuge, die chaotische Freiwilligeneinsätze in ein strukturiertes, transparentes und überschaubares System verwandeln.',
+        feature1Title: 'Spendenverfolgung',
+        feature1Desc: 'Erfassen Sie jede eingehende Spende und Ausgabe mit Echtzeit-Bilanzsichtbarkeit — keine Tabellenkalkulationen, keine Verwirrung.',
+        feature2Title: 'Beschaffungsmanagement',
+        feature2Desc: 'Erstellen Sie Anfragen, verwalten Sie Lieferanten und verfolgen Sie den Lieferstatus — alles an einem Ort mit vollständiger Historie.',
+        feature3Title: 'Bestandsverwaltung',
+        feature3Desc: 'Überwachen Sie verfügbare Ressourcen, verfolgen Sie Lagerbestände und identifizieren Sie kritische Engpässe über eine einfache Schnittstelle.',
+        feature4Title: 'Spenderberichterstattung',
+        feature4Desc: 'Erstellen Sie automatisch detaillierte Berichte über die Verwendung von Mitteln — das spart Zeit und stärkt das Vertrauen.',
+        servicesTitle: 'Dienstleistungen',
+        servicesItems: [
+          { q: 'Produktstrategie & Ausrichtung', a: 'Definierte Workflows und Benutzerrollen für Freiwilligenorganisationen und Spender, die verstreute Prozesse in ein klares, strukturiertes System verwandeln.' },
+          { q: 'Plattformarchitektur & Skalierbarkeit', a: 'Das System wurde so konzipiert, dass es mehrere Benutzerrollen, Spenden- und Inventardaten in Echtzeit sowie zukünftiges Wachstum für expandierende Freiwilligeneinsätze unterstützt.' },
+          { q: 'Feature-Entwicklung', a: 'Implementierung von Kernfunktionen: Spendenverfolgung, Bestandsverwaltung, Beschaffungsworkflow, automatisierte Spenderberichterstattung und ein öffentliches Transparenz-Dashboard.' },
+          { q: 'UI/UX Design', a: 'Erstellung einer intuitiven Benutzeroberfläche für Organisationen und Spender, die komplexe Prozesse einfach und transparent macht.' },
+          { q: 'Datensicherheit & Compliance', a: 'Schutz sensibler Daten — Spenderbeiträge und organisatorische Ressourcen — in jeder Phase des Workflows.' },
+          { q: 'Code-Qualität & Wartbarkeit', a: 'Entwicklung von sauberem, wartbarem Code, um die Plattformstabilität zu gewährleisten und die zukünftige Funktionserweiterung zu vereinfachen.' }
+        ],
+        overallTitle: 'Gesamt',
+        overallDesc: 'Die Plattform deckt den gesamten operativen Zyklus einer Freiwilligenorganisation ab — von der ersten Spende bis zum Abschlussbericht, ermöglicht ein transparentes Ressourcenmanagement und baut Vertrauen bei den Spendern auf.',
+        teamVoiceTitle: 'Teamvoice',
+        teamVoiceItems: [
+          {
+            name: 'Valeria',
+            role: 'Product Owner',
+            quote: 'Dieses Projekt hat gezeigt, wie ein chaotischer Freiwilligen-Workflow mit dem richtigen Ansatz in ein rationalisiertes, transparentes System umgewandelt werden kann. Das Konzept der „Volunteer Ops Platform“ entwickelte sich schnell, und Vibe Coding ermöglichte es uns, Funktionen fast in Echtzeit zu testen und zu verfeiner. Es fühlte sich weniger wie ein traditioneller Prozess an, sondern eher wie kontinuierliches Produktdenken und Iteration.'
+          },
+          {
+            name: 'Diana',
+            role: 'UX/UI Designer',
+            quote: 'Bei diesem Produkt ging es darum, komplexe Abläufe einfach und transparent zu gestalten. Wir haben uns darauf konzentriert, eine Benutzeroberfläche zu schaffen, in der sich das Verfolgen von Spenden, das Verwalten von Beständen und das Erstellen von Berichten intuitiv und nicht überwältigend anfühlt. Mit Vibe Coding konnten Designentscheidungen sofort in der Plattform getestet werden, was die Zusammenarbeit schneller und effektiver machte.'
+          },
+          {
+            name: 'Roman',
+            role: 'Senior Developer',
+            quote: 'Die Geschwindigkeit der Entwicklung war beeindruckend, aber die Aufrechterhaltung der Datenintegrität und Skalierbarkeit war der Schlüssel. Da die KI Teile der Implementierung unterstützte, war es meine Aufgabe, diese zu überprüfen, zu strukturieren und die langfristige Zuverlässigkeit sicherzustellen. Am Ende haben wir eine Plattform geliefert, die sowohl schnell als auch robust ist – sie hilft Freiwilligenorganisationen, effizient zu arbeiten und gleichzeitig Vertrauen bei Spendern aufzubauen.'
+          }
+        ]
       },
       balancePulse: {
         title: 'The balance pulse',

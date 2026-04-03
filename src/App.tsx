@@ -15,6 +15,7 @@ import {
   Zap, 
   Anchor,
   Flame,
+  Building2,
   Code2, 
   Layout, 
   Users, 
@@ -807,8 +808,23 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
   const t = translations[lang].portfolio;
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   
   const projects = [
+    { 
+      id: "wami-vacations",
+      title: t.vacations.title,
+      desc: lang === 'ua' 
+        ? 'Інструмент для волонтерів та волонтерських організацій, який перетворює хаос на порядок. Відстежує пожертви, інвентар, закупівлі та звітність — все в одному місці. Включає публічну панель прозорості, яка показує донорам, куди саме йдуть їхні гроші.'
+        : lang === 'de'
+        ? 'Ein Tool für Freiwillige und Freiwilligenorganisationen, das Chaos in Ordnung verwandelt. Verfolgt Spenden, Inventar, Beschaffung und Berichterstattung — alles an einem Ort. Enthält ein öffentliches Transparenz-Dashboard, das Spendern genau zeigt, wohin ihr Geld fließt.'
+        : 'A tool for volunteers and volunteer organizations that turns chaos into order. Tracks donations, inventory, procurement, and reporting — all in one place. Includes a public transparency dashboard that shows donors exactly where their money goes.',
+      image: "/images/cover-ops-portfolio.png",
+      imageAlt: t.vacations.title,
+      overlayTitle: t.vacations.title,
+      overlayCategory: t.vacations.category,
+      icon: <Sparkles size={20} />
+    },
     {
       id: "balance-pulse",
       title: t.balancePulse.title,
@@ -828,16 +844,6 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
       overlayTitle: t.citySurvivalKit.title,
       overlayCategory: t.citySurvivalKit.category,
       icon: <Sparkles size={20} />
-    },
-    { 
-      id: "wami-vacations",
-      title: t.vacations.title,
-      desc: t.vacations.desc,
-      image: "/images/image_case1.svg",
-      imageAlt: t.vacations.title,
-      overlayTitle: t.vacations.title,
-      overlayCategory: "HR Tech",
-      icon: <Sparkles size={20} />
     }
   ];
 
@@ -852,12 +858,28 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
   }
 
   const currentProject = projects[activeIndex];
+  
+  // Auto-scroll logic
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % projects.length);
+    }, 6000); // Change project every 6 seconds
+
+    return () => clearInterval(interval);
+  }, [projects.length, isPaused, activeIndex]);
 
   return (
-    <div className="relative">
+    <div 
+      className="relative"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={() => setIsPaused(true)}
+      onTouchEnd={() => setIsPaused(false)}
+    >
       <div className="w-full">
         {/* Grid of two cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
           <AnimatePresence mode="wait">
             {/* Left Card: Project Description */}
             <motion.div
@@ -868,7 +890,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6 }}
               onClick={() => navigate(`/${currentProject.id}`)}
-              className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors cursor-pointer hover:border-[var(--primary)]/30"
+              className="relative h-auto lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group transition-colors cursor-pointer hover:border-[var(--primary)]/30"
             >
               <div className="w-full h-full">
                 <ProjectDescription 
@@ -888,7 +910,7 @@ const PortfolioSlider = ({ lang, isMobile }: { lang: Language; isMobile: boolean
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, delay: isMobile ? 0 : 0.1 }}
               onClick={() => navigate(`/${currentProject.id}`)}
-              className="relative h-auto md:aspect-video lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors cursor-pointer"
+              className="relative h-auto lg:aspect-video rounded-2xl sm:rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden flex items-center justify-center group hover:border-[var(--primary)]/30 transition-colors cursor-pointer"
             >
               <div className="w-full h-full">
                 {currentProject.image ? (
@@ -1062,11 +1084,6 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
       title: t.portfolio.balancePulse.aiTutorTitle,
       desc: t.portfolio.balancePulse.aiTutorDesc,
       side: 'right'
-    },
-    {
-      title: t.portfolio.balancePulse.forecastingTitle,
-      desc: t.portfolio.balancePulse.forecastingDesc,
-      side: 'left'
     }
   ];
 
@@ -1187,11 +1204,11 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
         {/* The Path SVG */}
         <motion.div 
           variants={itemVariants}
-          className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1320px] hidden sm:block pointer-events-none"
+          className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[910px] hidden sm:block pointer-events-none"
         >
-          <svg width="100%" height="100%" viewBox="0 0 800 1320" fill="none" preserveAspectRatio="xMidYMin meet">
+          <svg width="100%" height="100%" viewBox="0 0 800 910" fill="none" preserveAspectRatio="xMidYMin meet">
             <motion.path 
-              d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 400, 1200, 400, 1320" 
+              d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 400, 880, 400, 910" 
               stroke="white" 
               strokeOpacity="0.15" 
               strokeWidth="2" 
@@ -1215,46 +1232,23 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
               transition={{ duration: 3, repeat: Infinity, delay: 0 }}
             />
             
-            {/* Node 0: Motivation (Left of card) */}
-            <circle cx="100" cy="360" r="6" fill="white" fillOpacity="0.4" />
-            <motion.circle 
-              cx="100" cy="360" r="12" 
-              stroke="white" strokeOpacity="0.15" strokeWidth="1"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-            
-            {/* Node 1: Dopamine (Right of card) */}
-            <circle cx="700" cy="600" r="6" fill="white" fillOpacity="0.4" />
-            <motion.circle 
-              cx="700" cy="600" r="12" 
-              stroke="white" strokeOpacity="0.15" strokeWidth="1"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
-              transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-            />
-
-            {/* Node 2: AI Tutor (Left of card) */}
-            <circle cx="100" cy="840" r="6" fill="white" fillOpacity="0.4" />
-            <motion.circle 
-              cx="100" cy="840" r="12" 
-              stroke="white" strokeOpacity="0.15" strokeWidth="1"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
-              transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-            />
-
-            {/* Node 3: Forecasting (Right of card) */}
-            <circle cx="700" cy="1080" r="6" fill="white" fillOpacity="0.4" />
-            <motion.circle 
-              cx="700" cy="1080" r="12" 
-              stroke="white" strokeOpacity="0.15" strokeWidth="1"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
-              transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-            />
+            {/* Nodes along the path */}
+            {[360, 600, 840].map((y, i) => (
+              <React.Fragment key={i}>
+                <circle cx={i % 2 === 0 ? 100 : 700} cy={y} r="6" fill="white" fillOpacity="0.4" />
+                <motion.circle 
+                  cx={i % 2 === 0 ? 100 : 700} cy={y} r="12" 
+                  stroke="white" strokeOpacity="0.15" strokeWidth="1"
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                />
+              </React.Fragment>
+            ))}
 
             {/* Node 4: End (Bottom center) */}
-            <circle cx="400" cy="1320" r="6" fill="white" fillOpacity="0.4" />
+            <circle cx="400" cy="910" r="6" fill="white" fillOpacity="0.4" />
             <motion.circle 
-              cx="400" cy="1320" r="12" 
+              cx="400" cy="910" r="12" 
               stroke="white" strokeOpacity="0.15" strokeWidth="1"
               animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
               transition={{ duration: 3, repeat: Infinity, delay: 2 }}
@@ -1279,7 +1273,7 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
                   delay: startOffset * 15,
                 }}
                 style={{
-                  offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 400, 1200, 400, 1320')",
+                  offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 400, 880, 400, 910')",
                 }}
               />
             ))}
@@ -1346,23 +1340,10 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
                 >
                   {/* Feature Card */}
                   <motion.div
-                    initial={{ 
-                      opacity: 0, 
-                      scale: 0.96,
-                      y: 40,
-                      rotateX: -10
-                    }}
-                    whileInView={{ 
-                      opacity: 1, 
-                      scale: 1, 
-                      y: 0,
-                      rotateX: 0
-                    }}
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ 
-                      opacity: { duration: 1 },
-                      initialY: { type: "spring", damping: 25, stiffness: 120 }
-                    }}
+                    transition={{ duration: 1, delay: index * 0.2, ease: [0.215, 0.61, 0.355, 1] }}
                     style={{ transformStyle: "preserve-3d" }}
                     className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[200px] flex flex-col justify-center"
                   >
@@ -1414,6 +1395,334 @@ const FeaturePath = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
   );
 };
 
+const FeaturePathVacations = ({ t, isMobile }: { t: any; isMobile: boolean }) => {
+  const features = [
+    {
+      title: t.portfolio.vacations.feature1Title,
+      desc: t.portfolio.vacations.feature1Desc,
+      side: 'right'
+    },
+    {
+      title: t.portfolio.vacations.feature2Title,
+      desc: t.portfolio.vacations.feature2Desc,
+      side: 'left'
+    },
+    {
+      title: t.portfolio.vacations.feature3Title,
+      desc: t.portfolio.vacations.feature3Desc,
+      side: 'right'
+    }
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0 });
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  // Auto-scroll logic
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % features.length);
+    }, 5000); // Change card every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [features.length, isPaused]);
+
+  useEffect(() => {
+    const updateConstraints = () => {
+      setWindowWidth(window.innerWidth);
+      if (scrollRef.current) {
+        const fullWidth = scrollRef.current.scrollWidth;
+        const visibleWidth = scrollRef.current.offsetWidth;
+        setDragConstraints({ left: -(fullWidth - visibleWidth), right: 0 });
+      }
+    };
+
+    updateConstraints();
+    window.addEventListener('resize', updateConstraints);
+    return () => window.removeEventListener('resize', updateConstraints);
+  }, []);
+
+  const handleDragEnd = (_: any, info: any) => {
+    const offset = info.offset.x;
+    const velocity = info.velocity.x;
+    
+    // Threshold for swipe
+    const swipeThreshold = 50;
+    const velocityThreshold = 500;
+
+    if (offset < -swipeThreshold || velocity < -velocityThreshold) {
+      setActiveIndex(prev => Math.min(prev + 1, features.length - 1));
+    } else if (offset > swipeThreshold || velocity > velocityThreshold) {
+      setActiveIndex(prev => Math.max(prev - 1, 0));
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current && !isMobile) { // Only for non-drag scroll if any
+      const scrollPosition = scrollRef.current.scrollLeft;
+      const cardWidth = scrollRef.current.offsetWidth - 32;
+      const index = Math.round(scrollPosition / (cardWidth + 16));
+      setActiveIndex(index);
+    }
+  };
+
+  return (
+    <motion.div 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className="relative max-w-7xl mx-auto py-20 md:py-32 sm:overflow-hidden overflow-visible border-t border-white/5"
+    >
+      <div className="relative z-10">
+        {/* Key features Header */}
+        <div className="mb-20 md:mb-32 flex flex-col items-start">
+          <div className="text-left max-w-2xl">
+            <motion.h3 
+              variants={itemVariants}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight mb-6"
+            >
+              {t.portfolio.vacations.featuresTitle}
+            </motion.h3>
+            <motion.p 
+              variants={itemVariants}
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
+            >
+              {t.portfolio.vacations.featuresDesc}
+            </motion.p>
+          </div>
+          <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mt-6" />
+        </div>
+
+        {/* The Path SVG */}
+        <motion.div 
+          variants={itemVariants}
+          className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[910px] hidden sm:block pointer-events-none"
+        >
+          <svg width="100%" height="100%" viewBox="0 0 800 910" fill="none" preserveAspectRatio="xMidYMin meet">
+            <motion.path 
+              d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 400, 880, 400, 910" 
+              stroke="white" 
+              strokeOpacity="0.15" 
+              strokeWidth="2" 
+              strokeDasharray="12 12" 
+              animate={{
+                strokeDashoffset: [0, -24],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+
+            {/* Node -1: Start (Top center) */}
+            <circle cx="400" cy="120" r="6" fill="var(--primary)" />
+            <motion.circle 
+              cx="400" cy="120" r="12" 
+              stroke="var(--primary)" strokeOpacity="0.3" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 0 }}
+            />
+            
+            {/* Nodes along the path */}
+            {[360, 600, 840].map((y, i) => (
+              <React.Fragment key={i}>
+                <circle cx={i % 2 === 0 ? 100 : 700} cy={y} r="6" fill="white" fillOpacity="0.4" />
+                <motion.circle 
+                  cx={i % 2 === 0 ? 100 : 700} cy={y} r="12" 
+                  stroke="white" strokeOpacity="0.15" strokeWidth="1"
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                />
+              </React.Fragment>
+            ))}
+
+            {/* Node 4: End (Bottom center) */}
+            <circle cx="400" cy="910" r="6" fill="white" fillOpacity="0.4" />
+            <motion.circle 
+              cx="400" cy="910" r="12" 
+              stroke="white" strokeOpacity="0.15" strokeWidth="1"
+              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 2 }}
+            />
+
+            {/* Animated Bubbles along the path */}
+            {[0, 0.2, 0.4, 0.6, 0.8].map((startOffset, i) => (
+              <motion.circle
+                key={i}
+                r="3"
+                fill="#71717a"
+                fillOpacity="0.4"
+                animate={{
+                  offsetDistance: ["0%", "100%"],
+                  opacity: [0, 0.5, 0],
+                  scale: [0.5, 1.2, 0.5]
+                }}
+                transition={{
+                  duration: 15,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: startOffset * 15,
+                }}
+                style={{
+                  offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 400, 880, 400, 910')",
+                }}
+              />
+            ))}
+          </svg>
+        </motion.div>
+
+        {/* Features List */}
+        <div className="relative sm:block overflow-hidden sm:overflow-visible min-h-[320px] sm:min-h-0">
+          {isMobile ? (
+            <div className="relative w-full h-[320px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, x: 40, rotateY: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -40, rotateY: -15, scale: 0.95 }}
+                  transition={{ 
+                    duration: 0.6,
+                    ease: [0.23, 1, 0.32, 1]
+                  }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={(_, info) => {
+                    const threshold = 50;
+                    if (info.offset.x < -threshold) {
+                      setActiveIndex((prev) => (prev + 1) % features.length);
+                    } else if (info.offset.x > threshold) {
+                      setActiveIndex((prev) => (prev - 1 + features.length) % features.length);
+                    }
+                  }}
+                  onPointerDown={() => setIsPaused(true)}
+                  onPointerUp={() => setIsPaused(false)}
+                  onPointerLeave={() => setIsPaused(false)}
+                  className="absolute inset-0 bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 flex flex-col justify-center rounded-[2rem] shadow-2xl cursor-grab active:cursor-grabbing"
+                  style={{ perspective: "1000px", touchAction: "none" }}
+                >
+                  <BorderBeam delay={activeIndex * 1} duration={15} color="white" size="120px" />
+                  <div className="absolute top-5 right-6 font-mono text-[10px] text-[var(--primary)] opacity-50">
+                    {String(activeIndex + 1).padStart(2, '0')} / {String(features.length).padStart(2, '0')}
+                  </div>
+                  <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
+                    {features[activeIndex].title}
+                  </h4>
+                  <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                    {features[activeIndex].desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          ) : (
+            <motion.div 
+              ref={scrollRef}
+              variants={listVariants}
+              className="sm:block sm:space-x-0 pb-12 sm:pb-0 relative sm:px-0"
+            >
+              {features.map((feature, index) => (
+                <motion.div 
+                  key={index} 
+                  variants={itemVariants}
+                  className={`flex-shrink-0 w-full flex flex-col sm:flex-row items-center sm:mr-0 ${
+                    feature.side === 'right' ? 'sm:justify-end' : 'sm:justify-start'
+                  } sm:h-[240px] md:h-[240px] relative`}
+                >
+                  {/* Feature Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 1, delay: index * 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[200px] flex flex-col justify-center"
+                  >
+                    <BorderBeam delay={index * 1} duration={15} color="white" size="120px" />
+                    <h4 className="text-xl md:text-2xl font-satoshi font-medium text-[var(--primary)] mb-4 tracking-tight">
+                      {feature.title}
+                    </h4>
+                    <p className="text-base md:text-lg lg:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                      {feature.desc}
+                    </p>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+
+        {/* Mobile Scroll Indicators */}
+        <div className="flex sm:hidden justify-center space-x-2 mt-4">
+          {features.map((_, i) => (
+            <button 
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                activeIndex === i ? 'bg-[var(--primary)] w-4' : 'bg-white/20'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Final Solution Footer */}
+        <div className="mt-32 flex flex-col items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-right max-w-2xl"
+          >
+            <h3 className="text-3xl md:text-4xl font-satoshi font-medium text-[var(--primary)] mb-6">
+              {t.portfolio.vacations.overallTitle}
+            </h3>
+            <p className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 italic">
+              {t.portfolio.vacations.overallDesc}
+            </p>
+          </motion.div>
+          <div className="w-full md:w-1/2 h-[1px] bg-[var(--primary)]/20 mt-6" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
   const t = translations[lang];
   const navigate = useNavigate();
@@ -1448,11 +1757,6 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
       title: 'Cost simulator',
       desc: 'Forecasts cost of living in the city',
       side: 'right'
-    },
-    {
-      title: 'Emotional layer',
-      desc: 'Basic support + community recommendations',
-      side: 'left'
     }
   ];
 
@@ -1816,11 +2120,11 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           {/* The Path SVG */}
           <motion.div 
             variants={itemVariants}
-            className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1800px] hidden sm:block pointer-events-none"
+            className="absolute top-[200px] lg:top-[380px] left-0 w-full h-[1390px] hidden sm:block pointer-events-none"
           >
-            <svg width="100%" height="100%" viewBox="0 0 800 1800" fill="none" preserveAspectRatio="xMidYMin meet">
+            <svg width="100%" height="100%" viewBox="0 0 800 1390" fill="none" preserveAspectRatio="xMidYMin meet">
               <motion.path 
-                d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 100, 1200, 100, 1320 S 700, 1440, 700, 1560 S 400, 1680, 400, 1800" 
+                d="M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 100, 1200, 100, 1320 S 400, 1360, 400, 1390" 
                 stroke="white" 
                 strokeOpacity="0.15" 
                 strokeWidth="2" 
@@ -1844,7 +2148,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                 transition={{ duration: 3, repeat: Infinity }}
               />
               
-              {[360, 600, 840, 1080, 1320, 1560].map((y, i) => (
+              {[360, 600, 840, 1080, 1320].map((y, i) => (
                 <React.Fragment key={i}>
                   <circle cx={i % 2 === 0 ? 100 : 700} cy={y} r="6" fill="white" fillOpacity="0.4" />
                   <motion.circle 
@@ -1856,9 +2160,9 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                 </React.Fragment>
               ))}
 
-              <circle cx="400" cy="1800" r="6" fill="white" fillOpacity="0.4" />
+              <circle cx="400" cy="1390" r="6" fill="white" fillOpacity="0.4" />
               <motion.circle 
-                cx="400" cy="1800" r="12" 
+                cx="400" cy="1390" r="12" 
                 stroke="white" strokeOpacity="0.15" strokeWidth="1"
                 animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 3 }}
@@ -1883,7 +2187,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                     delay: startOffset * 15,
                   }}
                   style={{
-                    offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 520, 700, 520, 700, 680 S 100, 840, 100, 1000 S 700, 1160, 700, 1320 S 100, 1480, 100, 1640 S 700, 1800, 700, 1960 S 400, 2120, 400, 2200')",
+                    offsetPath: "path('M 400, 120 S 100, 120, 100, 360 C 100, 480, 700, 480, 700, 600 S 100, 720, 100, 840 S 700, 960, 700, 1080 S 100, 1200, 100, 1320 S 400, 1360, 400, 1390')",
                   }}
                 />
               ))}
@@ -1950,23 +2254,10 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
                 >
                   {/* Feature Card */}
                   <motion.div
-                    initial={{ 
-                      opacity: 0, 
-                      scale: 0.96,
-                      y: 40,
-                      rotateX: -10
-                    }}
-                    whileInView={{ 
-                      opacity: 1, 
-                      scale: 1, 
-                      y: 0,
-                      rotateX: 0
-                    }}
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ 
-                      opacity: { duration: 1 },
-                      initialY: { type: "spring", damping: 25, stiffness: 120 }
-                    }}
+                    transition={{ duration: 1, delay: index * 0.2, ease: [0.215, 0.61, 0.355, 1] }}
                     style={{ transformStyle: "preserve-3d" }}
                     className="w-full sm:w-[69%] md:w-[70%] lg:w-[48%] bg-white/[0.003] backdrop-blur-3xl border border-white/5 p-8 md:p-10 rounded-[2rem] shadow-2xl relative group overflow-hidden sm:h-[240px] md:h-[200px] flex flex-col justify-center"
                   >
@@ -2192,7 +2483,6 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/wami-vacations')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2689,7 +2979,6 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/city-survival-kit')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
@@ -2718,7 +3007,11 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
 const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: boolean }) => {
   const t = translations[lang];
   const navigate = useNavigate();
+  const constraintsRef = useRef<HTMLDivElement>(null);
   const nextProjectRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const x = useMotionValue(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   
   // Motion values for the interactive lens
   const lensX = useMotionValue(0);
@@ -2729,8 +3022,38 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
     return `circle(${radius}px at calc(50% + ${lx}px) calc(50% + ${ly}px))`;
   });
 
+  const [imageIndex, setImageIndex] = useState(0);
+  const images = ["/images/ops1.png", "/images/ops2.png"];
+
+  const calculateCenter = () => {
+    if (imageRef.current && constraintsRef.current) {
+      const containerWidth = constraintsRef.current.offsetWidth;
+      const imgWidth = imageRef.current.offsetWidth;
+      if (imgWidth > containerWidth) {
+        const centerOffset = -(imgWidth - containerWidth) / 2;
+        x.set(centerOffset);
+      }
+    }
+  };
+
   useEffect(() => {
-    const title = lang === 'ua' ? 'Wami vacations — Wami Vibe' : 'Wami vacations — Wami Vibe';
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      calculateCenter();
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setImageIndex((prev) => (prev === 0 ? 1 : 0));
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const title = lang === 'ua' ? 'Volunteer Ops — Wami Vibe' : 'Volunteer Ops — Wami Vibe';
     const desc = t.portfolio.vacations.desc;
     document.title = title;
     
@@ -2738,10 +3061,10 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
       { name: 'description', content: desc },
       { property: 'og:title', content: title },
       { property: 'og:description', content: desc },
-      { property: 'og:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-wami-vacations.png' },
+      { property: 'og:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-ops.png' },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: desc },
-      { name: 'twitter:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-wami-vacations.png' }
+      { name: 'twitter:image', content: 'https://ais-dev-cwvt74vynqvryz7jxzv277-527915966303.europe-west2.run.app/images/cover-ops.png' }
     ];
 
     metaTags.forEach(tag => {
@@ -2775,23 +3098,341 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
       </div>
 
       <div className="pt-4 md:pt-8 pb-16 md:pb-32 max-w-7xl mx-auto relative min-h-[60vh] flex flex-col items-center justify-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-[var(--primary)]/5 blur-[120px] rounded-full -z-10" />
+        
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full text-center"
+          className="w-full relative flex flex-col lg:block"
         >
-          <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
-            HR Tech
-          </span>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-satoshi font-normal text-white mb-6 leading-tight flex items-center justify-center gap-4">
-            <Sparkles className="text-[var(--primary)] flex-shrink-0 w-8 h-8 md:w-12 md:h-12 lg:w-14 lg:h-14" />
-            <span>{t.portfolio.vacations.title}</span>
-          </h1>
-          <h2 className="text-xl md:text-2xl lg:text-3xl text-white/70 font-satoshi max-w-3xl mx-auto leading-relaxed">
-            {t.portfolio.vacations.desc}
-          </h2>
+          {/* Text Overlay */}
+          <div className="relative lg:absolute lg:inset-0 z-20 p-0 lg:p-16 mb-8 lg:mb-0 flex flex-col justify-start lg:pt-48 items-start pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="max-w-2xl pointer-events-auto"
+            >
+              <span className="inline-block font-mono text-[13px] md:text-[11px] uppercase tracking-[0.3em] text-[var(--primary)] mb-3 md:mb-6 border-b border-[var(--primary)]/30 pb-1">
+                {t.portfolio.vacations.category}
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-normal text-white mb-3 md:mb-6 leading-tight">
+                <span>{t.portfolio.vacations.title}</span>
+              </h1>
+              <h2 className="text-xl md:text-2xl lg:text-4xl text-white font-satoshi font-normal max-w-lg leading-tight opacity-95">
+                {lang === 'ua' 
+                  ? 'Інструмент для волонтерів та волонтерських організацій, який перетворює хаос на порядок.'
+                  : lang === 'de'
+                  ? 'Ein Tool für Freiwillige und Freiwilligenorganisationen, das Chaos in Ordnung verwandelt.'
+                  : 'A tool for volunteers and volunteer organizations that turns chaos into order.'
+                }
+              </h2>
+            </motion.div>
+          </div>
+
+          {/* Hero Image Container */}
+          <div className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl shadow-2xl h-[400px] md:h-[500px] lg:h-auto">
+            <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black/80 via-black/25 to-transparent z-10 pointer-events-none" />
+            <img 
+              src="/images/cover-ops.png" 
+              alt="Volunteer Ops Cover" 
+              className="w-full h-full object-cover lg:object-contain object-[60%_center] lg:object-center block"
+              referrerPolicy="no-referrer"
+            />
+          </div>
         </motion.div>
+      </div>
+
+      {/* Goal of the Project Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+          <div className="lg:col-span-5">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight"
+            >
+              {t.portfolio.vacations.goalTitle}
+            </motion.h2>
+          </div>
+          <div className="lg:col-span-7 lg:pt-5">
+            <motion.p 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
+            >
+              {t.portfolio.vacations.goalDesc}
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      {/* Secondary Image Section with Smart Animation */}
+      <div className="max-w-7xl mx-auto pb-20 md:pb-32">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full aspect-video rounded-2xl md:rounded-[2rem] overflow-hidden border border-white/5 bg-white/5"
+        >
+          <AnimatePresence mode="wait">
+            <motion.img 
+              key={imageIndex}
+              src={images[imageIndex]} 
+              alt={`Volunteer OPS Interface ${imageIndex + 1}`} 
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </AnimatePresence>
+        </motion.div>
+      </div>
+
+      {/* Core Concept Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start mb-20 md:mb-32">
+          <div className="lg:col-span-5">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-satoshi font-light text-[var(--primary)] leading-tight"
+            >
+              {t.portfolio.vacations.conceptTitle}
+            </motion.h2>
+          </div>
+          <div className="lg:col-span-7 lg:pt-5">
+            <motion.p 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80"
+            >
+              {t.portfolio.vacations.conceptDesc}
+            </motion.p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-3 lg:gap-12">
+          {/* Organizations Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-8 md:p-12 rounded-[2rem] flex flex-col h-full group overflow-hidden"
+          >
+            <BorderBeam delay={0} duration={12} />
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)]/20 flex items-center justify-center">
+                <Building2 size={24} className="text-[var(--primary)]" />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-satoshi font-normal text-white">
+                {t.portfolio.vacations.orgsTitle}
+              </h3>
+            </div>
+            <p className="text-white/60 font-light text-lg leading-relaxed mb-10">
+              {t.portfolio.vacations.orgsDesc}
+            </p>
+            <div className="mt-auto flex flex-wrap gap-2">
+              {t.portfolio.vacations.orgsFeatures.map((feature: string, idx: number) => (
+                <span key={idx} className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/40 text-sm font-mono uppercase tracking-wider">
+                  {feature}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Volunteers Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-8 md:p-12 rounded-[2rem] flex flex-col h-full group overflow-hidden"
+          >
+            <BorderBeam delay={3} duration={12} />
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)]/20 flex items-center justify-center">
+                <Users size={24} className="text-[var(--primary)]" />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-satoshi font-normal text-white">
+                {t.portfolio.vacations.volunteersTitle}
+              </h3>
+            </div>
+            <p className="text-white/60 font-light text-lg leading-relaxed mb-10">
+              {t.portfolio.vacations.volunteersDesc}
+            </p>
+            <div className="mt-auto flex flex-wrap gap-2">
+              {t.portfolio.vacations.volunteersFeatures.map((feature: string, idx: number) => (
+                <span key={idx} className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/40 text-sm font-mono uppercase tracking-wider">
+                  {feature}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Key Features & Overall Section */}
+      <FeaturePathVacations t={t} isMobile={isMobile} />
+
+      {/* Visual Showcase Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5">
+        {/* Desktop Visual (Single Image) */}
+        <div className="hidden lg:block">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative w-full overflow-hidden rounded-[2.5rem] border border-white/5 shadow-2xl"
+          >
+            <img 
+              src="/images/ops-desctop.png" 
+              alt="Volunteer OPS Desktop View" 
+              className="w-full h-auto block"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+        </div>
+
+        {/* Mobile/Tablet Visual (Side-by-side/Stacked) */}
+        <div className="lg:hidden space-y-8">
+          <div className="grid grid-cols-1 gap-8">
+            {/* ops-left: Draggable with Blur Overlays on Mobile, Simple on Tablet */}
+            <div className="relative">
+              <motion.div
+                ref={constraintsRef}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl border border-white/5 shadow-2xl h-[400px] md:h-[500px] bg-zinc-900/40 backdrop-blur-sm flex items-center justify-center"
+              >
+                <motion.div 
+                  drag="x"
+                  dragConstraints={constraintsRef}
+                  style={{ x }}
+                  className="h-full w-fit cursor-grab active:cursor-grabbing"
+                >
+                  <img 
+                    ref={imageRef}
+                    onLoad={calculateCenter}
+                    src="/images/ops-left.png" 
+                    alt="Volunteer OPS Visual Left" 
+                    className="h-full w-auto max-w-none block pointer-events-none"
+                    referrerPolicy="no-referrer"
+                  />
+                </motion.div>
+
+                {/* Edge Blur Overlays */}
+                <div 
+                  className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-zinc-950/25 via-zinc-950/5 to-transparent backdrop-blur-md z-10 pointer-events-none"
+                  style={{ maskImage: 'linear-gradient(to right, black 20%, transparent)' }}
+                />
+                <div 
+                  className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-zinc-950/25 via-zinc-950/5 to-transparent backdrop-blur-md z-10 pointer-events-none"
+                  style={{ maskImage: 'linear-gradient(to left, black 20%, transparent)' }}
+                />
+              </motion.div>
+              
+              {/* Mobile/Tablet Hint */}
+              <div className="mt-4 flex items-center justify-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest opacity-50">
+                <ArrowRight className="rotate-180" size={12} />
+                <span>Drag to explore</span>
+                <ArrowRight size={12} />
+              </div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-4 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center md:w-[calc(50%-6px)] md:mx-auto"
+            >
+              <img 
+                src="/images/ops-right.png" 
+                alt="Volunteer OPS Visual Right" 
+                className="w-full h-auto rounded-2xl"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Services Section */}
+      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+        >
+          {t.portfolio.vacations.servicesTitle}
+        </motion.h2>
+
+        <div className="w-full max-w-4xl space-y-0 px-4">
+          {t.portfolio.vacations.servicesItems.map((item: any, i: number) => (
+            <ServiceItem key={i} item={item} index={i} />
+          ))}
+        </div>
+      </div>
+
+      {/* Teamvoice Section */}
+      <div className="w-full max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center md:px-0">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+        >
+          {t.portfolio.vacations.teamVoiceTitle}
+        </motion.h2>
+
+        {/* Mobile Carousel */}
+        <div className="w-full md:hidden">
+          <TeamVoiceMobileCarousel items={t.portfolio.vacations.teamVoiceItems} />
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:block w-full max-w-6xl px-6 space-y-12">
+          {t.portfolio.vacations.teamVoiceItems.map((item: any, i: number) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 100 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: i * 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+              className="grid grid-cols-1 md:grid-cols-[1fr_1fr_2.5fr] gap-4 md:gap-12 items-start border-b border-white/5 pb-12 last:border-0"
+            >
+              <div className="text-xs md:text-sm text-white/40 font-mono uppercase tracking-[0.2em] pt-1">
+                {item.name}
+              </div>
+              <div className="text-base md:text-lg text-white/70 font-satoshi font-medium uppercase tracking-wider pt-0.5">
+                {item.role}
+              </div>
+              <div className="text-lg md:text-xl text-white font-satoshi font-light leading-relaxed opacity-80">
+                {item.quote}
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* Next Project Section (linking back to Balance Pulse for now) */}
@@ -2823,7 +3464,6 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
             drag
             dragElastic={0.1}
             dragConstraints={nextProjectRef}
-            onTap={() => navigate('/balance-pulse')}
             style={{ x: lensX, y: lensY }}
             whileHover={{ scale: 1.02 }}
             whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
