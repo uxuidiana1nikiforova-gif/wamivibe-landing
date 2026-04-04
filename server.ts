@@ -27,7 +27,7 @@ async function startServer() {
       const user = process.env.SMTP_USER;
       const pass = process.env.SMTP_PASS;
       const from = process.env.SMTP_FROM || "WAMI Software <no-reply@wamisoftware.com>";
-      const to = process.env.CONTACT_EMAIL || "diana1nikiforova@gmail.com";
+      const to = process.env.CONTACT_EMAIL || "info@wamisoftware.com";
 
       if (!host || !user || !pass) {
         console.warn("SMTP credentials missing. Form received but email not sent.");
