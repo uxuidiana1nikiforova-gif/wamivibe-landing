@@ -2099,7 +2099,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
       >
         <div className="relative z-10">
           {/* Key features Header */}
-          <div className="mb-20 md:mb-32 flex flex-col items-start px-6">
+          <div className="mb-20 md:mb-32 flex flex-col items-start">
             <div className="text-left max-w-2xl">
               <motion.h3 
                 variants={itemVariants}
@@ -2195,7 +2195,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           </motion.div>
 
           {/* Features List */}
-          <div className="relative sm:block overflow-hidden sm:overflow-visible min-h-[320px] sm:min-h-0 px-6">
+          <div className="relative sm:block overflow-hidden sm:overflow-visible min-h-[320px] sm:min-h-0">
             {isMobile ? (
               <div className="relative w-full h-[320px]">
                 <AnimatePresence mode="wait">
@@ -2288,7 +2288,7 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
           </div>
 
           {/* Final Solution Footer */}
-          <div className="mt-32 flex flex-col items-end px-6">
+          <div className="mt-32 flex flex-col items-end">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -2380,12 +2380,12 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-4 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-6px)]"
+              className="relative md:bg-zinc-900/40 md:backdrop-blur-sm md:border md:border-white/5 p-0 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center w-full md:w-[calc(50%-6px)]"
             >
               <img 
                 src="/images/image-kit-2.png" 
                 alt="City Survival Kit Visual 2 Mobile" 
-                className="w-full h-auto rounded-2xl shadow-2xl"
+                className="w-full h-auto rounded-2xl"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -2394,18 +2394,18 @@ const CaseStudyCitySurvivalKit = ({ lang, isMobile }: { lang: Language; isMobile
       </div>
 
       {/* Services Section */}
-      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center">
+      <div className="w-full md:max-w-7xl md:mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-start md:items-center">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+          className="w-full text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center px-4 md:px-0 mb-16 md:mb-24"
         >
           {t.portfolio.citySurvivalKit.servicesTitle}
         </motion.h2>
 
-        <div className="w-full max-w-4xl space-y-0 px-4">
+        <div className="w-full px-4 md:px-0 md:max-w-4xl space-y-0">
           {t.portfolio.citySurvivalKit.servicesItems.map((item: any, i: number) => (
             <ServiceItem key={i} item={item} index={i} />
           ))}
@@ -2873,9 +2873,9 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-4 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-6px)]"
+            className="relative md:bg-zinc-900/40 md:backdrop-blur-sm md:border md:border-white/5 p-0 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center w-full md:w-[calc(50%-6px)]"
           >
-            <BorderBeam delay={5} duration={15} />
+            {!isMobile && <BorderBeam delay={5} duration={15} />}
             <img 
               src="/images/image-dopamin-2.png" 
               alt="Dopamine Concept Visual 2" 
@@ -2887,18 +2887,18 @@ const CaseStudyBalancePulse = ({ lang, isMobile }: { lang: Language; isMobile: b
       </div>
 
       {/* Services Section */}
-      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center">
+      <div className="w-full md:max-w-7xl md:mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-start md:items-center">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+          className="w-full text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center px-4 md:px-0 mb-16 md:mb-24"
         >
           {t.portfolio.balancePulse.servicesTitle}
         </motion.h2>
 
-        <div className="w-full max-w-4xl space-y-0 px-4">
+        <div className="w-full px-4 md:px-0 md:max-w-4xl space-y-0">
           {t.portfolio.balancePulse.servicesItems.map((item: any, i: number) => (
             <ServiceItem key={i} item={item} index={i} />
           ))}
@@ -3361,7 +3361,7 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative bg-zinc-900/40 backdrop-blur-sm border border-white/5 p-4 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center md:w-[calc(50%-6px)] md:mx-auto"
+              className="relative md:bg-zinc-900/40 md:backdrop-blur-sm md:border md:border-white/5 p-0 md:p-6 rounded-[2rem] overflow-hidden flex items-center justify-center md:w-[calc(50%-6px)] md:mx-auto"
             >
               <img 
                 src="/images/ops-right.png" 
@@ -3375,18 +3375,18 @@ const CaseStudyWamiVacations = ({ lang, isMobile }: { lang: Language; isMobile: 
       </div>
 
       {/* Services Section */}
-      <div className="max-w-7xl mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-center">
+      <div className="w-full md:max-w-7xl md:mx-auto py-20 md:py-32 border-t border-white/5 flex flex-col items-start md:items-center">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center mb-16 md:mb-24"
+          className="w-full text-5xl md:text-7xl lg:text-9xl font-satoshi font-bold text-white leading-tight tracking-tighter text-center px-4 md:px-0 mb-16 md:mb-24"
         >
           {t.portfolio.vacations.servicesTitle}
         </motion.h2>
 
-        <div className="w-full max-w-4xl space-y-0 px-4">
+        <div className="w-full px-4 md:px-0 md:max-w-4xl space-y-0">
           {t.portfolio.vacations.servicesItems.map((item: any, i: number) => (
             <ServiceItem key={i} item={item} index={i} />
           ))}
@@ -3593,7 +3593,7 @@ const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) =
       <button 
         ref={triggerRef}
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-start pt-6 md:pt-8 transition-all duration-1000 ease-[0.16,1,0.3,1] ${isOpen ? 'pb-2 md:pb-3' : 'pb-6 md:pb-8'} cursor-pointer text-left group`}
+        className={`w-full flex items-start md:items-center justify-start pt-6 md:pt-8 transition-all duration-1000 ease-[0.16,1,0.3,1] ${isOpen ? 'pb-2 md:pb-3' : 'pb-6 md:pb-8'} cursor-pointer text-left group`}
       >
         <motion.h3 
           initial={{ opacity: 0, y: 10 }}
@@ -3627,7 +3627,7 @@ const ServiceItem = ({ item, index }: { item: any, index: number, key?: any }) =
                   delay: 0.4,
                   ease: "easeOut"
                 }}
-                className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 max-w-2xl"
+                className="text-white font-light text-lg md:text-xl leading-relaxed opacity-80 w-full max-w-none md:max-w-2xl"
               >
                 {item.a}
               </motion.p>

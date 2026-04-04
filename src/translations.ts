@@ -123,7 +123,7 @@ export const translations = {
           { q: 'Product Strategy & Alignment', a: 'Defined workflows and user roles for volunteer organizations and donors, turning scattered processes into a clear, structured system.' },
           { q: 'Platform Architecture & Scalability', a: 'Designed the system to support multiple user roles, real-time donation and inventory data, and future growth for expanding volunteer operations.' },
           { q: 'Feature Development', a: 'Implemented core functionalities: donation tracking, inventory management, procurement workflow, automated donor reporting, and a public transparency dashboard.' },
-          { q: 'UI/UX Design', a: 'Created an intuitive interface for both organizations and donors, making complex processes simple and transparent.' },
+          { q: 'UX/UI Design', a: 'Created an intuitive interface for both organizations and donors, making complex processes simple and transparent.' },
           { q: 'Data Security & Compliance', a: 'Protected sensitive data — donor contributions and organizational resources — at every stage of the workflow.' },
           { q: 'Code Quality & Maintainability', a: 'Developed clean, maintainable code to ensure platform stability and simplify future feature expansion.' }
         ],
@@ -417,7 +417,7 @@ export const translations = {
           { q: 'Продуктова стратегія та узгодження', a: 'Визначено робочі процеси та ролі користувачів для волонтерських організацій та донорів, перетворюючи розрізнені процеси на чітку, структуровану систему.' },
           { q: 'Архітектура платформи та масштабованість', a: 'Система розроблена для підтримки декількох ролей користувачів, даних про пожертвування та інвентар у реальному часі, а також майбутнього зростання волонтерських операцій.' },
           { q: 'Розробка функціоналу', a: 'Впроваджено основні функції: відстеження пожертв, управління інвентарем, робочий процес закупівель, автоматизована звітність перед донорами та публічний дашборд прозорості.' },
-          { q: 'UI/UX дизайн', a: 'Створено інтуїтивно зрозумілий інтерфейс як для організацій, так і для донорів, що робить складні процеси простими та прозорими.' },
+          { q: 'UX/UI дизайн', a: 'Створено інтуїтивно зрозумілий інтерфейс як для організацій, так і для донорів, що робить складні процеси простими та прозорими.' },
           { q: 'Безпека даних та відповідність стандартам', a: 'Захищено конфіденційні дані — внески донорів та ресурси організації — на кожному етапі робочого процесу.' },
           { q: 'Якість коду та підтримка', a: 'Розроблено чистий код, що легко підтримується, для забезпечення стабільності платформи та спрощення майбутнього розширення функціоналу.' }
         ],
@@ -711,7 +711,7 @@ export const translations = {
           { q: 'Produktstrategie & Ausrichtung', a: 'Definierte Workflows und Benutzerrollen für Freiwilligenorganisationen und Spender, die verstreute Prozesse in ein klares, strukturiertes System verwandeln.' },
           { q: 'Plattformarchitektur & Skalierbarkeit', a: 'Das System wurde so konzipiert, dass es mehrere Benutzerrollen, Spenden- und Inventardaten in Echtzeit sowie zukünftiges Wachstum für expandierende Freiwilligeneinsätze unterstützt.' },
           { q: 'Feature-Entwicklung', a: 'Implementierung von Kernfunktionen: Spendenverfolgung, Bestandsverwaltung, Beschaffungsworkflow, automatisierte Spenderberichterstattung und ein öffentliches Transparenz-Dashboard.' },
-          { q: 'UI/UX Design', a: 'Erstellung einer intuitiven Benutzeroberfläche für Organisationen und Spender, die komplexe Prozesse einfach und transparent macht.' },
+          { q: 'UX/UI Design', a: 'Erstellung einer intuitiven Benutzeroberfläche für Organisationen und Spender, die komplexe Prozesse einfach und transparent macht.' },
           { q: 'Datensicherheit & Compliance', a: 'Schutz sensibler Daten — Spenderbeiträge und organisatorische Ressourcen — in jeder Phase des Workflows.' },
           { q: 'Code-Qualität & Wartbarkeit', a: 'Entwicklung von sauberem, wartbarem Code, um die Plattformstabilität zu gewährleisten und die zukünftige Funktionserweiterung zu vereinfachen.' }
         ],
