@@ -3928,24 +3928,23 @@ function AppContent() {
       {/* --- Header --- */}
       <header className="fixed top-6 left-0 right-0 z-40 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 transition-all duration-300">
         <div className={`max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center justify-between rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
-          {/* Left: Logo */}
-          <Link 
-            to="/" 
-            className="flex-shrink-0 flex items-center gap-2 group"
-            onClick={() => {
-              setIsMenuOpen(false);
-              if (isHomePage) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            }}
+          {/* Left: Back to WAMI Button */}
+          <a 
+            href="https://wamisoftware.com/"
+            className="flex-shrink-0 text-[var(--primary)] text-sm md:text-base flex items-center gap-1.5 md:gap-2 transition-all duration-300 cursor-pointer group"
           >
-            <img 
-              src="/images/logo_animated.svg" 
-              alt="WAMI Logo" 
-              className="w-12 h-12 md:w-16 lg:w-20 object-contain transition-transform"
-              referrerPolicy="no-referrer"
-            />
-          </Link>
+            <ArrowLeft className="w-4 h-4 md:w-5 h-5 transition-transform group-hover:-translate-x-1" />
+            <span className="relative inline-flex flex-col justify-center">
+              {/* Invisible placeholder always with medium font weight to prevent layout shift */}
+              <span className="invisible font-medium select-none pointer-events-none" aria-hidden="true">
+                Back to WAMI
+              </span>
+              {/* Actual visible text that changes weight smoothly on hover */}
+              <span className="absolute inset-0 font-light group-hover:font-medium transition-all duration-300 flex items-center justify-start whitespace-nowrap">
+                Back to WAMI
+              </span>
+            </span>
+          </a>
 
           {/* Center: Desktop Nav Links - Hidden on tablet/mobile */}
           <nav className="hidden xl:flex items-center gap-6 2xl:gap-8">
@@ -3995,10 +3994,19 @@ function AppContent() {
 
             <button 
               onClick={() => setIsModalOpen(true)} 
-              className="hidden sm:block firefly-btn whitespace-nowrap text-sm md:text-base px-4 md:px-6"
+              className="hidden sm:block firefly-btn whitespace-nowrap text-sm md:text-base px-4 md:px-6 cursor-pointer group"
             >
               <span className="firefly-track"></span>
-              {t.nav.vibeCheck}
+              <span className="relative inline-flex flex-col justify-center">
+                {/* Invisible placeholder always with medium font weight to prevent layout shift */}
+                <span className="invisible font-medium select-none pointer-events-none" aria-hidden="true">
+                  {t.nav.vibeCheck}
+                </span>
+                {/* Actual visible text that changes weight smoothly on hover */}
+                <span className="absolute inset-0 font-light group-hover:font-medium transition-all duration-300 flex items-center justify-center whitespace-nowrap">
+                  {t.nav.vibeCheck}
+                </span>
+              </span>
             </button>
             
             <button className="xl:hidden p-2 text-white hover:text-[var(--primary)] transition-colors" onClick={() => setIsMenuOpen(!isMenuOpen)}>
