@@ -3927,11 +3927,11 @@ function AppContent() {
 
       {/* --- Header --- */}
       <header className="fixed top-6 left-0 right-0 z-40 px-4 sm:px-6 lg:px-8 transition-all duration-300">
-        <div className={`max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
+        <div className={`max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between gap-4 lg:gap-6 rounded-xl transition-all duration-300 ${scrolled ? 'bg-zinc-900/60 backdrop-blur-lg shadow-lg py-3 md:py-4' : 'bg-zinc-900/20 backdrop-blur-md py-4 md:py-6'}`}>
           {/* Left: Back to WAMI Button */}
           <a 
             href="https://wamisoftware.com/"
-            className="flex-shrink-0 text-[var(--primary)] text-base md:text-lg flex items-center gap-1.5 md:gap-2 transition-all duration-300 cursor-pointer group"
+            className="flex-shrink-0 text-[var(--primary)] text-sm md:text-base flex items-center gap-1.5 md:gap-2 transition-all duration-300 cursor-pointer group"
           >
             <ArrowLeft className="w-4 h-4 md:w-5 h-5 transition-transform group-hover:-translate-x-1" />
             <span className="relative inline-flex flex-col justify-center">
@@ -3947,24 +3947,24 @@ function AppContent() {
           </a>
 
           {/* Center: Desktop Nav Links - Hidden on tablet/mobile */}
-          <nav className="hidden xl:flex items-center gap-2.5 xl:gap-3.5 2xl:gap-5 3xl:gap-6">
+          <nav className="hidden xl:flex items-center gap-2 xl:gap-3 2xl:gap-5 3xl:gap-6">
             {navLinks.map((link) => (
-              <a 
-                key={link.label} 
-                href={isHomePage ? link.href : `/${link.href}`} 
-                onClick={(e) => {
-                  if (isHomePage && link.href.startsWith('#')) {
-                    e.preventDefault();
-                    const element = document.querySelector(link.href);
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }
-                }}
-                className="nav-link text-white hover:text-[var(--primary)] transition-colors duration-300 font-light whitespace-nowrap text-base 2xl:text-lg"
-              >
-                {link.label}
-              </a>
+               <a 
+                 key={link.label} 
+                 href={isHomePage ? link.href : `/${link.href}`} 
+                 onClick={(e) => {
+                   if (isHomePage && link.href.startsWith('#')) {
+                     e.preventDefault();
+                     const element = document.querySelector(link.href);
+                     if (element) {
+                       element.scrollIntoView({ behavior: 'smooth' });
+                     }
+                   }
+                 }}
+                 className="nav-link text-white hover:text-[var(--primary)] transition-colors duration-300 font-light whitespace-nowrap text-sm 2xl:text-base"
+               >
+                 {link.label}
+               </a>
             ))}
           </nav>
 
@@ -3974,19 +3974,19 @@ function AppContent() {
             <div className="flex items-center bg-zinc-900/40 border border-white/10 rounded-xl p-1">
               <button 
                 onClick={() => setLanguage('en')}
-                className={`px-2 md:px-3 py-1 text-sm md:text-base font-medium rounded-lg transition-all ${language === 'en' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
+                className={`px-2 md:px-3 py-1 text-xs md:text-sm font-medium rounded-lg transition-all ${language === 'en' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 EN
               </button>
               <button 
                 onClick={() => setLanguage('de')}
-                className={`px-2 md:px-3 py-1 text-sm md:text-base font-medium rounded-lg transition-all ${language === 'de' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
+                className={`px-2 md:px-3 py-1 text-xs md:text-sm font-medium rounded-lg transition-all ${language === 'de' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 DE
               </button>
               <button 
                 onClick={() => setLanguage('ua')}
-                className={`px-2 md:px-3 py-1 text-sm md:text-base font-medium rounded-lg transition-all ${language === 'ua' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
+                className={`px-2 md:px-3 py-1 text-xs md:text-sm font-medium rounded-lg transition-all ${language === 'ua' ? 'bg-white/10 text-[var(--primary)]' : 'text-white/40 hover:text-white'}`}
               >
                 UA
               </button>
@@ -3994,7 +3994,7 @@ function AppContent() {
 
             <button 
               onClick={() => setIsModalOpen(true)} 
-              className="hidden sm:block firefly-btn whitespace-nowrap text-base md:text-lg px-4 md:px-6 cursor-pointer group"
+              className="hidden sm:block firefly-btn whitespace-nowrap text-sm md:text-base px-4 md:px-6 cursor-pointer group"
             >
               <span className="firefly-track"></span>
               <span className="relative inline-flex flex-col justify-center">
