@@ -14,7 +14,8 @@ export const translations = {
       faq: 'FAQ',
       contacts: 'Contacts',
       vibeCheck: 'Vibe Check',
-      getVibeCheck: 'Get a vibe check'
+      getVibeCheck: 'Get a vibe check',
+      backToWami: 'Back to WAMI'
     },
     hero: {
       badge: "Great ideas don't wait. Neither do we.",
@@ -308,7 +309,8 @@ export const translations = {
       faq: 'FAQ',
       contacts: 'Контакти',
       vibeCheck: 'Vibe Check',
-      getVibeCheck: 'Отримати vibe check'
+      getVibeCheck: 'Отримати vibe check',
+      backToWami: 'Назад до WAMI'
     },
     hero: {
       badge: "Чудові ідеї не чекають. Ми також.",
@@ -602,7 +604,8 @@ export const translations = {
       faq: 'FAQ',
       contacts: 'Kontakte',
       vibeCheck: 'Vibe Check',
-      getVibeCheck: 'Vibe Check anfordern'
+      getVibeCheck: 'Vibe Check anfordern',
+      backToWami: 'Zurück zu WAMI'
     },
     hero: {
       badge: "Großartige Ideen warten nicht. Wir auch nicht.",
