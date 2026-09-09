@@ -35,14 +35,9 @@ Built with AI-assisted development.
 
 ## My role
 
-[ДІАНА — ПЕРЕВІР І ВИПРАВ ЦЕЙ БЛОК ПІД СЕБЕ:
-
 Design Engineer — design and front-end implementation.
 
-I designed the layout, type system and visual direction, then built the page
-myself in React. Copy was written by our content team; I shaped how it lands
-on the page — hierarchy, rhythm, what gets weight and what gets cut.]
-
+I designed the layout, type system and visual direction, then built the page myself in React. Copy was written by our content team; I shaped how it lands on the page — hierarchy, rhythm, what gets weight and what gets cut.
 ## Run locally
 
 **Prerequisites:** Node.js
